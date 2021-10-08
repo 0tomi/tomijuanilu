@@ -1,5 +1,10 @@
+//Integrantes: Juani Croci, Lucas Rodriguez, Lucia Gelmetti, Tomás Schlotahuer
+
 Program tp3inicio;
 uses crt;
+
+//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
+										//Fecha: 08/10 19:21 
 
 Type
 	//CIUDADES
@@ -64,128 +69,18 @@ Var
 	optao: string;
 	x, y, acceso, salir,i,o1,op1:integer;
 
-
-//------------------------------------------------------------------------------------------
-//PARTE PRODUCTOS
-
-Procedure MuestraProductos();
-	var 
-	h:integer;
+//---------------------------------------------------------------------------------------
+//CLOSE ARCHIVOS
+Procedure closeArch();
 	begin
-	clrscr;
-	h:=0;
-		 reset(ArchivoProducto);
-			for i:= 0 to filesize(ArchivoProducto) -1 do 
-			 begin
-			  Read (ArchivoProducto, CargaProducto);
-			  writeln('Puesto nr: ',h);
-			  writeln('Codigo PRODUCTO: ',CargaProducto.COD_Producto);
-			  writeln('Codigo PROYECTO: ',CargaProducto.COD_Proyecto);
-			  writeln('Precio: ',CargaProducto.Precio);
-			  writeln('Estado: ',CargaProducto.Estado);
-			  writeln('Detalle: ',CargaProducto.Detalle);
-			  h:=h+1;
-			 end;
+	   close(ArchivoCiudad);
+		close(E);
+		close(ArchivoProducto);
+		close(Py);
 	end;
 
-Procedure VerificarProductos();
-	Var 
-		op1:integer;
-	begin
-		Reset(ArchivoProducto);
-	repeat
-   repeat
- 	  read(ArchivoProducto,CargaProducto);
-   Until eof(ArchivoProducto) or (ax[1] = CargaProducto.COD_Producto);	
 
-   If (ax[1] = CargaProducto.COD_Producto) then
- 	   begin
- 		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
- 		  Repeat	
- 		  readln(op1);
- 		  until op1=0;
- 	   end
-   else
- 	   begin
-      seek (ArchivoProducto, filesize(ArchivoProducto));
- 		   CargaProducto.COD_Producto:= ax[1];
- 		   writeln('Ingrese el codigo del proyecto asociada al proyecto');
-			 readln(CargaProducto.COD_Proyecto);
-			 writeln('Ingrese el precio del producto');
-			 readln(CargaProducto.Precio);
-			 writeln('Ingrese el estado del producto');
-		 	 readln(CargaProducto.Estado);
-			 writeln('Ingrese el detalle del producto'); 
-			 readln(CargaProducto.Detalle);
-		   write(ArchivoProducto,CargaProducto);
-		   op1:=0;
- 	   end;
- 	until op1=0;
-	end;
-
-Procedure AltaProducto();
-	var 
-	op2:integer;
-	begin 
-		repeat	
-			repeat
-			writeln('Ingrese el codigo del producto');
-			readln(ax[1]);
-			VerificarProductos();
-			op2:=0;
-			until op2=0;
-			writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir');
-			repeat
-				readln(op1);
-			until ((op1 = 0) or (op1 = 1)) ;
-			if op1=1 then
-				  begin
-				   MuestraProductos();
-				   op1:=0;
-				   readKey();
-				  end
-				 Else op1:=0;
-		until (op1 = 0);
-	end;
-
-//-------------------------------------------------------------------------------------------
-//PARTE PROYECTOS
-
-Procedure AltaProyecto();
-	begin
-		reset(Py);
-		repeat
-			writeln	('Ingrese codigo de proyecto');
-
-			writeln('Ingrese codigo de empresa');
-
-			writeln('Ingrese la etapa del proyecto');
-
-			writeln('Ingrese el tipo de proyecto');
-
-			writeln('Ingrese código de ciudad');
-			until op1=1
-	end;
-		
-//-------------------------------------------------------------------------------------------
-//PARTE EMPRESAS
-
-Procedure MostrarEmpresas();
-	 var 
-	h:integer;
-	begin
-	clrscr;
-	h:=0;
-		 reset(E);
-			for i:= 0 to filesize(E) -1 do 
-			 begin
-			  Read (E, Emp);
-			  writeln('Puesto nr: ',h);
-			  writeln('Codigo ciudad: ',Emp.CODCIU);
-			  writeln('Nombre ciudad: ',Emp.CODEMP);
-			  h:=h+1;
-			 end;
-	end;
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------//
 
 function ValidarE(ax:aux): Integer;
 	var
@@ -247,6 +142,218 @@ function ValidarE(ax:aux): Integer;
 				  else ValidarE:=0;  
 				 end;
 		end;
+	end;
+
+function ValidarP(ax:aux): Integer;
+	begin
+		ValidarP:=1;
+		case ax[2] of
+			'1': begin 
+				  Reset(Py);
+				  repeat
+				 	 read(Py,Pys);
+				  Until eof(Py) or (ax[1] = Pys.COD_PROY);
+				  if (ax[1]=Emp.CODEMP) then ValidarP:=1
+				  else ValidarP:=0;  
+				 end;
+		end;
+	end;
+
+//------------------------------------------------------------------------------------------
+//PARTE PRODUCTOS
+
+Procedure MuestraProductos();
+	var 
+	h:integer;
+	begin
+	clrscr;
+	h:=0;
+		 reset(ArchivoProducto);
+			for i:= 0 to filesize(ArchivoProducto) -1 do 
+			 begin
+			  Read (ArchivoProducto, CargaProducto);
+			  writeln('Puesto nr: ',h);
+			  writeln('Codigo PRODUCTO: ',CargaProducto.COD_Producto);
+			  writeln('Codigo PROYECTO: ',CargaProducto.COD_Proyecto);
+			  writeln('Precio: ',CargaProducto.Precio);
+			  writeln('Estado: ',CargaProducto.Estado);
+			  writeln('Detalle: ',CargaProducto.Detalle);
+			  h:=h+1;
+			 end;
+	end;
+
+Procedure VerificarProductos();
+	Var 
+		op1:integer;
+		PROD: Productos;
+	begin
+		Reset(ArchivoProducto);
+	repeat
+	   repeat
+	 	  read(ArchivoProducto,PROD);
+	   Until eof(ArchivoProducto) or (ax[1] = PROD.COD_Producto);	
+	   If (ax[1] = PROD.COD_Producto) then
+	 	   begin
+	 		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
+	 		  Repeat	
+	 		  	readln(op1);
+	 		  until op1=0;
+	 	   end
+	   else
+	 	   begin
+	      seek (ArchivoProducto, filesize(ArchivoProducto));       
+	 		PROD.COD_Producto:= ax[1];
+				 repeat 
+					ClrScr;
+					writeln('Ingrese el codigo del proyecto');    //Validacion Proyecto
+					readln(ax[1]);
+					ax[2]:='1';
+					if ValidarP(ax)=0 then op1:=0
+					else begin writeln ('El código ingresado esta repetido');
+					readKey(); 
+					end;         													
+				until op1=0;   
+				(PROD.COD_Proyecto):= ax[1];
+				 writeln('Ingrese el precio del producto');
+				 readln(PROD.Precio);
+				 writeln('Ingrese el estado del producto');
+			 	 readln(PROD.Estado);
+				 writeln('Ingrese el detalle del producto'); 
+				 readln(PROD.Detalle);
+			   write(ArchivoProducto,PROD);
+			   op1:=0;
+	 	   end;
+ 	until op1=0;
+	end;
+
+Procedure AltaProducto();
+	var 
+	op2:integer;
+	begin 
+		repeat	
+			repeat
+			writeln('Ingrese el codigo del producto');
+			readln(ax[1]);
+			VerificarProductos();
+			op2:=0;
+			until op2=0;
+			writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir');
+			repeat
+				readln(op1);
+			until ((op1 = 0) or (op1 = 1)) ;
+			if op1=1 then
+				  begin
+				   MuestraProductos();
+				   op1:=0;
+				   readKey();
+				  end
+				 Else op1:=0;
+		until (op1 = 0);
+	end;
+
+//-------------------------------------------------------------------------------------------
+//PARTE PROYECTOS
+
+Procedure AltaProyecto();
+	var
+		p: Proyectos;
+		MENU: String[3];
+		op: integer;
+	begin
+		reset(Py);
+		op1:=1;
+		op:=0;
+
+		repeat
+			repeat 																		//Código de proyecto
+				ClrScr;
+				writeln('Ingrese el c', #243,'digo del proyecto');
+				readln(ax[1]);
+				ax[2]:='1';
+				if ValidarP(ax)=0 then op1:=0
+				else begin writeln ('El código ingresado esta repetido');
+				readKey(); 
+				end;         													
+			until op1=0; 
+			P.COD_PROY:= ax[1];
+			op:=1;
+
+			repeat   																	//Código de empresa
+				ClrScr;
+				writeln('Ingrese el c', #243,'digo de empresa');
+				readln(ax[1]);
+				ax[2]:='2';
+				if ValidarE(ax)=1 then op1:=0
+				else begin writeln ('La empresa ingresada no existe.');
+				readKey(); 
+				end;
+			until op1=0;
+			P.COD_EMP:= ax[1];
+			op:=1;
+
+			repeat 																		//Etapa
+				writeln('Ingrese la etapa del proyecto');
+				writeln('[P] Preventa');
+				writeln('[O] Obra');
+				writeln('[T] Terminado');
+				readln(P.Etapa);
+			until ((P.Etapa='P') or (P.Etapa='T') or (P.Etapa='O')); 
+			op:=1;
+
+			repeat 																		//Tipo
+				writeln('Ingrese el tipo de proyecto');
+				writeln('[C] Casa');
+				writeln('[D] Edifcio Departamento');
+				writeln('[O] Edificio Oficina');
+				writeln('[L] Loteos');
+				readln(P.Tipo);
+			until ((P.Tipo='C') or (P.Tipo='D') or (P.Tipo='O') or (P.Tipo='L')); 
+			op:=1;
+
+			repeat 																		//Código de ciudad
+				ClrScr;
+				writeln('Ingrese el c', #243,'digo de ciudad');
+				readln(ax[1]);
+				ax[2]:='1';
+				if ValidarE(ax)=0 then op1:=0
+				else begin writeln ('La ciudad ingresada no existe.');
+				readKey(); 
+				end;
+			until op1=0;
+			P.COD_ciudad:= ax[1];
+			op:=1;
+
+			seek(Py,filesize(Py));
+			write(Py,P);
+
+			repeat
+				ClrScr;
+				writeln('¿Desea ingresar nuevamente un proyecto?');
+				writeln('[SI] / [NO]');
+				readln(MENU);
+			until ((MENU='SI') or (MENU='NO'));
+			if MENU='SI' then op:=1
+		until op=1;
+	end;
+		
+//-------------------------------------------------------------------------------------------
+//PARTE EMPRESAS
+
+Procedure MostrarEmpresas();
+	 var 
+	h:integer;
+	begin
+	clrscr;
+	h:=0;
+		 reset(E);
+			for i:= 0 to filesize(E) -1 do 
+			 begin
+			  Read (E, Emp);
+			  writeln('Puesto nr: ',h);
+			  writeln('Codigo ciudad: ',Emp.CODCIU);
+			  writeln('Nombre ciudad: ',Emp.CODEMP);
+			  h:=h+1;
+			 end;
 	end;
 
 Procedure AltaEmpresa();
@@ -320,7 +427,7 @@ Procedure AltaEmpresa();
 				   MostrarEmpresas();
 				   op1:=0;
 				   readKey();
-				  end
+				  end;
 	until op1=0;
 	end;
 
@@ -457,8 +564,7 @@ Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
 		    	'2': CargarCiudades();       
 		  end; 
    until (op1='0');
-  	close(ArchivoCiudad);
- end; 
+  	end; 
 
 //-------------------------------------------------------------------------------------------
 Procedure MODEmp();
@@ -573,13 +679,13 @@ Begin
 	If ioresult=2 then rewrite(ArchivoProducto);
 	{$I+}
 
- acceso:=0;
- acceso:=0;
+ 	acceso:=0;
+ 	acceso:=0;
 	for x := 0 to 3 do 
 		contador[x]:=0;
 	x:=0;
 	y:=0;
- repeat
+	repeat
 		repeat
 		  ClrScr();
 		  textcolor(lightblue);
@@ -594,9 +700,9 @@ Begin
 				login(option);
 		       case acceso of
 		            1: MODEmp();       
-		            2: MODCli(); 
-		            0: close(E); 
+		            2: MODCli();  
 		       end;
 		end;
 	until (option = '0');
+	closeArch();
 End.
