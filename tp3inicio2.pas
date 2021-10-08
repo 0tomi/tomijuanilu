@@ -59,7 +59,7 @@ Type
     
 Var
 	C: ArchivoClientes;
-	CC: Clientes;
+	Cl: Clientes;
 
 	Py: ArchivoProyectos;
 	Pys: Proyectos;
