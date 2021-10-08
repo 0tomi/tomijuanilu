@@ -482,6 +482,10 @@ Procedure MODEmp();
 		until(op1 = '0');
 	end;				
 
+//-------------------------------------------------------------------------------------------
+//PARTE CLIENTES
+
+//-------------------------------------------------------------------------------------------
 Procedure MODCli();
 	begin
       writeln ('Clientes');
@@ -574,13 +578,13 @@ Begin
 	If ioresult=2 then rewrite(ArchivoProducto);
 	{$I+}
 
- acceso:=0;
- acceso:=0;
+  acceso:=0;
+  acceso:=0;
 	for x := 0 to 3 do 
 		contador[x]:=0;
 	x:=0;
 	y:=0;
- repeat
+  repeat
 		repeat
 		  ClrScr();
 		  textcolor(lightblue);
