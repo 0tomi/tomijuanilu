@@ -64,6 +64,17 @@ Var
 	optao: string;
 	x, y, acceso, salir,i,o1,op1:integer;
 
+//---------------------------------------------------------------------------------------
+//CLOSE ARCHIVOS
+Procedure closeArch();
+	begin
+	   close(ArchivoCiudad);
+		close(E);
+		close(ArchivoProducto);
+		close(Py);
+	end;
+
+
 //------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------//
 
 function ValidarE(ax:aux): Integer;
@@ -175,7 +186,6 @@ Procedure VerificarProductos();
    repeat
  	  read(ArchivoProducto,CargaProducto);
    Until eof(ArchivoProducto) or (ax[1] = CargaProducto.COD_Producto);	
-
    If (ax[1] = CargaProducto.COD_Producto) then
  	   begin
  		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
@@ -185,10 +195,21 @@ Procedure VerificarProductos();
  	   end
    else
  	   begin
-      seek (ArchivoProducto, filesize(ArchivoProducto));
+      seek (ArchivoProducto, filesize(ArchivoProducto));       
  		   CargaProducto.COD_Producto:= ax[1];
- 		   writeln('Ingrese el codigo del proyecto asociada al proyecto');
-			 readln(CargaProducto.COD_Proyecto);
+			 repeat 
+				ClrScr;
+				writeln('Ingrese el codigo del proyecto');    //Validacion Proyecto
+				readln(ax[1]);
+				ax[2]:='1';
+				if ValidarP(ax)=0 then op1:=0
+				else begin writeln ('El código ingresado esta repetido');
+				readKey(); 
+				end;         													
+			until op1=0; 
+			seek (ArchivoProducto, filesize(ArchivoProducto));  
+			(CargaProducto.COD_Proyecto):= ax[1];
+
 			 writeln('Ingrese el precio del producto');
 			 readln(CargaProducto.Precio);
 			 writeln('Ingrese el estado del producto');
@@ -539,8 +560,7 @@ Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
 		    	'2': CargarCiudades();       
 		  end; 
    until (op1='0');
-  	close(ArchivoCiudad);
- end; 
+  	end; 
 
 //-------------------------------------------------------------------------------------------
 Procedure MODEmp();
@@ -655,8 +675,8 @@ Begin
 	If ioresult=2 then rewrite(ArchivoProducto);
 	{$I+}
 
- acceso:=0;
- acceso:=0;
+ 	acceso:=0;
+ 	acceso:=0;
 	for x := 0 to 3 do 
 		contador[x]:=0;
 	x:=0;
@@ -676,9 +696,9 @@ Begin
 				login(option);
 		       case acceso of
 		            1: MODEmp();       
-		            2: MODCli(); 
-		            0: close(E); 
+		            2: MODCli();  
 		       end;
 		end;
 	until (option = '0');
+	closeArch();
 End.
