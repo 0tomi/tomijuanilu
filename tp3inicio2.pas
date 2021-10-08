@@ -151,12 +151,32 @@ Procedure AltaProducto();
 //-------------------------------------------------------------------------------------------
 //PARTE PROYECTOS
 
+function ValidarP(ax:aux): Integer;
+	begin
+		
+	end;
+
 Procedure AltaProyecto();
+	var
+		p: Proyectos;
+		MENU: String[2];
+		op: integer;
 	begin
 		reset(Py);
+		op1:=1;
+		op:=0;
 		repeat
-			writeln	('Ingrese codigo de proyecto');
-
+			repeat
+				ClrScr;
+				writeln('Ingrese el c', #243,'digo del proyecto');
+				readln(ax[1]);
+				ax[2]:='1';
+				if ValidarP(ax)=0 then op1:=0
+				else begin writeln ('El código ingresado esta repetido');
+				readKey(); 
+				end;
+			until op1=0; 
+			P.COD_PROY:= ax[1];
 			writeln('Ingrese codigo de empresa');
 
 			writeln('Ingrese la etapa del proyecto');
@@ -164,7 +184,9 @@ Procedure AltaProyecto();
 			writeln('Ingrese el tipo de proyecto');
 
 			writeln('Ingrese código de ciudad');
-			until op1=1
+			
+
+		until op=1;
 	end;
 		
 //-------------------------------------------------------------------------------------------
@@ -317,11 +339,10 @@ Procedure AltaEmpresa();
 		   end
 		else op1:=0;
 				  begin
-				   MuestraEmpresas();
+				   MostrarEmpresas();
 				   op1:=0;
 				   readKey();
-				  end
-				 Else op1:=0;
+				  end;
 	until op1=0;
 	end;
 
@@ -580,7 +601,7 @@ Begin
 		contador[x]:=0;
 	x:=0;
 	y:=0;
- repeat
+	repeat
 		repeat
 		  ClrScr();
 		  textcolor(lightblue);
