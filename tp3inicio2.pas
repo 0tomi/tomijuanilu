@@ -686,13 +686,24 @@ Begin
 	x:=0;
 	y:=0;
 	repeat
-		repeat
+		//repeat
 		  ClrScr();
 		  textcolor(lightblue);
+		  i:=100;
+		  	repeat
+		  		gotoxy(i+3, 1);
           writeln('Menu: ');
-          writeln('1. Empresas');
-          writeln('2. Clientes.');
-          writeln('0. Salir');
+          gotoxy(i, 2);
+					writeln('1. Empresas ');
+					gotoxy(i, 3);
+        	writeln('2. Clientes ');
+        	gotoxy(i, 4);
+        	writeln('0. Salir ');
+        	gotoxy(i, 5);
+          delay (1);
+          i:=i-1;
+        until i=1;
+    repeat
           option := readKey();
 		until ((option = '1') or (option = '2') or (option = '0'));
 		if (option <> '0') then
