@@ -317,11 +317,10 @@ Procedure AltaEmpresa();
 		   end
 		else op1:=0;
 				  begin
-				   MuestraEmpresas();
+				   MostrarEmpresas();
 				   op1:=0;
 				   readKey();
 				  end
-				 Else op1:=0;
 	until op1=0;
 	end;
 
