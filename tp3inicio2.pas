@@ -1,5 +1,10 @@
+//Integrantes: Juani Croci, Lucas Rodriguez, Lucia Gelmetti, Tomás Schlotahuer
+
 Program tp3inicio;
 uses crt;
+
+//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
+										//Fecha: 08/10 19:08 
 
 Type
 	//CIUDADES
@@ -180,45 +185,44 @@ Procedure MuestraProductos();
 Procedure VerificarProductos();
 	Var 
 		op1:integer;
+		PROD: Productos;
 	begin
 		Reset(ArchivoProducto);
 	repeat
-   repeat
- 	  read(ArchivoProducto,CargaProducto);
-   Until eof(ArchivoProducto) or (ax[1] = CargaProducto.COD_Producto);	
-   If (ax[1] = CargaProducto.COD_Producto) then
- 	   begin
- 		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
- 		  Repeat	
- 		  readln(op1);
- 		  until op1=0;
- 	   end
-   else
- 	   begin
-      seek (ArchivoProducto, filesize(ArchivoProducto));       
- 		   CargaProducto.COD_Producto:= ax[1];
-			 repeat 
-				ClrScr;
-				writeln('Ingrese el codigo del proyecto');    //Validacion Proyecto
-				readln(ax[1]);
-				ax[2]:='1';
-				if ValidarP(ax)=0 then op1:=0
-				else begin writeln ('El código ingresado esta repetido');
-				readKey(); 
-				end;         													
-			until op1=0; 
-			seek (ArchivoProducto, filesize(ArchivoProducto));  
-			(CargaProducto.COD_Proyecto):= ax[1];
-
-			 writeln('Ingrese el precio del producto');
-			 readln(CargaProducto.Precio);
-			 writeln('Ingrese el estado del producto');
-		 	 readln(CargaProducto.Estado);
-			 writeln('Ingrese el detalle del producto'); 
-			 readln(CargaProducto.Detalle);
-		   write(ArchivoProducto,CargaProducto);
-		   op1:=0;
- 	   end;
+	   repeat
+	 	  read(ArchivoProducto,PROD);
+	   Until eof(ArchivoProducto) or (ax[1] = PROD.COD_Producto);	
+	   If (ax[1] = PROD.COD_Producto) then
+	 	   begin
+	 		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
+	 		  Repeat	
+	 		  	readln(op1);
+	 		  until op1=0;
+	 	   end
+	   else
+	 	   begin
+	      seek (ArchivoProducto, filesize(ArchivoProducto));       
+	 		PROD.COD_Producto:= ax[1];
+				 repeat 
+					ClrScr;
+					writeln('Ingrese el codigo del proyecto');    //Validacion Proyecto
+					readln(ax[1]);
+					ax[2]:='1';
+					if ValidarP(ax)=0 then op1:=0
+					else begin writeln ('El código ingresado esta repetido');
+					readKey(); 
+					end;         													
+				until op1=0;   
+				(PROD.COD_Proyecto):= ax[1];
+				 writeln('Ingrese el precio del producto');
+				 readln(PROD.Precio);
+				 writeln('Ingrese el estado del producto');
+			 	 readln(PROD.Estado);
+				 writeln('Ingrese el detalle del producto'); 
+				 readln(PROD.Detalle);
+			   write(ArchivoProducto,PROD);
+			   op1:=0;
+	 	   end;
  	until op1=0;
 	end;
 
