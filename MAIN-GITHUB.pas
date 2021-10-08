@@ -21,15 +21,14 @@ Type
 	aux= array [1..2] of string;
 
 	//PROYECTOS
-	{Proyectos = record      
-		COD_PROY : string;                
-		COD_EMP : string;
- 		COD_ciudad : string [3];          
-		Etapa : char;   (P - O - T)
-		Tipo : char;     (C - D - O - L)
+	Proyectos = record      
+		COD_PROY: string;                
+		COD_EMP: string;
+ 		COD_ciudad: string [3];          
+		Etapa: char;   //(P - O - T)
+		Tipo: char;    //(C - D - O - L)
 		Cantidades : array [1..3] of integer; 
-	end;}
-
+		Contador: integer;
 
 	//PRODUCTOS
 	Productos = record      
@@ -42,6 +41,8 @@ Type
 
     
 Var
+	Py: ArchivoProyectos;
+	Pys: Proyectos;
 
   ArchivoProducto : file of Productos;
   CargaProducto : Productos; 
