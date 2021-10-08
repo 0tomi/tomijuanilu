@@ -7,6 +7,14 @@ uses crt;
 										//Fecha: 08/10 19:21 
 
 Type
+	//CLIENTES
+   Clientes=record
+        DNI:integer;
+        nombre:string[30];
+        mail:string[30];
+    end;
+   ArchivoClientes= file of Clientes;
+
 	//CIUDADES
 	Ciudades = record
 		COD_ciudad : string [3];
@@ -50,11 +58,14 @@ Type
 
     
 Var
+	C: ArchivoClientes;
+	CC: Clientes;
+
 	Py: ArchivoProyectos;
 	Pys: Proyectos;
 
-   ArchivoProducto : file of Productos;
-   CargaProducto : Productos; 
+  ArchivoProducto : file of Productos;
+  CargaProducto : Productos; 
 
 	ax: aux;
 	E: ArchivoEmpresas;
@@ -71,12 +82,13 @@ Var
 
 //---------------------------------------------------------------------------------------
 //CLOSE ARCHIVOS
-Procedure closeArch();
+Procedure CERRAR();
 	begin
 	   close(ArchivoCiudad);
 		close(E);
 		close(ArchivoProducto);
 		close(Py);
+		close(C);
 	end;
 
 
@@ -669,6 +681,8 @@ Begin
 	assign(ArchivoCiudad, 'C:\TP3\CIUDADES.dat'); 
 	assign(E, 'C:\TP3\EMPRESAS-CONSTRUCTORAS.dat');
 	assign(ArchivoProducto, 'C:\TP3\PRODUCTOS.dat');
+	assign(Py, 'C:\TP3\PROYECTOS.dat');
+	assign(C, 'C:\TP3\CLIENTES.dat');
 
 	{$I-}
 	reset(ArchivoCiudad);
@@ -677,6 +691,10 @@ Begin
 	If ioresult=2 then rewrite(E);
 	reset(ArchivoProducto);
 	If ioresult=2 then rewrite(ArchivoProducto);
+	reset(Py);
+	If ioresult=2 then rewrite(Py);
+	reset(C);
+	If ioresult=2 then rewrite(C);
 	{$I+}
 
  	acceso:=0;
@@ -686,13 +704,24 @@ Begin
 	x:=0;
 	y:=0;
 	repeat
-		repeat
+		//repeat
 		  ClrScr();
 		  textcolor(lightblue);
+		  i:=100;
+		  	repeat
+		  		gotoxy(i+3, 1);
           writeln('Menu: ');
-          writeln('1. Empresas');
-          writeln('2. Clientes.');
-          writeln('0. Salir');
+          gotoxy(i, 2);
+					writeln('1. Empresas ');
+					gotoxy(i, 3);
+        	writeln('2. Clientes ');
+        	gotoxy(i, 4);
+        	writeln('0. Salir ');
+        	gotoxy(i, 5);
+          delay (1);
+          i:=i-1;
+        until i=1;
+    repeat
           option := readKey();
 		until ((option = '1') or (option = '2') or (option = '0'));
 		if (option <> '0') then
@@ -704,5 +733,5 @@ Begin
 		       end;
 		end;
 	until (option = '0');
-	closeArch();
+	CERRAR();
 End.
