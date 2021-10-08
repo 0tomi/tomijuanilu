@@ -55,7 +55,7 @@ begin
                     end;
                 else x=2;
             until x=2;
-                Writeln('Ingrese su nombre: '); //nombres se pueden repetir?
+                Writeln('Ingrese su nombre: '); 
                 Readln(inombre);
                 Seek(C,filesize(C));
                 Cl.mail:=imail;
