@@ -7,6 +7,15 @@ uses crt;
 										//Fecha: 08/10 19:08 
 
 Type
+
+	//CLIENTES
+  Clientes=record
+      DNI:interger;
+      nombre:string[30];
+      mail:string[30];
+  end;
+  ArchivoClientes= file of Clientes;
+
 	//CIUDADES
 	Ciudades = record
 		COD_ciudad : string [3];
@@ -53,8 +62,8 @@ Var
 	Py: ArchivoProyectos;
 	Pys: Proyectos;
 
-   ArchivoProducto : file of Productos;
-   CargaProducto : Productos; 
+  ArchivoProducto : file of Productos;
+  CargaProducto : Productos; 
 
 	ax: aux;
 	E: ArchivoEmpresas;
@@ -70,13 +79,14 @@ Var
 	x, y, acceso, salir,i,o1,op1:integer;
 
 //---------------------------------------------------------------------------------------
-//CLOSE ARCHIVOS
-Procedure closeArch();
+//CERRAR ARCHIVOS
+Procedure CERRAR();
 	begin
-	   close(ArchivoCiudad);
+	  close(ArchivoCiudad);
 		close(E);
 		close(ArchivoProducto);
 		close(Py);
+		close(C);
 	end;
 
 
@@ -704,5 +714,5 @@ Begin
 		       end;
 		end;
 	until (option = '0');
-	closeArch();
+	CERRAR();
 End.
