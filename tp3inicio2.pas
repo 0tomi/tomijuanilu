@@ -64,6 +64,84 @@ Var
 	optao: string;
 	x, y, acceso, salir,i,o1,op1:integer;
 
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------//
+
+function ValidarE(ax:aux): Integer;
+	var
+		inf,sup,medio: Integer;
+	begin
+		ValidarE:=1;
+		case ax[2] of
+			'1': begin reset (ArchivoCiudad);
+					inf:= 0;
+					sup:= fileSize(ArchivoCiudad)-1;
+					while (inf<=sup) and (ValidarE=1) do
+					begin
+						medio:=(inf+sup) div 2;
+						seek (ArchivoCiudad, medio);
+						read (ArchivoCiudad,CargaCiudad);
+						if ax[1]=CargaCiudad.COD_ciudad then ValidarE:=0
+						else if ax[1]<CargaCiudad.COD_ciudad then sup:=medio-1
+						else inf:=medio+1;
+					end;
+				 end;
+			'2': begin 
+				  Reset(E);
+				  repeat
+				 	 read(E,Emp);
+				  Until eof(E) or (ax[1] = Emp.CODEMP);
+				  if (ax[1]=Emp.CODEMP) then ValidarE:=1
+				  else ValidarE:=0;  
+				 end;
+			'3': begin 
+				  Reset(E);
+				  repeat
+				 	 read(E,Emp);
+				  Until eof(E) or (ax[1] = Emp.Nombre);
+				  if (ax[1]=Emp.Nombre) then ValidarE:=1
+				  else ValidarE:=0;  
+				 end;
+			'4': begin 
+				  Reset(E);
+				  repeat
+				 	 read(E,Emp);
+				  Until eof(E) or (ax[1] = Emp.Direccion);
+				  if (ax[1]=Emp.Direccion) then ValidarE:=1
+				  else ValidarE:=0;  
+				 end;
+			'5': begin 
+				  Reset(E);
+				  repeat
+				 	 read(E,Emp);
+				  Until eof(E) or (ax[1] = Emp.Mail);
+				  if (ax[1]=Emp.Mail) then ValidarE:=1
+				  else ValidarE:=0;  
+				 end;
+			'6': begin 
+				  Reset(E);
+				  repeat
+				 	 read(E,Emp);
+				  Until eof(E) or (ax[1] = Emp.Telefono);
+				  if (ax[1]=Emp.Telefono) then ValidarE:=1
+				  else ValidarE:=0;  
+				 end;
+		end;
+	end;
+
+function ValidarP(ax:aux): Integer;
+	begin
+		ValidarP:=1;
+		case ax[2] of
+			'1': begin 
+				  Reset(Py);
+				  repeat
+				 	 read(Py,Pys);
+				  Until eof(Py) or (ax[1] = Pys.COD_PROY);
+				  if (ax[1]=Emp.CODEMP) then ValidarP:=1
+				  else ValidarP:=0;  
+				 end;
+		end;
+	end;
 
 //------------------------------------------------------------------------------------------
 //PARTE PRODUCTOS
@@ -151,22 +229,18 @@ Procedure AltaProducto();
 //-------------------------------------------------------------------------------------------
 //PARTE PROYECTOS
 
-function ValidarP(ax:aux): Integer;
-	begin
-		
-	end;
-
 Procedure AltaProyecto();
 	var
 		p: Proyectos;
-		MENU: String[2];
+		MENU: String[3];
 		op: integer;
 	begin
 		reset(Py);
 		op1:=1;
 		op:=0;
+
 		repeat
-			repeat
+			repeat 																		//Código de proyecto
 				ClrScr;
 				writeln('Ingrese el c', #243,'digo del proyecto');
 				readln(ax[1]);
@@ -174,18 +248,66 @@ Procedure AltaProyecto();
 				if ValidarP(ax)=0 then op1:=0
 				else begin writeln ('El código ingresado esta repetido');
 				readKey(); 
-				end;
+				end;         													
 			until op1=0; 
 			P.COD_PROY:= ax[1];
-			writeln('Ingrese codigo de empresa');
+			op:=1;
 
-			writeln('Ingrese la etapa del proyecto');
+			repeat   																	//Código de empresa
+				ClrScr;
+				writeln('Ingrese el c', #243,'digo de empresa');
+				readln(ax[1]);
+				ax[2]:='2';
+				if ValidarE(ax)=1 then op1:=0
+				else begin writeln ('La empresa ingresada no existe.');
+				readKey(); 
+				end;
+			until op1=0;
+			P.COD_EMP:= ax[1];
+			op:=1;
 
-			writeln('Ingrese el tipo de proyecto');
+			repeat 																		//Etapa
+				writeln('Ingrese la etapa del proyecto');
+				writeln('[P] Preventa');
+				writeln('[O] Obra');
+				writeln('[T] Terminado');
+				readln(P.Etapa);
+			until ((P.Etapa='P') or (P.Etapa='T') or (P.Etapa='O')); 
+			op:=1;
 
-			writeln('Ingrese código de ciudad');
-			
+			repeat 																		//Tipo
+				writeln('Ingrese el tipo de proyecto');
+				writeln('[C] Casa');
+				writeln('[D] Edifcio Departamento');
+				writeln('[O] Edificio Oficina');
+				writeln('[L] Loteos');
+				readln(P.Tipo);
+			until ((P.Tipo='C') or (P.Tipo='D') or (P.Tipo='O') or (P.Tipo='L')); 
+			op:=1;
 
+			repeat 																		//Código de ciudad
+				ClrScr;
+				writeln('Ingrese el c', #243,'digo de ciudad');
+				readln(ax[1]);
+				ax[2]:='1';
+				if ValidarE(ax)=0 then op1:=0
+				else begin writeln ('La ciudad ingresada no existe.');
+				readKey(); 
+				end;
+			until op1=0;
+			P.COD_ciudad:= ax[1];
+			op:=1;
+
+			seek(Py,filesize(Py));
+			write(Py,P);
+
+			repeat
+				ClrScr;
+				writeln('¿Desea ingresar nuevamente un proyecto?');
+				writeln('[SI] / [NO]');
+				readln(MENU);
+			until ((MENU='SI') or (MENU='NO'));
+			if MENU='SI' then op:=1
 		until op=1;
 	end;
 		
@@ -207,68 +329,6 @@ Procedure MostrarEmpresas();
 			  writeln('Nombre ciudad: ',Emp.CODEMP);
 			  h:=h+1;
 			 end;
-	end;
-
-function ValidarE(ax:aux): Integer;
-	var
-		inf,sup,medio: Integer;
-	begin
-		ValidarE:=1;
-		case ax[2] of
-			'1': begin reset (ArchivoCiudad);
-					inf:= 0;
-					sup:= fileSize(ArchivoCiudad)-1;
-					while (inf<=sup) and (ValidarE=1) do
-					begin
-						medio:=(inf+sup) div 2;
-						seek (ArchivoCiudad, medio);
-						read (ArchivoCiudad,CargaCiudad);
-						if ax[1]=CargaCiudad.COD_ciudad then ValidarE:=0
-						else if ax[1]<CargaCiudad.COD_ciudad then sup:=medio-1
-						else inf:=medio+1;
-					end;
-				 end;
-			'2': begin 
-				  Reset(E);
-				  repeat
-				 	 read(E,Emp);
-				  Until eof(E) or (ax[1] = Emp.CODEMP);
-				  if (ax[1]=Emp.CODEMP) then ValidarE:=1
-				  else ValidarE:=0;  
-				 end;
-			'3': begin 
-				  Reset(E);
-				  repeat
-				 	 read(E,Emp);
-				  Until eof(E) or (ax[1] = Emp.Nombre);
-				  if (ax[1]=Emp.Nombre) then ValidarE:=1
-				  else ValidarE:=0;  
-				 end;
-			'4': begin 
-				  Reset(E);
-				  repeat
-				 	 read(E,Emp);
-				  Until eof(E) or (ax[1] = Emp.Direccion);
-				  if (ax[1]=Emp.Direccion) then ValidarE:=1
-				  else ValidarE:=0;  
-				 end;
-			'5': begin 
-				  Reset(E);
-				  repeat
-				 	 read(E,Emp);
-				  Until eof(E) or (ax[1] = Emp.Mail);
-				  if (ax[1]=Emp.Mail) then ValidarE:=1
-				  else ValidarE:=0;  
-				 end;
-			'6': begin 
-				  Reset(E);
-				  repeat
-				 	 read(E,Emp);
-				  Until eof(E) or (ax[1] = Emp.Telefono);
-				  if (ax[1]=Emp.Telefono) then ValidarE:=1
-				  else ValidarE:=0;  
-				 end;
-		end;
 	end;
 
 Procedure AltaEmpresa();
