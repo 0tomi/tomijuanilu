@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
-										//Fecha: 09/10 18:26 
+										//Fecha: 09/10 18:56 
 
 Type
 	//CLIENTES
@@ -86,7 +86,7 @@ Var
 //CERRAR ARCHIVOS
 Procedure CERRAR();
 	begin
-	   close(ArchivoCiudad);
+	  close(ArchivoCiudad);
 		close(E);
 		close(ArchivoProducto);
 		close(Py);
@@ -189,13 +189,13 @@ function ValidarP(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 		ValidarP:=0;
 		case ax[2] of
 			'1': begin 														//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
-				  Reset(Py);
-				  repeat
-				 	 read(Py,Pys);
-				  Until eof(Py) or (ax[1] = Pys.COD_PROY);
-				  if (ax[1]=Emp.CODEMP) then ValidarP:=1
-				  else ValidarP:=0;  
-				 end;
+					  Reset(Py);
+					  repeat
+					 	 read(Py,Pys);
+					  Until eof(Py) or (ax[1] = Pys.COD_PROY);
+					  if (ax[1]=Pys.COD_PROY) then ValidarP:=1
+					  else ValidarP:=0;  
+					 end;
 		end;
 	end;
 
