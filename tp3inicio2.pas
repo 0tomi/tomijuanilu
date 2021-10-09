@@ -257,7 +257,7 @@ Procedure AltaProducto();
 				ClrScr;
 				writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir');
 				readln(op);
-			until ((op = 0) or (op = 1)));
+			until ((op = 0) or (op = 1));
 			if op=1 then
 				  begin
 				   MuestraProductos();
@@ -643,22 +643,20 @@ Procedure LCLIENTE();
 	begin
 		repeat
 			op:=0;
-			letras:=0;
-			repeat 
-	    	Writeln('Ingrese DNI: ');
-	    	Readln(optao);
-	    until ((optao>'1') and (optao<'9'));
-		   i:=1;
+			letras:=0; 
+			ClrScr;
+	    Writeln('Ingrese DNI: ');
+	    Readln(optao);
+		  i:=1;
     	for i:=1 to length(optao) do
-				if ((optao[i]>='a') and (optao[i]<='z') or (optao[i]>='A') and (optao[i]<='Z')) then
-				begin
-					letras:=letras-1;
-					readKey();
-				end
-				else begin
-					letras:=letras+1;
-					readKey();
-				end;
+				if ((optao[i]>='0') and (optao[i]<='9')) then
+					begin
+						letras:=letras+1;
+					end
+					else begin
+						letras:=letras-1;
+					end;
+			readkey();
 			if letras=length(optao) then op:=1
 			else 
 			begin 
@@ -886,7 +884,7 @@ Procedure MODCli();
   	until MENU='0';
 	end;
 
-//----------------------------CONTRASEÑA Y MAIN--------------------------------------------------------
+//----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// ACORDARSE DE VOLVER A COLOCAR CONTRASEÑAS
 
 Procedure login(tipo: char);
 	var
@@ -896,8 +894,8 @@ Procedure login(tipo: char);
 	begin
 	  attempts := 3;
 	  clave := '';
-	  empresa := 'admin';
-	  cliente := 'user';
+	  empresa := '';			
+	  cliente := '';
 	  acceso:=0;
 	  while (attempts > 0) do
 	    begin
@@ -1005,7 +1003,7 @@ Begin
         	gotoxy(i, 5);
           delay (1);
           i:=i-1;
-        until i=1;}
+        until i=1;}								//ANIMACION DEL INICIO
          writeln('Menu: ');
           writeln('1. Empresas');
           writeln('2. Clientes.');
