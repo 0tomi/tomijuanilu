@@ -709,6 +709,10 @@ Procedure MODCli();
 	                Readln(ax[1]);
                 until (ax[1]='C') or (ax[1]='D') or (ax[1]='O') or (ax[1]='L');
                 Seek(Py,0);
+                ClrScr;
+
+                ///////MENU PIOLA/////////
+
                 repeat
                     Read(Py,Pys);
                     if Pys.Tipo=ax[1] then 
@@ -722,15 +726,21 @@ Procedure MODCli();
                             'T': begin Writeln('Etapa Terminado.');
                             		 end;
                         end;
-
-                        //buscar y mostrar nombre empresa
-
+											  //buscar y mostrar nombre empresa
+											  ax[1]:=Pys.COD_EMP;
+											  ax[2]:='2';
+											  ValidarE(ax);
+											  writeln(Emp.Nombre);
                         //ciudad del proyecto
-
-
+                        ax[1]:=Pys.COD_ciudad;
+											  ax[2]:='1';
+											  ValidarE(ax);
+											  writeln(CargaCiudad.NombreCiudad);
                     end;
                 until eof(Py);
-                Writeln('Ingrese código del proyecto: ');
+              end;
+          end;
+                {Writeln('Ingrese código del proyecto: ');
                 Readln(opcion3);
                 Seek (D,0);
                 repeat
@@ -791,9 +801,8 @@ Procedure MODCli();
             else
                 begin
                     Writeln('Producto no disponible.');
-                end;
-
-end;
+                end;}
+	end;
 
 Procedure login(tipo: char);
 	var
@@ -890,6 +899,7 @@ Begin
 
  	acceso:=0;
  	acceso:=0;
+
 	for x := 0 to 3 do 
 		contador[x]:=0;
 	x:=0;
