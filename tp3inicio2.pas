@@ -3,7 +3,7 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
+//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: JUANI
 										//Fecha: 09/10 18:56 
 
 Type
@@ -51,7 +51,7 @@ Type
 	Productos = record      
 		COD_Proyecto : string;                
 		COD_Producto : string;
- 		Precio : integer;          
+ 		Precio : string;          
 		Estado : char;   //(Vendido S/N)
 		Detalle : String[50];  // (casa, depto, oficina, loteos)  	
 	end;
@@ -254,9 +254,14 @@ Procedure VerificarProductos();
 				until op1=0;   
 				(PROD.COD_Proyecto):= ax[1];
 				 writeln('Ingrese el precio del producto');
-				 readln(PROD.Precio);
-				 writeln('Ingrese el estado del producto');
-			 	 readln(PROD.Estado);
+				  repeat
+				   readln(PROD.Precio);
+				   ClrScr;
+				  until (PROD.Precio>='0') and (PROD.Precio<='9');
+				 writeln('Ingrese el estado del producto [S/N]');
+			 	  repeat
+			 	  readln(PROD.Estado);
+			 	  until (PROD.Estado='S') or (PROD.Estado='N');
 				 writeln('Ingrese el detalle del producto'); 
 				 readln(PROD.Detalle);
 			   write(ArchivoProducto,PROD);
@@ -658,8 +663,7 @@ Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
 //------------------------------CLIENTES------------------------------------------------------
 
 Procedure MOSTRARPROYECTOS();
-
-begin
+ begin
   		Seek(Py,0);
       ClrScr;
 			writeln('################################################################################################################');
@@ -719,7 +723,7 @@ begin
 					i:=i+2;
           end;
       until eof(Py);
-end;
+ end;
 
 PROCEDURE MOSTRARPRODCUTOS();
 	begin
