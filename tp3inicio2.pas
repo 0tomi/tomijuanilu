@@ -59,7 +59,7 @@ Type
     
 Var
 	C: ArchivoClientes;
-	CC: Clientes;
+	Cl: Clientes;
 
 	Py: ArchivoProyectos;
 	Pys: Proyectos;
@@ -90,7 +90,6 @@ Procedure CERRAR();
 		close(Py);
 		close(C);
 	end;
-
 
 //------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------//
 
@@ -601,8 +600,136 @@ Procedure MODEmp();
 
 Procedure MODCli();
 	begin
-      writeln ('Clientes');
+      
+    Writeln('Ingrese DNI: ');
+    Readln(idni);
+    Reset(C);
+    reset(ArchivoProducto);
+    Seek(C,0);
+    repeat
+        read(C,Cl);
+    until eof(C) or (idni=Cl.DNI);
+    if idni=Cl.DNI then
+        begin
+            Writeln('Bienvenido.');
+        end;
+     else
+        begin
+            x:=0;
+            repeat
+                Writeln('Ingrese mail: ');
+                Readln(imail);
+                Seek(C,0);
+                repeat
+                    read(C,Cl);
+                until eof(C) or (imail=Cl.mail);
+                if imail=Cl.mail then
+                    begin
+                    Writeln('Este mail ya ha sido utilizado, ingrese uno distinto');
+                    end;
+                else x=2;
+            until x=2;
+                Writeln('Ingrese su nombre: '); 
+                Readln(inombre);
+                Seek(C,filesize(C));
+                Cl.mail:=imail;
+                Cl.nombre:=inombre;
+                Cl.DNI:=idni;
+                Write(C,Cl);         
+        end;
+
+        ClrScr;
+    Writeln('A- Consultar Proyectos.'); //lo incluyo en un repetir hasta para que pueda seguir eligiendo?
+    Writeln('B- Comprar Producto');
+    Readln(opcion);
+    until (opcion='A') or (opcion='B');
+    case opcion of
+        'A':begin
+                repeat
+                ClrScr;
+                Writeln('C- Casa.');
+                Writeln('D- Departamento.');
+                Writeln('O- Oficina.');
+                Writeln('L- Lotes.');
+                Readln(opcion2);
+                until (opcion2='C') or (opcion2='D') or (opcion2='O') or (opcion2='L');
+                Seek(P,0);
+                repeat
+                    Read(P,Py);
+                    if Py.tipo=opcion2 then 
+                    begin
+                        Writeln ('El código del procducto es: ',Py.codigo);
+                        case Py.etapa of
+                            'P': begin Writeln('Etapa Preventa.')end;
+                            'O': begin Writeln('Etapa en Obra.')end;
+                            'T': begin Writeln('Etapa Terminado.')end;
+                        //buscar y mostrar nombre empresa   
+                    end;
+                until eof(ArchivoProyectos);//no sé el nombre de la variable del archivo
+                Writeln('Ingrese código del proyecto: ');
+                Readln(opcion3);
+                Seek (D,0);
+                repeat
+                    Read(D,Pd);
+                    if Pd.codigoy=opcion3 then
+                    begin
+                        if Pd.estado='N' then
+                        begin
+                        Writeln(Pd.codigod);
+                        Writeln(Pd.precio);
+                        Writeln(Pd.detalle);
+                        end;
+                    end;
+                until eof(D);
+            end;
+            //lo de actualizar en 1 más los archivos
+        'B':begin
+            Writeln('Ingrese el código de producto: ');
+            Readln(ax[1]);
+            Seek(ArchivoProducto,0);
+            repeat
+                Read(ArchivoProducto,CargaProducto);
+            until eof(ArchivoProducto) or (ax[1]=CargaProducto.COD_Producto);
+            if (ax[1]=CargaProducto.COD_Producto) then
+                begin
+                    if CargaProducto.Estado='N' then
+                        begin
+                            Writeln('El precio del producto es: ',CargaProducto.Precio);
+                            Writeln('Desea continuar? <S/N>');
+                            repeat
+                                Readln(SN);
+                            until SN='S' or SN='N';
+                            if SN='S' then
+                            begin
+                                Writeln('La venta le llegará al mail ',Cl.mail);
+                                CargaProducto.Estado:='S';
+                                seek(ArchivoProducto,Filepos(ArchivoProducto)-1)
+                                Write(ArchivoProducto, CargaProducto);
+
+                                reset(Py);              
+                                repeat
+                                	read(Py,Pys);
+                                until eof (Py) or (Pys.COD_PROY=CargaProducto.COD_Proyecto);
+                                if (Pys.COD_PROY=CargaProducto.COD_Proyecto) then
+                                begin
+                               	 	Pys.Cantidades[3]:=Pys.Cantidades[3] + 1;
+                                	seek(Py,Filepos(Py)-1);
+                               	 	write(Py,Pys);
+                                end;
+                            end;
+                        end;
+                    else
+                        begin
+                        Writeln('Producto no disponible.');
+                        end;
+                end;   
+            else
+                begin
+                    Writeln('Producto no disponible.');
+                end;
+
 	end;
+
 
 Procedure login(tipo: char);
 	var
