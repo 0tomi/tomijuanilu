@@ -350,7 +350,7 @@ Procedure AltaProyecto();
 					writeln('Ingrese el c', #243,'digo de ciudad');
 					readln(ax[1]);
 					ax[2]:='1';
-					if ValidarE(ax)=0 then op1:=0
+					if ValidarE(ax)=1 then op1:=0
 					else begin writeln ('La ciudad ingresada no existe.');
 					readKey(); 
 					end;
