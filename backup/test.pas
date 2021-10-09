@@ -22,6 +22,25 @@ begin
 	writeln('|');
 	gotoxy(80,2);
 	writeln('|');
+	gotoxy(112,2);
+	writeln('|');
+	i:=4;
+	repeat 
+		gotoxy(9, i);
+		writeln('holi');
+		gotoxy(1, i+1);
+		writeln('----------------------------------------------------------------------------------------------------------------');
+		gotoxy(20,i);
+		writeln('|');
+		gotoxy(50,i);
+		writeln('|');
+		gotoxy(80,i);
+		writeln('|');
+		gotoxy(112,i);
+		writeln('|');
+
+		i:=i+2;
+	until i=20;
 	readkey();
 	{repeat
 		repeat

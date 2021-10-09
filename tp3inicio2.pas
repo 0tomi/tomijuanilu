@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
-										//Fecha: 09/10 0:04 
+										//Fecha: 09/10 14:13 
 
 Type
 	//CLIENTES
@@ -711,31 +711,62 @@ Procedure MODCli();
                 Seek(Py,0);
                 ClrScr;
 
-                ///////MENU PIOLA/////////
+								writeln('################################################################################################################');
+								gotoxy(9, 2);
+								writeln('ETAPA');
+								gotoxy(30, 2);
+								writeln('EMPRESA');
+								gotoxy(60, 2);
+								writeln('CIUDAD');
+								gotoxy(90, 2);
+								writeln('CODIGO DE PROYECTO');
+								writeln('################################################################################################################');
+								gotoxy(20,2);
+								writeln('|');
+								gotoxy(50,2);
+								writeln('|');
+								gotoxy(80,2);
+								writeln('|');
+								gotoxy(112,2);
+								writeln('|');
+								i:=4;
 
                 repeat
                     Read(Py,Pys);
                     if Pys.Tipo=ax[1] then 
                     begin
-                        Writeln ('El código del proyecto es: ',Pys.COD_PROY);
+                    		gotoxy(90, i);
+                        Writeln (Pys.COD_PROY);
                         case Pys.Etapa of
-                            'P': begin Writeln('Etapa Preventa.');
+                            'P': begin
+                            			gotoxy(9, i); 
+                            			Writeln('Preventa.');
                             		 end;
-                            'O': begin Writeln('Etapa en Obra.');
+                            'O': begin 
+                            			gotoxy(9, i); 
+                            			Writeln('Obra.');
                             		 end;
-                            'T': begin Writeln('Etapa Terminado.');
+                            'T': begin
+                            			gotoxy(9, i); 
+                            			Writeln('Terminado.');
                             		 end;
                         end;
 											  //buscar y mostrar nombre empresa
 											  ax[1]:=Pys.COD_EMP;
 											  ax[2]:='2';
 											  ValidarE(ax);
+											  gotoxy(30, i);
 											  writeln(Emp.Nombre);
                         //ciudad del proyecto
                         ax[1]:=Pys.COD_ciudad;
 											  ax[2]:='1';
 											  ValidarE(ax);
+											  gotoxy(60, i);
 											  writeln(CargaCiudad.NombreCiudad);
+											  //
+											  gotoxy(1, i+1);
+												writeln('----------------------------------------------------------------------------------------------------------------');
+												i:=i+2;
                     end;
                 until eof(Py);
               end;
