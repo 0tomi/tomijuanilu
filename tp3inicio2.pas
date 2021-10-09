@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
-										//Fecha: 09/10 14:13 
+										//Fecha: 09/10 15:30 
 
 Type
 	//CLIENTES
