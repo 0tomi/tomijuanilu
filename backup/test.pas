@@ -1,34 +1,41 @@
 Program tp3inicio;
-uses crt;
+uses dos,crt;
 
 var
 	srt: string[30];
 	i: Integer;
 
+
+
+
 begin
 	writeln('################################################################################################################');
-	gotoxy(5, 2);
+	gotoxy(3, 2);
 	writeln('CODIGO DE PRODUCTO');
-	gotoxy(40, 2);
+	gotoxy(32, 2);
 	writeln('PRECIO');
-	gotoxy(80, 2);
+	gotoxy(70, 2);
 	writeln('DETALLE');
 	writeln('################################################################################################################');
-	gotoxy(30,2);
+	gotoxy(25,2);
 	writeln('|');
-	gotoxy(55,2);
+	gotoxy(45,2);
 	writeln('|');
 	gotoxy(112,2);
 	writeln('|');
 	i:=4;
 	repeat 
-		gotoxy(9, i);
+		gotoxy(4, i);
 		writeln('holi');
+		gotoxy(33, i);
+		writeln('holi');
+		gotoxy(47, i);
+		writeln('pinga');
 		gotoxy(1, i+1);
 		writeln('----------------------------------------------------------------------------------------------------------------');
-		gotoxy(30,i);
+		gotoxy(25,i);
 		writeln('|');
-		gotoxy(55,i);
+		gotoxy(45,i);
 		writeln('|');
 		gotoxy(112,i);
 		writeln('|');

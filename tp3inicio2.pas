@@ -247,8 +247,8 @@ Procedure VerificarProductos();
 					writeln('Ingrese el codigo del proyecto');    //Validacion Proyecto
 					readln(ax[1]);
 					ax[2]:='1';
-					if ValidarP(ax)=0 then op1:=0
-					else begin writeln ('El codigo ingresado esta repetido');
+					if ValidarP(ax)=1 then op1:=0
+					else begin writeln ('El código de proyecto ingresado no existe');
 					readKey(); 
 					end;         													
 				until op1=0;   
