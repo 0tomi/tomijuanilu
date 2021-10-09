@@ -3,8 +3,8 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
-										//Fecha: 09/10 15:30 
+//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: JUANI
+										//Fecha: 09/10 15:55 
 
 Type
 	//CLIENTES
@@ -177,8 +177,8 @@ function ValidarP(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 		end;
 	end;
 
-//------------------------------------------------------------------------------------------
-//PARTE PRODUCTOS
+//---------------------------PRODUCTOS------------------------------------------------------
+
 
 Procedure MuestraProductos();
 	var 
@@ -227,7 +227,7 @@ Procedure VerificarProductos();
 					readln(ax[1]);
 					ax[2]:='1';
 					if ValidarP(ax)=0 then op1:=0
-					else begin writeln ('El código ingresado esta repetido');
+					else begin writeln ('El codigo ingresado esta repetido');
 					readKey(); 
 					end;         													
 				until op1=0;   
@@ -256,20 +256,20 @@ Procedure AltaProducto();
 			until op1=0;
 			repeat
 				ClrScr;
-				writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir, <2> para volver a registrar un producto');
+				writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir');
 				readln(op);
-			until ((op = 0) or (op = 1) or (op=2)) ;
+			until ((op = 0) or (op = 1)));
 			if op=1 then
 				  begin
 				   MuestraProductos();
-				   op1:=0;
+				   op:=0;
 				   readKey();
 				  end 
+				  else op:=0;
 		until op = 0;
 	end;
 
-//-------------------------------------------------------------------------------------------
-//PARTE PROYECTOS
+//--------------------------PROYECTOS-----------------------------------------------------------
 
 Procedure AltaProyecto();
 	var
@@ -286,7 +286,7 @@ Procedure AltaProyecto();
 				readln(ax[1]);
 				ax[2]:='1';
 				if ValidarP(ax)=0 then op1:=0
-				else begin writeln ('El código ingresado esta repetido');
+				else begin writeln ('El codigo ingresado esta repetido');
 				readKey(); 
 				end;         													
 			until op1=0; 
@@ -344,15 +344,14 @@ Procedure AltaProyecto();
 			repeat
 				ClrScr;
 				writeln('¿Desea ingresar nuevamente un proyecto?');
-				writeln('[SI] / [NO]');
+				writeln('<1> SI / <0> NO');
 				readln(MENU);
-			until ((MENU='SI') or (MENU='NO'));
-			if MENU='SI' then op:=1
+			until ((MENU='1') or (MENU='0'));
+			if MENU='1' then op:=1
 		until op=1;
 	end;
 		
-//-------------------------------------------------------------------------------------------
-//PARTE EMPRESAS
+//---------------------------EMPRESAS--------------------------------------------------------
 
 Procedure MostrarEmpresas();
 	 var 
@@ -365,8 +364,8 @@ Procedure MostrarEmpresas();
 			 begin
 			  Read (E, Emp);
 			  writeln('Puesto nr: ',h);
-			  writeln('Codigo ciudad: ',Emp.CODCIU);
-			  writeln('Nombre ciudad: ',Emp.CODEMP);
+			  writeln('Codigo Ciudad: ',Emp.CODCIU);
+			  writeln('Codigo Empresa: ',Emp.CODEMP);
 			  h:=h+1;
 			 end;
 	end;
@@ -385,7 +384,7 @@ Procedure AltaEmpresa();
 			writeln('Ingrese el c', #243,'digo de la ciudad');					
 			readln(ax[1]);
 			ax[2]:='1';
-			if ValidarE(ax)=0 then writeln ('El código ingresado no existe')
+			if ValidarE(ax)=0 then writeln ('El codigo ingresado no existe')
 			else begin 
 			op1:=0;
 			readKey();
@@ -447,7 +446,7 @@ Procedure AltaEmpresa();
 			readln(ax[1]);
 			ax[2]:='6';
 			if ValidarE(ax)=0 then op1:=0
-			else begin writeln ('El teléfono ingresado esta repetido');
+			else begin writeln ('El telefono ingresado esta repetido');
 			readKey();
 			end;
 		until op1=0;
@@ -456,7 +455,7 @@ Procedure AltaEmpresa();
 		seek(E,filesize(E));
 		write(E,M);
 
-		writeln('¿Desea ver las Empresas Ingresadas? <1>SI-<0>NO ');
+		writeln('¿Desea ver las Empresas Ingresadas? <1>SI - <0>NO ');
 		repeat
 			readln(op1);
 		until (op1=0) or (op1=1);
@@ -472,15 +471,15 @@ Procedure AltaEmpresa();
 				  end;
 		repeat
 			ClrScr;
-			writeln('¿Desea ingresar nuevamente un proyecto?');
-			writeln('[SI] / [NO]');
+			writeln('¿Desea ingresar nuevamente una Empresa?');
+			writeln('<1>SI - <0>NO');
 			readln(MENU);
-		until ((MENU='SI') or (MENU='NO'));
-	until MENU='NO';
+		until ((MENU='1') or (MENU='0'));
+	until MENU='0';
 	end;
 
-//-------------------------------------------------------------------------------------------
-//PARTE CIUDADES
+//----------------------------CIUDADES--------------------------------------------------------
+
 Procedure MuestraCiudades();
 	var 
 	h:integer;
@@ -540,10 +539,10 @@ Procedure VerificarCiudades();
 	 		  readln(op1);
 	 		  until op1=0;
 	 	   end}
-	 writeln('holi');
+	 
 	 readkey();
 	if ValidarE(ax)=1 then begin
-	 		  writeln('Código ya existente' );	
+	 		  writeln('Codigo ya existente' );	
 	 		  readkey();
 	 		  op1:=0;
 	 	   end
@@ -578,7 +577,7 @@ Procedure CargarCiudades();
 	    		ClrScr;
 	    		writeln('<0> Salir'); 
 	    		writeln('<1> Mostrar Ciudades ya cargadas y salir');
-	    		writeln('<2> Cargar otro código');
+	    		writeln('<2> Cargar otro codigo');
 				readln(op1);
 			until ((op1=1) or (op1=0) or (op1=2));
 			if op1=1 then
@@ -593,18 +592,30 @@ Procedure CargarCiudades();
 
 procedure CargarNormal(); //Por primera vez(opcion 1, dsps lo quitamos)
 	begin
-	  seek(E,filesize(E));
-		seek(ArchivoCiudad,filesize(ArchivoCiudad));
+	  Reset(E);
+    reset(Py);
+    Reset(ArchivoProducto);
+
+      seek(E,filesize(E));
+        seek(ArchivoCiudad,filesize(ArchivoCiudad));
+        seek(Py,filesize(Py));
+        seek(ArchivoProducto,filesize(ArchivoProducto));
      writeln ('CODIGO CIUDAD');
      readln (CargaCiudad.COD_ciudad);                   
-     writeln ('NOMBRE CIUDAD');																
-     readln (CargaCiudad.NombreCiudad);	
-     writeln('CODIGO EMPRESA');		
-     readln(emp.CODCIU);						
+     writeln ('NOMBRE CIUDAD');                                                             
+     readln (CargaCiudad.NombreCiudad); 
+     writeln('CODIGO EMPRESA');     
+     readln(emp.CODCIU);            
+     writeln('CODIGO PROYECTO');    
+     readln(Pys.COD_PROY);  
+     writeln('CODIGO PRODUCTO');
+     readln(CargaProducto.COD_Producto);
      Write(ArchivoCiudad,CargaCiudad);
+     write(Py,Pys); 
+     write(ArchivoProducto,CargaProducto); 
      write(E,Emp);
      writeln(); 
-			readKey();
+            readKey();
 	end;
 
 Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
@@ -624,7 +635,9 @@ Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
    until (op1='0');
   end;
 
-//-----------------------------------clientes--------------------------------------------------//
+
+
+//------------------------------CLIENTES------------------------------------------------------//
 Procedure LCLIENTE();
 	var 
 		CC:Clientes;
@@ -780,8 +793,8 @@ Procedure MODA();
   end;
 
 Procedure MODB();
-var SN:char;
-begin
+ var SN:char;
+ begin
 	SN:='K';
 	reset(ArchivoProducto);
   Writeln('Ingrese el código de producto: ');
@@ -829,9 +842,10 @@ begin
       begin
           Writeln('Producto no disponible.');
       end;
-end;
+ end;
 
-//-------------------------------------------------------------------------------------------
+//-------------------------------MENUS---------------------------------------------------
+
 Procedure MODEmp();
 		var
 		op1: char;
@@ -869,11 +883,13 @@ Procedure MODCli();
 	  	repeat
 				ClrScr;
 				writeln('¿Volver al menú principal?');
-				writeln('[SI] / [NO]');
+				writeln('<1> SI / <0> NO');
 				readln(MENU);
-			until ((MENU='SI') or (MENU='NO'));  
-  	until MENU='NO';
+			until ((MENU='1') or (MENU='0'));  
+  	until MENU='0';
 	end;
+
+//----------------------------CONTRASEÑA Y MAIN--------------------------------------------------------
 
 Procedure login(tipo: char);
 	var
@@ -979,7 +995,7 @@ Begin
 		//repeat
 		  ClrScr();
 		  textcolor(lightblue);
-		  i:=100;
+		  {i:=100;
 		  	repeat
 		  		gotoxy(i+3, 1);
           writeln('Menu: ');
@@ -992,7 +1008,11 @@ Begin
         	gotoxy(i, 5);
           delay (1);
           i:=i-1;
-        until i=1;
+        until i=1;}
+         writeln('Menu: ');
+          writeln('1. Empresas');
+          writeln('2. Clientes.');
+          writeln('0. Salir');
     repeat
           option := readKey();
 		until ((option = '1') or (option = '2') or (option = '0'));
