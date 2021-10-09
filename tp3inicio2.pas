@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
-										//Fecha: 08/10 19:21 
+										//Fecha: 08/10 22:52 
 
 Type
 	//CLIENTES
@@ -64,8 +64,8 @@ Var
 	Py: ArchivoProyectos;
 	Pys: Proyectos;
 
-  ArchivoProducto : file of Productos;
-  CargaProducto : Productos; 
+  	ArchivoProducto : file of Productos;
+  	CargaProducto : Productos; 
 
 	ax: aux;
 	E: ArchivoEmpresas;
@@ -75,13 +75,15 @@ Var
 	CargaCiudad: Ciudades;
 	AUXI: string;
 
+	MENU: String[3];
+	op: integer;
 	contador: array [0..3] of integer;
 	option:char;
 	optao: string;
 	x, y, acceso, salir,i,o1,op1:integer;
 
 //---------------------------------------------------------------------------------------
-//CLOSE ARCHIVOS
+//CERRAR ARCHIVOS
 Procedure CERRAR();
 	begin
 	   close(ArchivoCiudad);
@@ -94,26 +96,30 @@ Procedure CERRAR();
 
 //------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------//
 
-function ValidarE(ax:aux): Integer;
+function ValidarE(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 	var
 		inf,sup,medio: Integer;
 	begin
-		ValidarE:=1;
+		ValidarE:=0;
 		case ax[2] of
-			'1': begin reset (ArchivoCiudad);
+			'1': begin reset (ArchivoCiudad);									// Si ax[2]=1, compara dicotómicamente el array ax[1] con el codigo de ciudad de Ciudades.
 					inf:= 0;
 					sup:= fileSize(ArchivoCiudad)-1;
-					while (inf<=sup) and (ValidarE=1) do
+					while (inf<=sup) and (ValidarE=0) do
 					begin
 						medio:=(inf+sup) div 2;
 						seek (ArchivoCiudad, medio);
 						read (ArchivoCiudad,CargaCiudad);
-						if ax[1]=CargaCiudad.COD_ciudad then ValidarE:=0
+						writeln('Está acá: ', CargaCiudad.COD_ciudad);
+						readKey();
+						if ax[1]=CargaCiudad.COD_ciudad then ValidarE:=1
 						else if ax[1]<CargaCiudad.COD_ciudad then sup:=medio-1
 						else inf:=medio+1;
 					end;
+					writeln('Terminó acá: ', CargaCiudad.COD_ciudad);
+					readkey();
 				 end;
-			'2': begin 
+			'2': begin 															//Si ax[2]=2, compara secuencialmente si el archivo se encuentra en Emp.CODEMP
 				  Reset(E);
 				  repeat
 				 	 read(E,Emp);
@@ -156,11 +162,11 @@ function ValidarE(ax:aux): Integer;
 		end;
 	end;
 
-function ValidarP(ax:aux): Integer;
+function ValidarP(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 	begin
-		ValidarP:=1;
+		ValidarP:=0;
 		case ax[2] of
-			'1': begin 
+			'1': begin 														//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
 				  Reset(Py);
 				  repeat
 				 	 read(Py,Pys);
@@ -239,28 +245,27 @@ Procedure VerificarProductos();
 	end;
 
 Procedure AltaProducto();
-	var 
-	op2:integer;
 	begin 
+	op:=1;
 		repeat	
 			repeat
-			writeln('Ingrese el codigo del producto');
-			readln(ax[1]);
-			VerificarProductos();
-			op2:=0;
-			until op2=0;
-			writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir');
+				writeln('Ingrese el codigo del producto');
+				readln(ax[1]);
+				VerificarProductos();
+				op1:=0;
+			until op1=0;
 			repeat
-				readln(op1);
-			until ((op1 = 0) or (op1 = 1)) ;
-			if op1=1 then
+				ClrScr;
+				writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir, <2> para volver a registrar un producto');
+				readln(op);
+			until ((op = 0) or (op = 1) or (op=2)) ;
+			if op=1 then
 				  begin
 				   MuestraProductos();
 				   op1:=0;
 				   readKey();
-				  end
-				 Else op1:=0;
-		until (op1 = 0);
+				  end 
+		until op = 0;
 	end;
 
 //-------------------------------------------------------------------------------------------
@@ -269,8 +274,6 @@ Procedure AltaProducto();
 Procedure AltaProyecto();
 	var
 		p: Proyectos;
-		MENU: String[3];
-		op: integer;
 	begin
 		reset(Py);
 		op1:=1;
@@ -373,60 +376,86 @@ Procedure AltaEmpresa();
 		M: Empresa;
 
 	begin
+		MENU:='NO';
 		reset(E);
 	repeat
+		op1:=1;
 		repeat
 			ClrScr;
-			writeln('Ingrese el c', #243,'digo de la ciudad');
+			writeln('Ingrese el c', #243,'digo de la ciudad');					
 			readln(ax[1]);
 			ax[2]:='1';
-			if ValidarE(ax)<>0 then writeln ('')
-		until ValidarE(ax)=0;
+			if ValidarE(ax)=0 then op1:=0
+			else begin writeln ('El código ingresado esta repetido');
+			readKey();
+			end;
+		until op1=0;
+		op1:=1;
 		M.CODCIU:= ax[1];
 		repeat
 			ClrScr;
 			writeln('Ingrese el c', #243,'digo de la empresa.');
 			readln(ax[1]);
 			ax[2]:='2';
-			if ValidarE(ax)<>0 then writeln ('El código ingresado está repetido')
-		until ValidarE(ax)=0;
+			if ValidarE(ax)=0 then op1:=0
+			else begin writeln ('El código ingresado esta repetido');
+			readKey();
+			end;
+		until op1=0;
+		op1:=1;
 		M.CODEMP:= ax[1];
 		repeat
 			ClrScr;
 			writeln('Ingrese el nombre de la empresa.');
 			readln(ax[1]);
 			ax[2]:='3';
-			if ValidarE(ax)<>0 then writeln ('El nombre ingresado está repetido')
-		until ValidarE(ax)=0;
+			if ValidarE(ax)=0 then op1:=0
+			else begin writeln ('El nombre ingresado esta repetido');
+			readKey();
+			end;
+		until op1=0;
+		op1:=1;
 		M.Nombre:= ax[1];
 		repeat
 			ClrScr;
 			writeln('Ingrese la direcci', #243,'n de la empresa.');
 			readln(ax[1]);
 			ax[2]:='4';
-			if ValidarE(ax)<>0 then writeln ('La direccion ingresada está repetido')
-		until ValidarE(ax)=0;
+			if ValidarE(ax)=0 then op1:=0
+			else begin writeln ('La direccion ingresada esta repetida');
+			readKey();
+			end;
+		until op1=0;
+		op1:=1;
 		M.Direccion:= ax[1];
 		repeat
 			ClrScr;
 			writeln('Ingrese el mail de la empresa.');
 			readln(ax[1]);
 			ax[2]:='5';
-			if ValidarE(ax)<>0 then writeln ('El mail ingresado está repetido')
-		until ValidarE(ax)=0;
+			if ValidarE(ax)=0 then op1:=0
+			else begin writeln ('El mail ingresado esta repetido');
+			readKey();
+			end;
+		until op1=0;
+		op1:=1;
 		M.Mail:= ax[1];
 		repeat
 			ClrScr;
 			writeln('Ingrese el tel', #233,'fono de la empresa.');
 			readln(ax[1]);
 			ax[2]:='6';
-			if ValidarE(ax)<>0 then writeln ('El telefono ingresado está repetido')
-		until ValidarE(ax)=0;
+			if ValidarE(ax)=0 then op1:=0
+			else begin writeln ('El teléfono ingresado esta repetido');
+			readKey();
+			end;
+		until op1=0;
+		op1:=1;
 		M.Telefono:= ax[1];
 		seek(E,filesize(E));
 		write(E,M);
 
-		writeln('Desea ver las Empresas Ingresadas? <1>SI-<0>NO ');
+		writeln('¿Desea ver las Empresas Ingresadas? <1>SI-<0>NO ');
 		repeat
 			readln(op1);
 		until (op1=0) or (op1=1);
@@ -440,7 +469,13 @@ Procedure AltaEmpresa();
 				   op1:=0;
 				   readKey();
 				  end;
-	until op1=0;
+		repeat
+			ClrScr;
+			writeln('¿Desea ingresar nuevamente un proyecto?');
+			writeln('[SI] / [NO]');
+			readln(MENU);
+		until ((MENU='SI') or (MENU='NO'));
+	until MENU='NO';
 	end;
 
 //-------------------------------------------------------------------------------------------
@@ -493,26 +528,32 @@ Procedure VerificarCiudades();
 	begin
 		Reset(ArchivoCiudad);
 	repeat
-   repeat
- 	  read(ArchivoCiudad,CargaCiudad);
-   Until eof(ArchivoCiudad) or (ax[1] = CargaCiudad.COD_ciudad);	
+	   {repeat
+	 	  read(ArchivoCiudad,CargaCiudad);
+	   Until eof(ArchivoCiudad) or (ax[1] = CargaCiudad.COD_ciudad);}	
 
-   If (ax[1] = CargaCiudad.COD_ciudad) then
- 	   begin
- 		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
- 		  Repeat	
- 		  readln(op1);
- 		  until op1=0;
- 	   end
-   else
- 	   begin
-      seek (ArchivoCiudad, filesize(ArchivoCiudad));
- 		   CargaCiudad.COD_ciudad:= ax[1];
- 		   writeln ('Ingrese el nombre de la ciudad: ');												
-		  readln (CargaCiudad.NombreCiudad);
-		  write(ArchivoCiudad,CargaCiudad);
-		  op1:=0;
- 	   end;
+	   {If (ax[1] = CargaCiudad.COD_ciudad) then
+	 	   begin
+	 		  writeln('Codigo ya existente, ingrese <0> para salir: ' );	
+	 		  Repeat	
+	 		  readln(op1);
+	 		  until op1=0;
+	 	   end}
+	 writeln('holi');
+	 readkey();
+	if ValidarE(ax)=1 then begin
+	 		  writeln('Código ya existente' );	
+	 		  readkey();
+	 	   end
+	   else
+	 	   begin
+	      	seek (ArchivoCiudad, filesize(ArchivoCiudad));
+	 		  CargaCiudad.COD_ciudad:= ax[1];
+	 		  writeln ('Ingrese el nombre de la ciudad: ');												
+			  readln (CargaCiudad.NombreCiudad);
+			  write(ArchivoCiudad,CargaCiudad);
+			  op1:=0;
+	 	   end;
  	until op1=0;
 	end;
 
@@ -528,19 +569,22 @@ Procedure CargarCiudades();
 	   		 writeln('Ingrese el codigo ');
      		 Readln(ax[1]);
         until (ax[1]>='A') and (ax[1]<='Z') and (length(ax[1])<=3);
+        	ax[2]:='1';
     		VerificarCiudades();
     		OrdenarCiudades();
-    		writeln('Salir Ahora: <0>, Mostrar Ciudades ya cargadas y luego salir: <1>');
-				 repeat
-				 readln(op1);
-				 until (op1=1) or (op1=0);
-				 if op1=1 then
-				  begin
-				   MuestraCiudades();
-				   op1:=0;
-				   readKey();
-				  end
-				 Else op1:=0;
+    		repeat
+	    		ClrScr;
+	    		writeln('<0> Salir'); 
+	    		writeln('<1> Mostrar Ciudades ya cargadas y salir');
+	    		writeln('<2> Cargar otro código');
+				readln(op1);
+			until ((op1=1) or (op1=0) or (op1=2));
+			if op1=1 then
+			  begin
+			   MuestraCiudades();
+			   op1:=0;
+			   readKey();
+			  end;
     until op1=0;
     writeln();
    end;
