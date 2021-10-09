@@ -7,20 +7,16 @@ var
 
 begin
 	writeln('################################################################################################################');
-	gotoxy(9, 2);
-	writeln('ETAPA');
-	gotoxy(30, 2);
-	writeln('EMPRESA');
-	gotoxy(60, 2);
-	writeln('CIUDAD');
-	gotoxy(90, 2);
-	writeln('CODIGO DE PROYECTO');
+	gotoxy(5, 2);
+	writeln('CODIGO DE PRODUCTO');
+	gotoxy(40, 2);
+	writeln('PRECIO');
+	gotoxy(80, 2);
+	writeln('DETALLE');
 	writeln('################################################################################################################');
-	gotoxy(20,2);
+	gotoxy(30,2);
 	writeln('|');
-	gotoxy(50,2);
-	writeln('|');
-	gotoxy(80,2);
+	gotoxy(55,2);
 	writeln('|');
 	gotoxy(112,2);
 	writeln('|');
@@ -30,11 +26,9 @@ begin
 		writeln('holi');
 		gotoxy(1, i+1);
 		writeln('----------------------------------------------------------------------------------------------------------------');
-		gotoxy(20,i);
+		gotoxy(30,i);
 		writeln('|');
-		gotoxy(50,i);
-		writeln('|');
-		gotoxy(80,i);
+		gotoxy(55,i);
 		writeln('|');
 		gotoxy(112,i);
 		writeln('|');

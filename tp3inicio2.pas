@@ -3,8 +3,8 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: JUANI
-										//Fecha: 09/10 17:25 
+//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: TOMI
+										//Fecha: 09/10 18:26 
 
 Type
 	//CLIENTES
@@ -91,6 +91,28 @@ Procedure CERRAR();
 		close(ArchivoProducto);
 		close(Py);
 		close(C);
+	end;
+
+Procedure ABRIR();
+	begin 
+	assign(ArchivoCiudad, 'C:\TP3\CIUDADES.dat'); 
+	assign(E, 'C:\TP3\EMPRESAS-CONSTRUCTORAS.dat');
+	assign(ArchivoProducto, 'C:\TP3\PRODUCTOS.dat');
+	assign(Py, 'C:\TP3\PROYECTOS.dat');
+	assign(C, 'C:\TP3\CLIENTES.dat');
+
+	{$I-}
+	reset(ArchivoCiudad);
+	If ioresult=2 then rewrite(ArchivoCiudad); 
+	reset(E);
+	If ioresult=2 then rewrite(E);
+	reset(ArchivoProducto);
+	If ioresult=2 then rewrite(ArchivoProducto);
+	reset(Py);
+	If ioresult=2 then rewrite(Py);
+	reset(C);
+	If ioresult=2 then rewrite(C);
+	{$I+}
 	end;
 
 
@@ -290,7 +312,7 @@ Procedure AltaProyecto();
 					end;         													
 				until op1=0; 
 				P.COD_PROY:= ax[1];
-				op:=1;
+				op1:=1;
 
 				repeat   																	//Código de empresa
 					ClrScr;
@@ -303,7 +325,6 @@ Procedure AltaProyecto();
 					end;
 				until op1=0;
 				P.COD_EMP:= ax[1];
-				op:=1;
 
 				repeat 																		//Etapa
 					writeln('Ingrese la etapa del proyecto');
@@ -312,7 +333,6 @@ Procedure AltaProyecto();
 					writeln('[T] Terminado');
 					readln(P.Etapa);
 				until ((P.Etapa='P') or (P.Etapa='T') or (P.Etapa='O')); 
-				op:=1;
 
 				repeat 																		//Tipo
 					writeln('Ingrese el tipo de proyecto');
@@ -322,7 +342,8 @@ Procedure AltaProyecto();
 					writeln('[L] Loteos');
 					readln(P.Tipo);
 				until ((P.Tipo='C') or (P.Tipo='D') or (P.Tipo='O') or (P.Tipo='L')); 
-				op:=1;
+
+				op1:=1;
 
 				repeat 																		//Código de ciudad
 					ClrScr;
@@ -334,8 +355,8 @@ Procedure AltaProyecto();
 					readKey(); 
 					end;
 				until op1=0;
+
 				P.COD_ciudad:= ax[1];
-				op:=1;
 
 				seek(Py,filesize(Py));
 				write(Py,P);
@@ -464,7 +485,6 @@ Procedure AltaEmpresa();
 		   end
 		else op1:=0;
 				  begin
-				   MostrarEmpresas();
 				   op1:=0;
 				   readKey();
 				  end;
@@ -768,24 +788,23 @@ Procedure MODA();
 					i:=i+2;
           end;
       until eof(Py);
-      {Writeln('Ingrese código del proyecto: ');
-      Readln(opcion3);
-      Seek (D,0);
+      Writeln('Ingrese código del proyecto: ');
+      Readln(ax[1]);
+      Seek (ArchivoProducto,0);
       repeat
-          Read(D,Pd);
-          if Pd.codigoy=opcion3 then
+          Read(ArchivoProducto,CargaProducto);
+          if CargaProducto.COD_Proyecto=ax[1] then
           begin
-              if Pd.estado='N' then
-              begin
-              Writeln(Pd.codigod);
-              Writeln(Pd.precio);
-              Writeln(Pd.detalle);
-              end;
+              if CargaProducto.Estado='N' then
+	              begin
+		              Writeln(CargaProducto.COD_Producto);
+		              Writeln(CargaProducto.Precio);
+		              Writeln(CargaProducto.Detalle);
+	              end;
           end;
-      until eof(D);
-  end;}
-  //lo de actualizar en 1 más los archivos
+      until eof(ArchivoProducto);
   end;
+  //lo de actualizar en 1 más los archivos
 
 Procedure MODB();
  var SN:char;
@@ -960,26 +979,7 @@ Procedure login(tipo: char);
 	end;   //Contraseña
 
 Begin
-	assign(ArchivoCiudad, 'C:\TP3\CIUDADES.dat'); 
-	assign(E, 'C:\TP3\EMPRESAS-CONSTRUCTORAS.dat');
-	assign(ArchivoProducto, 'C:\TP3\PRODUCTOS.dat');
-	assign(Py, 'C:\TP3\PROYECTOS.dat');
-	assign(C, 'C:\TP3\CLIENTES.dat');
-
-	{$I-}
-	reset(ArchivoCiudad);
-	If ioresult=2 then rewrite(ArchivoCiudad); 
-	reset(E);
-	If ioresult=2 then rewrite(E);
-	reset(ArchivoProducto);
-	If ioresult=2 then rewrite(ArchivoProducto);
-	reset(Py);
-	If ioresult=2 then rewrite(Py);
-	reset(C);
-	If ioresult=2 then rewrite(C);
-	{$I+}
-
- 	acceso:=0;
+	ABRIR();
  	acceso:=0;
 
 	for x := 0 to 3 do 
