@@ -269,6 +269,7 @@ Procedure AltaProducto();
 	begin 
 	op:=1;
 		repeat	
+				ClrScr;
 			repeat
 				writeln('Ingrese el codigo del producto');
 				readln(ax[1]);
@@ -367,7 +368,7 @@ Procedure AltaProyecto();
 					writeln('<1> SI / <0> NO');
 					readln(MENU);
 				until ((MENU='1') or (MENU='0'));
-				if MENU='1' then op:=1
+				if MENU='0' then op:=1
 			until op=1;
 		end;
 		
