@@ -256,6 +256,7 @@ Procedure VerificarProductos();
 				 writeln('Ingrese el precio del producto');
 				  repeat
 				  readln(PROD.Precio);
+				  ClrScr;
 				  until (PROD.Precio>='0') and (PROD.Precio<='9');
 				 writeln('Ingrese el estado del producto [S/N]');
 				  repeat
