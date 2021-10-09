@@ -656,6 +656,115 @@ Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
   end;
 
 //------------------------------CLIENTES------------------------------------------------------
+
+Procedure MOSTRARPROYECTOS();
+
+begin
+  		Seek(Py,0);
+      ClrScr;
+			writeln('################################################################################################################');
+			gotoxy(9, 2);
+			writeln('ETAPA');
+			gotoxy(30, 2);
+			writeln('EMPRESA');
+			gotoxy(60, 2);
+			writeln('CIUDAD');
+			gotoxy(90, 2);
+			writeln('CODIGO DE PROYECTO');
+			writeln('################################################################################################################');
+			gotoxy(20,2);
+			writeln('|');
+			gotoxy(50,2);
+			writeln('|');
+			gotoxy(80,2);
+			writeln('|');
+			gotoxy(112,2);
+			writeln('|');
+			i:=4;
+      repeat
+          Read(Py,Pys);
+          if Pys.Tipo=ax[1] then 
+          begin
+          		gotoxy(90, i);
+              Writeln (Pys.COD_PROY);
+              case Pys.Etapa of
+                  'P': begin
+                  			gotoxy(9, i); 
+                  			Writeln('Preventa.');
+                  		 end;
+                  'O': begin 
+                  			gotoxy(9, i); 
+                  			Writeln('Obra.');
+                  		 end;
+                  'T': begin
+                  			gotoxy(9, i); 
+                  			Writeln('Terminado.');
+                  		 end;
+          end;
+				  //buscar y mostrar nombre empresa
+				  ax[1]:=Pys.COD_EMP;
+				  ax[2]:='2';
+				  ValidarE(ax);
+				  gotoxy(30, i);
+				  writeln(Emp.Nombre);
+          //ciudad del proyecto
+          ax[1]:=Pys.COD_ciudad;
+				  ax[2]:='1';
+				  ValidarE(ax);
+				  gotoxy(60, i);
+				  writeln(CargaCiudad.NombreCiudad);
+				  //
+				  gotoxy(1, i+1);
+					writeln('----------------------------------------------------------------------------------------------------------------');
+					i:=i+2;
+          end;
+      until eof(Py);
+end;
+
+PROCEDURE MOSTRARPRODCUTOS();
+	begin
+	  Writeln('Ingrese código del proyecto: ');
+    Readln(ax[1]);
+    Seek (ArchivoProducto,0);
+    ClrScr;
+    writeln('################################################################################################################');
+		gotoxy(3, 2);
+		writeln('CODIGO DE PRODUCTO');
+		gotoxy(32, 2);
+		writeln('PRECIO');
+		gotoxy(70, 2);
+		writeln('DETALLE');
+		writeln('################################################################################################################');
+		gotoxy(25,2);
+		writeln('|');
+		gotoxy(45,2);
+		writeln('|');
+		gotoxy(112,2);
+		writeln('|');
+		i:=4;
+    repeat
+        Read(ArchivoProducto,CargaProducto);
+        if CargaProducto.COD_Proyecto=ax[1] then
+        begin
+            if CargaProducto.Estado='N' then
+              begin
+              	gotoxy(4, i);
+	              Writeln(CargaProducto.COD_Producto);
+	              gotoxy(25,i);
+								writeln('|');
+								gotoxy(33, i);
+	              Writeln(CargaProducto.Precio);
+	              gotoxy(45,i);
+								writeln('|');
+								gotoxy(47, i);
+	              Writeln(CargaProducto.Detalle);
+								gotoxy(112,i);
+								writeln('|');	              
+              end;
+        end;
+    until eof(ArchivoProducto);
+	end;
+
 Procedure LCLIENTE();
 	var 
 		CC:Clientes;
@@ -730,80 +839,8 @@ Procedure MODA();
       Writeln('L- Lotes.');
       Readln(ax[1]);
     until (ax[1]='C') or (ax[1]='D') or (ax[1]='O') or (ax[1]='L');
-      Seek(Py,0);
-      ClrScr;
-			writeln('################################################################################################################');
-			gotoxy(9, 2);
-			writeln('ETAPA');
-			gotoxy(30, 2);
-			writeln('EMPRESA');
-			gotoxy(60, 2);
-			writeln('CIUDAD');
-			gotoxy(90, 2);
-			writeln('CODIGO DE PROYECTO');
-			writeln('################################################################################################################');
-			gotoxy(20,2);
-			writeln('|');
-			gotoxy(50,2);
-			writeln('|');
-			gotoxy(80,2);
-			writeln('|');
-			gotoxy(112,2);
-			writeln('|');
-			i:=4;
-      repeat
-          Read(Py,Pys);
-          if Pys.Tipo=ax[1] then 
-          begin
-          		gotoxy(90, i);
-              Writeln (Pys.COD_PROY);
-              case Pys.Etapa of
-                  'P': begin
-                  			gotoxy(9, i); 
-                  			Writeln('Preventa.');
-                  		 end;
-                  'O': begin 
-                  			gotoxy(9, i); 
-                  			Writeln('Obra.');
-                  		 end;
-                  'T': begin
-                  			gotoxy(9, i); 
-                  			Writeln('Terminado.');
-                  		 end;
-          end;
-				  //buscar y mostrar nombre empresa
-				  ax[1]:=Pys.COD_EMP;
-				  ax[2]:='2';
-				  ValidarE(ax);
-				  gotoxy(30, i);
-				  writeln(Emp.Nombre);
-          //ciudad del proyecto
-          ax[1]:=Pys.COD_ciudad;
-				  ax[2]:='1';
-				  ValidarE(ax);
-				  gotoxy(60, i);
-				  writeln(CargaCiudad.NombreCiudad);
-				  //
-				  gotoxy(1, i+1);
-					writeln('----------------------------------------------------------------------------------------------------------------');
-					i:=i+2;
-          end;
-      until eof(Py);
-      Writeln('Ingrese código del proyecto: ');
-      Readln(ax[1]);
-      Seek (ArchivoProducto,0);
-      repeat
-          Read(ArchivoProducto,CargaProducto);
-          if CargaProducto.COD_Proyecto=ax[1] then
-          begin
-              if CargaProducto.Estado='N' then
-	              begin
-		              Writeln(CargaProducto.COD_Producto);
-		              Writeln(CargaProducto.Precio);
-		              Writeln(CargaProducto.Detalle);
-	              end;
-          end;
-      until eof(ArchivoProducto);
+    	MOSTRARPROYECTOS();
+    	MOSTRARPRODCUTOS();
   end;
   //lo de actualizar en 1 más los archivos
 
@@ -867,7 +904,7 @@ Procedure MODEmp();
 	begin
 		repeat
 			ClrScr();
-		    writeln('MENU EMPRESAS DESARROLLADORAS:'+#13+#10+'1. Alta de CIUDADES '+#13+#10+'2. Alta de EMPRESAS '+#13+#10+'3. Alta de PROYECTOS'+#13+#10+'4. Alta de Productos '+#13+#10+'0. Volver al men', #250,' principal');
+		    writeln('MENU EMPRESAS DESARROLLADORAS:'+#13+#10+'1. Alta de CIUDADES '+#13+#10+'2. Alta de EMPRESAS '+#13+#10+'3. Alta de PROYECTOS'+#13+#10+'4. Alta de Productos '+#13+#10+'0. Volver al menu', #250,' principal');
 		    repeat
 		    	op1 := readKey();
 		    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '0'));
@@ -993,6 +1030,7 @@ Begin
 		  textcolor(lightblue);
 		  {i:=100;
 		  	repeat
+		  		ClrScr;
 		  		gotoxy(i+3, 1);
           writeln('Menu: ');
           gotoxy(i, 2);
@@ -1004,8 +1042,8 @@ Begin
         	gotoxy(i, 5);
           delay (1);
           i:=i-1;
-        until i=1;}								//ANIMACION DEL INICIO
-         writeln('Menu: ');
+        until i=1;}							//ANIMACION DEL INICIO
+          writeln('Menu: ');
           writeln('1. Empresas');
           writeln('2. Clientes.');
           writeln('0. Salir');

@@ -1,5 +1,5 @@
 Program tp3inicio;
-uses dos,crt;
+uses crt;
 
 var
 	srt: string[30];
