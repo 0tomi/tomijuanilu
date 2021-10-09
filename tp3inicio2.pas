@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: JUANI
-										//Fecha: 09/10 15:55 
+										//Fecha: 09/10 17:25 
 
 Type
 	//CLIENTES
@@ -94,7 +94,7 @@ Procedure CERRAR();
 	end;
 
 
-//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------//
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS ---------------------------
 
 function ValidarE(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 	var
@@ -178,7 +178,6 @@ function ValidarP(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 	end;
 
 //---------------------------PRODUCTOS------------------------------------------------------
-
 
 Procedure MuestraProductos();
 	var 
@@ -269,87 +268,87 @@ Procedure AltaProducto();
 		until op = 0;
 	end;
 
-//--------------------------PROYECTOS-----------------------------------------------------------
+//--------------------------PROYECTOS--------------------------------------------------------
 
 Procedure AltaProyecto();
-	var
-		p: Proyectos;
-	begin
-		reset(Py);
-		op1:=1;
-		op:=0;
-
-		repeat
-			repeat 																		//Código de proyecto
-				ClrScr;
-				writeln('Ingrese el c', #243,'digo del proyecto');
-				readln(ax[1]);
-				ax[2]:='1';
-				if ValidarP(ax)=0 then op1:=0
-				else begin writeln ('El codigo ingresado esta repetido');
-				readKey(); 
-				end;         													
-			until op1=0; 
-			P.COD_PROY:= ax[1];
-			op:=1;
-
-			repeat   																	//Código de empresa
-				ClrScr;
-				writeln('Ingrese el c', #243,'digo de empresa');
-				readln(ax[1]);
-				ax[2]:='2';
-				if ValidarE(ax)=1 then op1:=0
-				else begin writeln ('La empresa ingresada no existe.');
-				readKey(); 
-				end;
-			until op1=0;
-			P.COD_EMP:= ax[1];
-			op:=1;
-
-			repeat 																		//Etapa
-				writeln('Ingrese la etapa del proyecto');
-				writeln('[P] Preventa');
-				writeln('[O] Obra');
-				writeln('[T] Terminado');
-				readln(P.Etapa);
-			until ((P.Etapa='P') or (P.Etapa='T') or (P.Etapa='O')); 
-			op:=1;
-
-			repeat 																		//Tipo
-				writeln('Ingrese el tipo de proyecto');
-				writeln('[C] Casa');
-				writeln('[D] Edifcio Departamento');
-				writeln('[O] Edificio Oficina');
-				writeln('[L] Loteos');
-				readln(P.Tipo);
-			until ((P.Tipo='C') or (P.Tipo='D') or (P.Tipo='O') or (P.Tipo='L')); 
-			op:=1;
-
-			repeat 																		//Código de ciudad
-				ClrScr;
-				writeln('Ingrese el c', #243,'digo de ciudad');
-				readln(ax[1]);
-				ax[2]:='1';
-				if ValidarE(ax)=0 then op1:=0
-				else begin writeln ('La ciudad ingresada no existe.');
-				readKey(); 
-				end;
-			until op1=0;
-			P.COD_ciudad:= ax[1];
-			op:=1;
-
-			seek(Py,filesize(Py));
-			write(Py,P);
+		var
+			p: Proyectos;
+		begin
+			reset(Py);
+			op1:=1;
+			op:=0;
 
 			repeat
-				ClrScr;
-				writeln('¿Desea ingresar nuevamente un proyecto?');
-				writeln('<1> SI / <0> NO');
-				readln(MENU);
-			until ((MENU='1') or (MENU='0'));
-			if MENU='1' then op:=1
-		until op=1;
-	end;
+				repeat 																		//Código de proyecto
+					ClrScr;
+					writeln('Ingrese el c', #243,'digo del proyecto');
+					readln(ax[1]);
+					ax[2]:='1';
+					if ValidarP(ax)=0 then op1:=0
+					else begin writeln ('El codigo ingresado esta repetido');
+					readKey(); 
+					end;         													
+				until op1=0; 
+				P.COD_PROY:= ax[1];
+				op:=1;
+
+				repeat   																	//Código de empresa
+					ClrScr;
+					writeln('Ingrese el c', #243,'digo de empresa');
+					readln(ax[1]);
+					ax[2]:='2';
+					if ValidarE(ax)=1 then op1:=0
+					else begin writeln ('La empresa ingresada no existe.');
+					readKey(); 
+					end;
+				until op1=0;
+				P.COD_EMP:= ax[1];
+				op:=1;
+
+				repeat 																		//Etapa
+					writeln('Ingrese la etapa del proyecto');
+					writeln('[P] Preventa');
+					writeln('[O] Obra');
+					writeln('[T] Terminado');
+					readln(P.Etapa);
+				until ((P.Etapa='P') or (P.Etapa='T') or (P.Etapa='O')); 
+				op:=1;
+
+				repeat 																		//Tipo
+					writeln('Ingrese el tipo de proyecto');
+					writeln('[C] Casa');
+					writeln('[D] Edifcio Departamento');
+					writeln('[O] Edificio Oficina');
+					writeln('[L] Loteos');
+					readln(P.Tipo);
+				until ((P.Tipo='C') or (P.Tipo='D') or (P.Tipo='O') or (P.Tipo='L')); 
+				op:=1;
+
+				repeat 																		//Código de ciudad
+					ClrScr;
+					writeln('Ingrese el c', #243,'digo de ciudad');
+					readln(ax[1]);
+					ax[2]:='1';
+					if ValidarE(ax)=0 then op1:=0
+					else begin writeln ('La ciudad ingresada no existe.');
+					readKey(); 
+					end;
+				until op1=0;
+				P.COD_ciudad:= ax[1];
+				op:=1;
+
+				seek(Py,filesize(Py));
+				write(Py,P);
+
+				repeat
+					ClrScr;
+					writeln('¿Desea ingresar nuevamente un proyecto?');
+					writeln('<1> SI / <0> NO');
+					readln(MENU);
+				until ((MENU='1') or (MENU='0'));
+				if MENU='1' then op:=1
+			until op=1;
+		end;
 		
 //---------------------------EMPRESAS--------------------------------------------------------
 
@@ -478,7 +477,7 @@ Procedure AltaEmpresa();
 	until MENU='0';
 	end;
 
-//----------------------------CIUDADES--------------------------------------------------------
+//----------------------------CIUDADES-------------------------------------------------------
 
 Procedure MuestraCiudades();
 	var 
@@ -635,9 +634,7 @@ Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
    until (op1='0');
   end;
 
-
-
-//------------------------------CLIENTES------------------------------------------------------//
+//------------------------------CLIENTES------------------------------------------------------
 Procedure LCLIENTE();
 	var 
 		CC:Clientes;
