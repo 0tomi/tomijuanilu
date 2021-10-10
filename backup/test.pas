@@ -6,7 +6,13 @@ var
 	i: Integer;
 
 
-
+				'2': begin                       //Si ax[1] es mayor, ValidarP = 1;
+							Reset(Py);
+						  repeat
+						 		read(Py,Pys);
+						  Until (eof(Py)) or (ax[1] = Pys.Cantidades[1]);
+						  if (ax[1]>Pys.Cantidades[1]) then ValidarP:=1
+						  else ValidarP:=0;
 
 begin
 	writeln('################################################################################################################');
