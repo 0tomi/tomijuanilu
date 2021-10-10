@@ -115,7 +115,7 @@ Var
 		end;
 
 
-//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS ---------------------------
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -------------------------------------//
 
 	function ValidarE(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 		var
@@ -593,30 +593,47 @@ Var
 		     until op1=0;
 		end;
 
-	procedure CargarNormal(); //Por primera vez(opcion 1, dsps lo quitamos)
+	procedure CargarNormal();                                  //PARA CARGAR CUALQUIER DATO EN ARCHIVOS VACIOS!!!!!
 		begin
-		 	Reset(E);
+
+   		//Apertura y posicionamiento
+		 	    Reset(E);
 	    		reset(Py);
 	    		Reset(ArchivoProducto);
-	      	seek(E,filesize(E));
-	          seek(ArchivoCiudad,filesize(ArchivoCiudad));
-	          seek(Py,filesize(Py));
-	          seek(ArchivoProducto,filesize(ArchivoProducto));
-	          writeln ('CODIGO CIUDAD');
-	     	readln (CargaCiudad.COD_ciudad);                   
-	     	writeln ('NOMBRE CIUDAD');                                                             
+	    		reset(C);
+	      	   seek(E,filesize(E));
+	           seek(ArchivoCiudad,filesize(ArchivoCiudad));
+	           seek(Py,filesize(Py));
+	           seek(ArchivoProducto,filesize(ArchivoProducto));
+	           seek(C,filesize(C));
+  		//Carga de datos
+  			 writeln ('Parte Ciudades');
+	         writeln ('CODIGO CIUDAD');
+	     	 readln (CargaCiudad.COD_ciudad);                   
+	     	 writeln ('NOMBRE CIUDAD');                                                             
 		     readln (CargaCiudad.NombreCiudad); 
+		     writeln(); writeln('Parte Empresas');
 		     writeln('CODIGO EMPRESA');     
-		     readln(emp.CODCIU);            
+		     readln(emp.CODEMP);    
+		     writeln(); writeln('Parte Proyectos');        
 		     writeln('CODIGO PROYECTO');    
 		     readln(Pys.COD_PROY);  
+		     writeln(); writeln('Parte Productos');
 		     writeln('CODIGO PRODUCTO');
 		     readln(CargaProducto.COD_Producto);
+		     writeln(); writeln('Parte Clientes');
+		     writeln('Ingrese DNI');
+		     readln(Cl.DNI);
+		     writeln('Ingrese mail');
+		     readln(Cl.mail);
+		     writeln('Ingrese su nombre');
+		     readln(Cl.nombre);
+		 //parte guardado
 		     Write(ArchivoCiudad,CargaCiudad);
 		     write(Py,Pys); 
 		     write(ArchivoProducto,CargaProducto); 
 		     write(E,Emp);
-		     writeln(); 
+		     write(C,Cl); 
 	          readKey();
 		end;
 
@@ -854,7 +871,7 @@ Var
 	Procedure MODB();
 	 var SN:char;
 	 begin
-	  SN:='K';
+	  
 	  reset(ArchivoProducto);
 	  Writeln('Ingrese el código de producto: ');
 	  Readln(ax[1]);
@@ -868,11 +885,11 @@ Var
 	          if CargaProducto.Estado='N' then
 	              begin
 	                  Writeln('El precio del producto es: ',CargaProducto.Precio);
-	                  Writeln('Desea continuar? <S/N>');
+	                  Writeln('Desea continuar? <1>SI - <0>NO ');
 	                  repeat
 	                      Readln(SN);
-	                  until (SN='S') or (SN='N');
-	                  if SN='S' then
+	                  until (SN='1') or (SN='0');
+	                  if SN='1' then
 		                  begin
 		                    Writeln('La venta le llegará al mail ',Cl.mail);
 		                    CargaProducto.Estado:='S';
@@ -903,7 +920,7 @@ Var
 	      end;
 	 end;
 
-//-------------------------------------MENUS--------------------------------------------------------//
+//-----------------------------MODULOS PRINCIPALES--------------------------------------------------//
 
 	Procedure MODEmp();
 			var
@@ -945,7 +962,7 @@ Var
 					writeln('<1> SI / <0> NO');
 					readln(MENU);
 				until ((MENU='1') or (MENU='0'));  
-	  	until MENU='0';
+	  	until MENU='1';
 		end;
 
 //----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// 
