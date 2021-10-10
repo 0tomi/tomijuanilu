@@ -3,8 +3,8 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.1 (DEFINITIVA) EDITADO ULTIMO POR: tomi
-										//Fecha: 09/10 20:45 
+//ARCHIVO MAIN V.2 (DEFINITIVA) EDITADO ULTIMO POR: tomi
+										//Fecha: 09/10 21:45 
 
 Type
 	   //CLIENTES
