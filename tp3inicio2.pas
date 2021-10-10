@@ -1091,7 +1091,7 @@ Var
 			repeat
 		  		ClrScr;
 		  		gotoxy(i+3, 1);
-	          	writeln('Menu: ');
+	          		writeln('Menu: ');
 	         		gotoxy(i, 2);
 				writeln('1. Empresas ');
 				gotoxy(i, 3);
@@ -1101,8 +1101,17 @@ Var
 		        	gotoxy(i, 5);
 		          delay (1);
 		          i:=i-1;
-	          until i=1;							//ANIMACION DEL INICIO
-	    repeat
+	         	 until (i=1) or (KeyPressed);							//ANIMACION DEL INICIO
+		ClrScr;
+		gotoxy(4, 1);
+		writeln('Menu: ');
+		gotoxy(1, 2);
+		writeln('1. Empresas ');
+		gotoxy(1, 3);
+		writeln('2. Clientes ');
+		gotoxy(1, 4);
+		writeln('0. Salir ');
+	        repeat
 	          option := readKey();
 			until ((option = '1') or (option = '2') or (option = '0'));
 			if (option <> '0') then
