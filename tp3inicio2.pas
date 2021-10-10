@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.2 (DEFINITIVA) EDITADO ULTIMO POR: tomi
-										//Fecha: 09/10 21:45 
+										//Fecha: 10/10 1:34 
 
 Type
 	   //CLIENTES
@@ -78,7 +78,7 @@ Var
 	MENU: String[3];
 	op: integer;
 	contador: array [0..3] of integer;
-	option:char;
+	option, mez:char;
 	optao: string;
 	x, y, acceso, salir,i,o1,op1:integer;
 
@@ -134,7 +134,6 @@ Var
 							else if ax[1]<CargaCiudad.COD_ciudad then sup:=medio-1
 							else inf:=medio+1;
 						end;
-						readkey();
 					 end;
 				'2': begin 															//Si ax[2]=2, compara secuencialmente si el archivo se encuentra en Emp.CODEMP
 					  Reset(E);
@@ -267,6 +266,8 @@ Var
 			repeat
 			   repeat
 			  	ClrScr;
+			  	writeln('[Alta de ciudades]');
+			  	writeln('');
 			   	writeln('Ingrese el codigo ');
 				Readln(ax[1]);
 		        until (ax[1]>='A') and (ax[1]<='Z') and (length(ax[1])<=3);
@@ -335,15 +336,15 @@ Var
 
 	procedure ACIU();
 		begin
-		op:=2;
 			repeat
 				writeln('El codigo de ciudad ingresado no existe');
 				writeln('Presione <1> para registrar una nueva ciudad');
 				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
-				readln(op);
-			until (op=1) or (op=0); 
-			if op=1 then CargarCiudades(); 
+				mez:=readkey();
+			until (mez='1') or (mez='0'); 
+			if mez='1' then CargarCiudades(); 
 		end;
+
 //-----------------------------------EMPRESAS--------------------------------------------------------//
 
 	Procedure MostrarEmpresas();
@@ -372,6 +373,8 @@ Var
 			op1:=1;
 			repeat
 				ClrScr;
+				writeln('[Alta de EMPRESAS]');
+			  writeln('');
 				writeln('Ingrese el c', #243,'digo de la ciudad');					
 				readln(ax[1]);
 				ax[2]:='1';
@@ -387,6 +390,8 @@ Var
 			M.CODCIU:= ax[1];
 			repeat
 				ClrScr;
+				writeln('[Alta de EMPRESAS]');
+			  writeln('');
 				writeln('Ingrese el c', #243,'digo de la empresa.');
 				readln(ax[1]);
 				ax[2]:='2';
@@ -399,6 +404,8 @@ Var
 			M.CODEMP:= ax[1];
 			repeat
 				ClrScr;
+				writeln('[Alta de EMPRESAS]');
+			  writeln('');
 				writeln('Ingrese el nombre de la empresa.');
 				readln(ax[1]);
 				ax[2]:='3';
@@ -411,6 +418,8 @@ Var
 			M.Nombre:= ax[1];
 			repeat
 				ClrScr;
+				writeln('[Alta de EMPRESAS]');
+			  writeln('');
 				writeln('Ingrese la direcci', #243,'n de la empresa.');
 				readln(ax[1]);
 				ax[2]:='4';
@@ -423,6 +432,8 @@ Var
 			M.Direccion:= ax[1];
 			repeat
 				ClrScr;
+				writeln('[Alta de EMPRESAS]');
+			  writeln('');
 				writeln('Ingrese el mail de la empresa.');
 				readln(ax[1]);
 				ax[2]:='5';
@@ -435,6 +446,8 @@ Var
 			M.Mail:= ax[1];
 			repeat
 				ClrScr;
+				writeln('[Alta de EMPRESAS]');
+			  writeln('');
 				writeln('Ingrese el tel', #233,'fono de la empresa.');
 				readln(ax[1]);
 				ax[2]:='6';
@@ -471,6 +484,17 @@ Var
 		until MENU='0';
 		end;
 
+	Procedure AEMP();
+		begin
+			repeat
+				writeln('El codigo de empresa ingresado no existe');
+				writeln('Presione <1> para registrar una nueva ciudad');
+				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
+				mez:=readkey();
+			until (mez='1') or (mez='0'); 
+			if mez='1' then AltaEmpresa(); 
+		end;
+
 //-----------------------------------PROYECTOS--------------------------------------------------------//
 
 	Procedure AltaProyecto();
@@ -484,6 +508,8 @@ Var
 				repeat
 					repeat 																		//Código de proyecto
 						ClrScr;
+						writeln('[Alta de PROYECTOS]');
+			 			writeln('');
 						writeln('Ingrese el c', #243,'digo del proyecto');
 						readln(ax[1]);
 						ax[2]:='1';
@@ -497,17 +523,20 @@ Var
 
 					repeat   																	//Código de empresa
 						ClrScr;
+						writeln('[Alta de PROYECTOS]');
+			 			writeln('');
 						writeln('Ingrese el c', #243,'digo de empresa');
 						readln(ax[1]);
 						ax[2]:='2';
 						if ValidarE(ax)=1 then op1:=0
-						else begin writeln ('La empresa ingresada no existe.');
-						readKey(); 
-						end;
+						else AEMP();
 					until op1=0;
 					P.COD_EMP:= ax[1];
 
 					repeat 																		//Etapa
+						ClrScr;
+						writeln('[Alta de PROYECTOS]');
+			 			writeln('');
 						writeln('Ingrese la etapa del proyecto');
 						writeln('[P] Preventa');
 						writeln('[O] Obra');
@@ -516,6 +545,9 @@ Var
 					until ((P.Etapa='P') or (P.Etapa='T') or (P.Etapa='O')); 
 
 					repeat 																		//Tipo
+						ClrScr;
+						writeln('[Alta de PROYECTOS]');
+			 			writeln('');
 						writeln('Ingrese el tipo de proyecto');
 						writeln('[C] Casa');
 						writeln('[D] Edifcio Departamento');
@@ -528,13 +560,13 @@ Var
 
 					repeat 																		//Código de ciudad
 						ClrScr;
+						writeln('[Alta de PROYECTOS]');
+			 			writeln('');
 						writeln('Ingrese el c', #243,'digo de ciudad');
 						readln(ax[1]);
 						ax[2]:='1';
 						if ValidarE(ax)=1 then op1:=0
-						else begin writeln ('La ciudad ingresada no existe.');
-						readKey(); 
-						end;
+						else ACIU();
 					until op1=0;
 
 					P.COD_ciudad:= ax[1];
@@ -552,7 +584,18 @@ Var
 					if MENU='0' then op:=1
 				until op=1;
 			end;
-			
+
+	procedure APROY();
+		begin
+			repeat
+				writeln('El codigo de proyecto ingresado no existe');
+				writeln('Presione <1> para registrar una nueva ciudad');
+				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
+				mez:=readkey();
+			until (mez='1') or (mez='0'); 
+			if mez='1' then AltaProyecto(); 
+		end;
+
 //-----------------------------------PRODUCTOS------------------------------------------------------//
 
 	Procedure MuestraProductos();
@@ -594,7 +637,7 @@ Var
 		 	   end
 		   else
 		 	begin
-		       seek (ArchivoProducto, filesize(ArchivoProducto));       
+		    seek (ArchivoProducto, filesize(ArchivoProducto));       
 		 	  PROD.COD_Producto:= ax[1];
 			  repeat 
 				ClrScr;
@@ -602,9 +645,7 @@ Var
 				readln(ax[1]);
 				ax[2]:='1';
 				if ValidarP(ax)=1 then op1:=0
-				else begin writeln ('El código de proyecto ingresado no existe');
-				readKey(); 
-				end;         													
+				else APROY();         													
 			  until op1=0;   
 			  (PROD.COD_Proyecto):= ax[1];
 		       writeln('Ingrese el precio del producto');
