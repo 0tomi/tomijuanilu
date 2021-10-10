@@ -128,6 +128,10 @@ Var
 		end;
 
 //------------------------------------ESTADISTICAS--------------------------------------------------//
+	procedure ESTADISTICAS();
+		begin
+			
+		end;
 
 //------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------//
 
@@ -1078,15 +1082,17 @@ Var
 	        CLRSCR;
 	        gotoxy(i+1, 1);
 	        writeln('[Menu de EMPRESAS] ');
-	        gotoxy(i, 2);
-	        writeln('1. Alta de Ciudades ');
 	        gotoxy(i, 3);
-	        writeln('2. Alta de Empresas ');
+	        writeln('1. Alta de Ciudades ');
 	        gotoxy(i, 4);
-	        writeln('3. Alta de Proyectos ');
+	        writeln('2. Alta de Empresas ');
 	        gotoxy(i, 5);
-	        writeln('4. Alta de Productos ');
+	        writeln('3. Alta de Proyectos ');
 	        gotoxy(i, 6);
+	        writeln('4. Alta de Productos ');
+	        gotoxy(i, 7);
+	        writeln('5. Estadisticas');
+	        gotoxy(i, 8);
 	        writeln('0. Volver al Menu');
 	        delay (1);
 	        i:=i-1;
@@ -1103,16 +1109,19 @@ Var
 	        writeln('3. Alta de Proyectos ');
 	        gotoxy(1, 6);
 	        writeln('4. Alta de Productos ');
-	        gotoxy(1, 7);
+	        gotoxy(i, 7);
+	        writeln('5. Estadisticas');
+	        gotoxy(1, 8);
 	        writeln('0. Volver al Menu');
     			repeat
 			    	op1 := readKey();
-			    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '0'));
+			    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '5') or (op1 = '0'));
 			    case op1 of
 			    	'1': AltaCiudad();
 			    	'2': AltaEmpresa();       
 			    	'3': AltaProyecto();
 			    	'4': AltaProducto();
+			    	'5': ESTADISTICAS();
 
 			    end; 
 			until(op1 = '0');
