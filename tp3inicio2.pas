@@ -291,7 +291,7 @@ Var
 			until op = 0;
 		end;
 
-//--------------------------PROYECTOS--------------------------------------------------------//
+//-----------------------------------PROYECTOS--------------------------------------------------------//
 
 	Procedure AltaProyecto();
 			var
@@ -373,7 +373,7 @@ Var
 				until op=1;
 			end;
 				
-//---------------------------EMPRESAS--------------------------------------------------------//
+//-----------------------------------EMPRESAS--------------------------------------------------------//
 
 	Procedure MostrarEmpresas();
 		var 
@@ -498,7 +498,7 @@ Var
 		until MENU='0';
 		end;
 
-//----------------------------CIUDADES-------------------------------------------------------
+//-----------------------------------CIUDADES-------------------------------------------------------//
 
 	Procedure MuestraCiudades();
 		var 
@@ -637,7 +637,7 @@ Var
 		   until (op1='0');
 	  end;
 	  
-//------------------------------CLIENTES------------------------------------------------------
+//-----------------------------------CLIENTES-------------------------------------------------------//
 
 	Procedure MOSTRARPROYECTOS();
 	 begin
@@ -791,16 +791,15 @@ Var
 				ClrScr;
 			     Writeln('Ingrese DNI: ');
 			     Readln(optao);
-			  	i:=1;
-			    	for i:=1 to length(optao) do
-					if ((optao[i]>='0') and (optao[i]<='9')) then letras:=letras+1
-					else letras:=letras-1;
-				if letras=length(optao) then op:=1
-				else 
-				begin 
+			     for i:=1 to length(optao) do
+				 	if ((optao[i]>='0') and (optao[i]<='9')) then letras:=letras+1
+				 	else letras:=letras-1;
+				 if letras=length(optao) then op:=1
+				 else 
+				 begin 
 					writeln('Debe introducir unicamente numeros en el DNI');
 					readKey();
-				end;
+				 end;
 		  	until op=1;
 		    	Reset(C);
 		    	Seek(C,0);
@@ -904,8 +903,7 @@ Var
 	      end;
 	 end;
 
-
-//-------------------------------MENUS---------------------------------------------------
+//-------------------------------------MENUS--------------------------------------------------------//
 
 	Procedure MODEmp();
 			var
