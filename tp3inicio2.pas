@@ -4,7 +4,7 @@ Program tp3inicio;
 uses crt;
 
 //ARCHIVO MAIN V.2 (DEFINITIVA) EDITADO ULTIMO POR: tomi
-										//Fecha: 10/10 1:34 
+										//Fecha: 10/10 2:43 
 
 Type
 	   //CLIENTES
@@ -130,10 +130,14 @@ Var
 							medio:=(inf+sup) div 2;
 							seek (ArchivoCiudad, medio);
 							read (ArchivoCiudad,CargaCiudad);
+							writeln('Está acá: ', CargaCiudad.COD_ciudad);
+							delay(100);
 							if ax[1]=CargaCiudad.COD_ciudad then ValidarE:=1
 							else if ax[1]<CargaCiudad.COD_ciudad then sup:=medio-1
 							else inf:=medio+1;
 						end;
+						writeln('Termino acá: ', CargaCiudad.COD_ciudad);
+						readkey();
 					 end;
 				'2': begin 															//Si ax[2]=2, compara secuencialmente si el archivo se encuentra en Emp.CODEMP
 					  Reset(E);
@@ -210,6 +214,7 @@ Var
 			  writeln('Nombre ciudad: ',CargaCiudad.NombreCiudad);
 			  h:=h+1;
 			 end;
+			readKey();
 		end;
 
 	Procedure OrdenarCiudades();
@@ -240,7 +245,9 @@ Var
 			Reset(ArchivoCiudad);
 		repeat
 			if ValidarE(ax)=1 then begin
+						textcolor(red); 
 			 		  writeln('Codigo ya existente' );	
+			 		  textcolor(lightblue); 
 			 		  readkey();
 			 		  op1:=0;
 			 	   end
@@ -269,9 +276,9 @@ Var
 			  	writeln('[Alta de ciudades]');
 			  	writeln('');
 			   	writeln('Ingrese el codigo ');
-				Readln(ax[1]);
-		        until (ax[1]>='A') and (ax[1]<='Z') and (length(ax[1])<=3);
-		        	ax[2]:='1';
+					Readln(ax[1]);
+		     until (ax[1]>='A') and (ax[1]<='Z') and (length(ax[1])<=3);
+		        ax[2]:='1';
 		    		VerificarCiudades();
 		    		OrdenarCiudades();
 		    		repeat
@@ -285,7 +292,6 @@ Var
 				  begin
 				   MuestraCiudades();
 				   op1:=0;
-				   readKey();
 				  end;
 		     until op1=0;
 		end;
@@ -337,12 +343,19 @@ Var
 	procedure ACIU();
 		begin
 			repeat
+				textcolor(red); 
+				writeln('');
 				writeln('El codigo de ciudad ingresado no existe');
+				writeln('Presione <2> para ver la lista de ciudades registradas');
 				writeln('Presione <1> para registrar una nueva ciudad');
 				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
 				mez:=readkey();
-			until (mez='1') or (mez='0'); 
-			if mez='1' then CargarCiudades(); 
+				textcolor(lightblue); 
+			until (mez='1') or (mez='0') or (mez='2'); 
+			if mez='1' then begin 
+			CargarCiudades();
+			end
+			else if mez='2' then MuestraCiudades(); 
 		end;
 
 //-----------------------------------EMPRESAS--------------------------------------------------------//
@@ -396,8 +409,11 @@ Var
 				readln(ax[1]);
 				ax[2]:='2';
 				if ValidarE(ax)=0 then op1:=0
-				else begin writeln ('El código ingresado esta repetido');
+				else begin
+				textcolor(red); 
+				writeln ('El código ingresado esta repetido');
 				readKey();
+				textcolor(lightblue); 
 				end;
 			until op1=0;
 			op1:=1;
@@ -410,7 +426,10 @@ Var
 				readln(ax[1]);
 				ax[2]:='3';
 				if ValidarE(ax)=0 then op1:=0
-				else begin writeln ('El nombre ingresado esta repetido');
+				else begin 
+				textcolor(red); 
+				writeln ('El nombre ingresado esta repetido');
+				textcolor(lightblue); 
 				readKey();
 				end;
 			until op1=0;
@@ -424,8 +443,11 @@ Var
 				readln(ax[1]);
 				ax[2]:='4';
 				if ValidarE(ax)=0 then op1:=0
-				else begin writeln ('La direccion ingresada esta repetida');
+				else begin 
+				textcolor(red); 
+				writeln ('La direccion ingresada esta repetida');
 				readKey();
+				textcolor(lightblue); 
 				end;
 			until op1=0;
 			op1:=1;
@@ -438,8 +460,11 @@ Var
 				readln(ax[1]);
 				ax[2]:='5';
 				if ValidarE(ax)=0 then op1:=0
-				else begin writeln ('El mail ingresado esta repetido');
+				else begin 
+				textcolor(red);  
+				writeln ('El mail ingresado esta repetido');
 				readKey();
+				textcolor(lightblue); 
 				end;
 			until op1=0;
 			op1:=1;
@@ -452,8 +477,11 @@ Var
 				readln(ax[1]);
 				ax[2]:='6';
 				if ValidarE(ax)=0 then op1:=0
-				else begin writeln ('El telefono ingresado esta repetido');
+				else begin
+				textcolor(red);  
+				writeln ('El telefono ingresado esta repetido');
 				readKey();
+				textcolor(lightblue); 
 				end;
 			until op1=0;
 			op1:=1;
@@ -487,10 +515,13 @@ Var
 	Procedure AEMP();
 		begin
 			repeat
+				textcolor(red); 
+				writeln('');
 				writeln('El codigo de empresa ingresado no existe');
 				writeln('Presione <1> para registrar una nueva ciudad');
 				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
 				mez:=readkey();
+				textcolor(lightblue); 
 			until (mez='1') or (mez='0'); 
 			if mez='1' then AltaEmpresa(); 
 		end;
@@ -514,7 +545,10 @@ Var
 						readln(ax[1]);
 						ax[2]:='1';
 						if ValidarP(ax)=0 then op1:=0
-						else begin writeln ('El codigo ingresado esta repetido');
+						else begin
+						textcolor(red); 
+						writeln ('El codigo ingresado esta repetido');
+						textcolor(blue);
 						readKey(); 
 						end;         													
 					until op1=0; 
@@ -578,7 +612,9 @@ Var
 					repeat
 						ClrScr;
 						writeln('¿Desea ingresar nuevamente un proyecto?');
+						textcolor(red); 
 						writeln('<1> SI / <0> NO');
+						textcolor(lightblue); 
 						readln(MENU);
 					until ((MENU='1') or (MENU='0'));
 					if MENU='0' then op:=1
@@ -588,9 +624,12 @@ Var
 	procedure APROY();
 		begin
 			repeat
+				textcolor(red); 
+				writeln('');
 				writeln('El codigo de proyecto ingresado no existe');
 				writeln('Presione <1> para registrar una nueva ciudad');
 				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
+				textcolor(lightblue); 
 				mez:=readkey();
 			until (mez='1') or (mez='0'); 
 			if mez='1' then AltaProyecto(); 
@@ -860,7 +899,7 @@ Var
 		        read(C,Cl);
 		    until (eof(C) or (optao=Cl.DNI));
 		    if optao=Cl.DNI then begin
-		            Writeln('Bienvenido.');
+		            Writeln('Bienvenido ', Cl.Nombre);
 		        end
 		   	else
 		      begin
@@ -1091,27 +1130,27 @@ Var
 			repeat
 		  		ClrScr;
 		  		gotoxy(i+3, 1);
-	          		writeln('Menu: ');
+	          	writeln('Menu: ');
 	         		gotoxy(i, 2);
-				writeln('1. Empresas ');
-				gotoxy(i, 3);
+							writeln('1. Empresas ');
+							gotoxy(i, 3);
 		        	writeln('2. Clientes ');
 		        	gotoxy(i, 4);
 		        	writeln('0. Salir ');
 		        	gotoxy(i, 5);
 		          delay (1);
 		          i:=i-1;
-	         	 until (i=1) or (KeyPressed);							//ANIMACION DEL INICIO
-		ClrScr;
-		gotoxy(4, 1);
-		writeln('Menu: ');
-		gotoxy(1, 2);
-		writeln('1. Empresas ');
-		gotoxy(1, 3);
-		writeln('2. Clientes ');
-		gotoxy(1, 4);
-		writeln('0. Salir ');
-	        repeat
+	          until (i=1) or (KeyPressed);							//ANIMACION DEL INICIO
+			ClrScr;
+		  gotoxy(4, 1);
+    	writeln('Menu: ');
+   		gotoxy(1, 2);
+			writeln('1. Empresas ');
+			gotoxy(1, 3);
+    	writeln('2. Clientes ');
+    	gotoxy(1, 4);
+    	writeln('0. Salir ');
+	    repeat
 	          option := readKey();
 			until ((option = '1') or (option = '2') or (option = '0'));
 			if (option <> '0') then
