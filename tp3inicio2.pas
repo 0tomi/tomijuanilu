@@ -967,116 +967,116 @@ Var
 
 //----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// 
 
-Procedure login(tipo: char);
-	var
-	  attempts, kj: integer;
-	  clave, empresa, cliente : string;
-	  c:char;
-	begin
-	  attempts := 3;
-	  clave := '';
-	  empresa := 'admin';			
-	  cliente := 'user';
-	  acceso:=0;
-	  while (attempts > 0) do
-	    begin
-	      ClrScr();
-	      write('Ingrese la contrase', #241,'a: ');
-	      repeat
-	        c := readkey();
-	        ClrScr();
-	        write('Ingrese la contrase', #241,'a: ');
-	        if(c = #08) then
-	        	begin
-		          delete(clave,length(clave),1);
-		          for kj := 1 to length(clave) do
-		            write('*');
-	        	end
-	        else
-		        begin 
-		        	if (c <> #13) then
-		        	begin
-			            clave := clave + c;
-			            for kj := 1 to length(clave) do
-			              write('*')
-			        end;
-		        end;
-	      until(c = #13);
-	      if (option = '1') then
-	      begin
-	        if (clave = empresa) then
-	        	begin
-	        	
-	        	acceso:=acceso+1;
-	          attempts:=0;
-	          end
-	        else if (clave<>empresa) then 
-	        	begin
-	        		ClrScr();
-	       	  	clave := '';
-	       	 	  attempts:=attempts-1;
-	          	writeln('Contrase', #241,'a incorrecta, intentos restantes: ', attempts);
-	          	writeln(#13+#10, 'Presione cualquier tecla para continuar...');
-	          	readKey();
-	          end;
-	      end;
-	      if (option='2') then
-	      begin
-	        if (clave = cliente) then
-	        	begin
-	        	acceso:=acceso+2;
-	          attempts:=0;
-	          end
-	        else if (clave<>cliente) then 
-	        	begin
-	        		ClrScr();
-	          	clave := '';
-	          	attempts:=attempts-1;
-							writeln('Contrase', #241,'a incorrecta, intentos restantes: ', attempts);
-							writeln(#13+#10, 'Presione cualquier tecla para continuar...');
-	          	readKey();
-	          end;
-	      end;
-	    end;
-	end;   //Contraseña
-
-Begin
-	ABRIR();
- 	acceso:=0;
-
-	for x := 0 to 3 do 
-		contador[x]:=0;
-	x:=0;
-	y:=0;
-	repeat
-		ClrScr();
-		textcolor(lightblue);
-		i:=100;
-		repeat
-	  		ClrScr;
-	  		gotoxy(i+3, 1);
-          	writeln('Menu: ');
-         		gotoxy(i, 2);
-			writeln('1. Empresas ');
-			gotoxy(i, 3);
-	        	writeln('2. Clientes ');
-	        	gotoxy(i, 4);
-	        	writeln('0. Salir ');
-	        	gotoxy(i, 5);
-	          delay (1);
-	          i:=i-1;
-          until i=1;							//ANIMACION DEL INICIO
-    repeat
-          option := readKey();
-		until ((option = '1') or (option = '2') or (option = '0'));
-		if (option <> '0') then
+	Procedure login(tipo: char);
+		var
+		  attempts, kj: integer;
+		  clave, empresa, cliente : string;
+		  c:char;
 		begin
-				login(option);
-		       case acceso of
-		            1: MODEmp();       
-		            2: MODCli();  
-		       end;
-		end;
-	until (option = '0');
-	CERRAR();
-End.
+		  attempts := 3;
+		  clave := '';
+		  empresa := 'admin';			
+		  cliente := 'user';
+		  acceso:=0;
+		  while (attempts > 0) do
+		    begin
+		      ClrScr();
+		      write('Ingrese la contrase', #241,'a: ');
+		      repeat
+		        c := readkey();
+		        ClrScr();
+		        write('Ingrese la contrase', #241,'a: ');
+		        if(c = #08) then
+		        	begin
+			          delete(clave,length(clave),1);
+			          for kj := 1 to length(clave) do
+			            write('*');
+		        	end
+		        else
+			        begin 
+			        	if (c <> #13) then
+			        	begin
+				            clave := clave + c;
+				            for kj := 1 to length(clave) do
+				              write('*')
+				        end;
+			        end;
+		      until(c = #13);
+		      if (option = '1') then
+		      begin
+		        if (clave = empresa) then
+		        	begin
+		        	
+		        	acceso:=acceso+1;
+		          attempts:=0;
+		          end
+		        else if (clave<>empresa) then 
+		        	begin
+		        		ClrScr();
+		       	  	clave := '';
+		       	 	  attempts:=attempts-1;
+		          	writeln('Contrase', #241,'a incorrecta, intentos restantes: ', attempts);
+		          	writeln(#13+#10, 'Presione cualquier tecla para continuar...');
+		          	readKey();
+		          end;
+		      end;
+		      if (option='2') then
+		      begin
+		        if (clave = cliente) then
+		        	begin
+		        	acceso:=acceso+2;
+		          attempts:=0;
+		          end
+		        else if (clave<>cliente) then 
+		        	begin
+		        		ClrScr();
+		          	clave := '';
+		          	attempts:=attempts-1;
+								writeln('Contrase', #241,'a incorrecta, intentos restantes: ', attempts);
+								writeln(#13+#10, 'Presione cualquier tecla para continuar...');
+		          	readKey();
+		          end;
+		      end;
+		    end;
+		end;   //Contraseña
+
+	Begin
+		ABRIR();
+	 	acceso:=0;
+
+		for x := 0 to 3 do 
+			contador[x]:=0;
+		x:=0;
+		y:=0;
+		repeat
+			ClrScr();
+			textcolor(lightblue);
+			i:=100;
+			repeat
+		  		ClrScr;
+		  		gotoxy(i+3, 1);
+	          	writeln('Menu: ');
+	         		gotoxy(i, 2);
+				writeln('1. Empresas ');
+				gotoxy(i, 3);
+		        	writeln('2. Clientes ');
+		        	gotoxy(i, 4);
+		        	writeln('0. Salir ');
+		        	gotoxy(i, 5);
+		          delay (1);
+		          i:=i-1;
+	          until i=1;							//ANIMACION DEL INICIO
+	    repeat
+	          option := readKey();
+			until ((option = '1') or (option = '2') or (option = '0'));
+			if (option <> '0') then
+			begin
+					login(option);
+			       case acceso of
+			            1: MODEmp();       
+			            2: MODCli();  
+			       end;
+			end;
+		until (option = '0');
+		CERRAR();
+	End.
