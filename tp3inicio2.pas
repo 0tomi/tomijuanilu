@@ -123,8 +123,8 @@ Var
 
 			{reset(Py);
 		 	seek(Py,filesize(Py));
-		 	Pys.COD_PROY:= 'COSO4';
-		 	Pys.COD_EMP:= 'KLK';
+		 	Pys.COD_PROY:= 'PROY3';
+		 	Pys.COD_EMP:= 'EMP3';
 		 	Pys.COD_ciudad:= 'CBA';
 		 	Pys.Etapa:= 'P';
 		 	Pys.Tipo:= 'C';
@@ -143,9 +143,9 @@ Var
 
 			{reset(C);
 		 	seek(C,0);
-		 	Cl.DNI:= '44035156';
-		 	Cl.nombre:= 'Schlotahuer Tomás';
-		 	Cl.mail:= 'tomss@hola.com';
+		 	Cl.DNI:= '46495434';
+		 	Cl.nombre:= 'Croci Juan Ignacio';
+		 	Cl.mail:= 'Juanicroci.jc@gmail.com';
 		 	write(C,Cl);}
 
 		end;
@@ -419,7 +419,7 @@ Var
     	   writeln('<1> Cargar otro codigo');
 	  		 option:=readKey();
 				until ((option='1') or (option='0'));
-				if option='1' then op1:=0
+				if option='0' then op1:=0
 		  until op1=0;
 		end;
 
@@ -437,7 +437,7 @@ Var
 	     	writeln ('NOMBRE CIUDAD');                                                             
 		     readln (CargaCiudad.NombreCiudad); 
 		     writeln('CODIGO EMPRESA');     
-		     readln(emp.CODCIU);            
+		     readln(emp.CODEMP);            
 		     writeln('CODIGO PROYECTO');    
 		     readln(Pys.COD_PROY);  
 		     writeln('CODIGO PRODUCTO');
@@ -456,7 +456,7 @@ Var
 	  Begin
 		   repeat
 		    ClrScr();
-		    writeln('MENU Ciudades:'+#13+#10+'1. Cargar (por primera vez) '+#13+#10+'2. Alta Ciudades controlado '+#13+#10+'0. Volver'+#13+#10+'3. Mostrar ');
+		    writeln('MENU Ciudades:'+#13+#10+'1. Cargar (por primera vez) '+#13+#10+'2. Alta Ciudades controlado '+#13+#10+'3. Mostrar '+#13+#10+'0. Volver');
 		    repeat
 			op1 := readKey();
 		    until ((op1 = '1') or (op1 = '2')  or (op1 = '0') or (op1='3'));
