@@ -334,14 +334,14 @@ Var
 			clrscr;
 			h:=0;
 			reset(ArchivoCiudad);
-			for i:= 0 to filesize(ArchivoCiudad) -1 do 
-			 begin
+			repeat
 			  Read (ArchivoCiudad, CargaCiudad);
 			  writeln('Puesto nr: ',h);
 			  writeln('Codigo ciudad: ',CargaCiudad.COD_ciudad);
 			  writeln('Nombre ciudad: ',CargaCiudad.NombreCiudad);
 			  h:=h+1;
-			 end;
+			  delay(250);
+			until h=filesize(ArchivoCiudad)-1;
 			readKey();
 		end;
 
@@ -352,19 +352,23 @@ Var
 		begin
 		  Reset(ArchivoCiudad);
 		  For i := 0 to filesize(ArchivoCiudad)-2 do 
-		  	For j := i+1 to filesize(ArchivoCiudad) -1 do 
-  				seek (ArchivoCiudad,i);
-  				read(ArchivoCiudad,A);
-  				seek (ArchivoCiudad,j);
-  				read(ArchivoCiudad,B);
-  				if (A.COD_ciudad) > (B.COD_ciudad) THEN
-  				 begin
-			 		seek (ArchivoCiudad,i);
-			 		Write (ArchivoCiudad,B);
-			 		seek (ArchivoCiudad,j);
-			 		write (ArchivoCiudad,A);
-  				 end;
-		  	end; 
+		  	begin
+			  	For j := i+1 to filesize(ArchivoCiudad) -1 do 
+			  		begin
+		  				seek (ArchivoCiudad,i);
+		  				read(ArchivoCiudad,A);
+		  				seek (ArchivoCiudad,j);
+		  				read(ArchivoCiudad,B);
+		  				if (A.COD_ciudad) > (B.COD_ciudad) THEN
+		  				 begin
+					 		seek (ArchivoCiudad,i);
+					 		Write (ArchivoCiudad,B);
+					 		seek (ArchivoCiudad,j);
+					 		write (ArchivoCiudad,A);
+		  				 end
+		  			end;
+	  		end;
+		end; 
 
 	Procedure VerificarCiudades();
 		Var 
@@ -409,19 +413,14 @@ Var
 		        ax[2]:='1';
 		    		VerificarCiudades();
 		    		OrdenarCiudades();
-		    		repeat
-			    	   ClrScr;
-			    	   writeln('<0> Salir'); 
-			    	   writeln('<1> Mostrar Ciudades ya cargadas y salir');
-			    	   writeln('<2> Cargar otro codigo');
-				   readln(op1);
-				until ((op1=1) or (op1=0) or (op1=2));
-				if op1=1 then
-				  begin
-				   MuestraCiudades();
-				   op1:=0;
-				  end;
-		     until op1=0;
+		    repeat
+    	   ClrScr;
+    	   writeln('<0> Salir'); 
+    	   writeln('<1> Cargar otro codigo');
+	  		 option:=readKey();
+				until ((option='1') or (option='0'));
+				if option='1' then op1:=0
+		  until op1=0;
 		end;
 
 	procedure CargarNormal(); //Por primera vez(opcion 1, dsps lo quitamos)
@@ -457,13 +456,14 @@ Var
 	  Begin
 		   repeat
 		    ClrScr();
-		    writeln('MENU Ciudades:'+#13+#10+'1. Cargar (por primera vez) '+#13+#10+'2. Alta Ciudades controlado '+#13+#10+'0. Volver');
+		    writeln('MENU Ciudades:'+#13+#10+'1. Cargar (por primera vez) '+#13+#10+'2. Alta Ciudades controlado '+#13+#10+'0. Volver'+#13+#10+'3. Mostrar ');
 		    repeat
 			op1 := readKey();
-		    until ((op1 = '1') or (op1 = '2')  or (op1 = '0'));
+		    until ((op1 = '1') or (op1 = '2')  or (op1 = '0') or (op1='3'));
 	  	    case op1 of
 		    	 '1': CargarNormal();
-		    	 '2': CargarCiudades();       
+		    	 '2': CargarCiudades();
+		    	 '3': MuestraCiudades();       
 		    end; 
 		   until (op1='0');
 	  end;
