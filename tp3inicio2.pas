@@ -436,12 +436,16 @@ Var
 	     	readln (CargaCiudad.COD_ciudad);                   
 	     	writeln ('NOMBRE CIUDAD');                                                             
 		     readln (CargaCiudad.NombreCiudad); 
+
 		     writeln('CODIGO EMPRESA');     
-		     readln(emp.CODEMP);            
+		     readln(emp.CODEMP);          
+
 		     writeln('CODIGO PROYECTO');    
 		     readln(Pys.COD_PROY);  
+
 		     writeln('CODIGO PRODUCTO');
 		     readln(CargaProducto.COD_Producto);
+
 		     Write(ArchivoCiudad,CargaCiudad);
 		     write(Py,Pys); 
 		     write(ArchivoProducto,CargaProducto); 
@@ -658,6 +662,26 @@ Var
 
 //-----------------------------------PROYECTOS--------------------------------------------------------//
 
+	Procedure MuestraProyectos1();
+		var 
+		h:integer;
+		begin
+		clrscr;
+		h:=0;
+	     reset(Py);
+		for i:= 0 to filesize(Py) -1 do 
+		 begin
+		  Read (Py, Pys);
+		  writeln('Puesto nr: ',h);
+		  writeln('Codigo PROYECTO: ',Pys.COD_PROY);
+		  writeln('Codigo Empresa: ',Pys.COD_EMP);
+		  writeln('Codigo Ciudad: ',Pys.COD_ciudad);
+		  writeln('Etapa: ',Pys.Etapa);
+		  h:=h+1;
+		 end;
+		end;
+
+
 	Procedure AltaProyecto();
 			var
 				p: Proyectos;
@@ -698,7 +722,12 @@ Var
 						op1:=1;
 						end;
 					until op1=0;
+
+					P.COD_ciudad:= ax[1];
+					writeln('Ciudad es ',P.COD_ciudad);
+					readKey();
 					op1:=1;
+
 					repeat   																	//Código de empresa
 						ClrScr;
 						writeln('[Alta de PROYECTOS]');
@@ -746,12 +775,18 @@ Var
 					readln(P.Cantidades[1]);
 					op1:=1;
 
-					P.COD_ciudad:= ax[1];
+						writeln('La ciudad todavia es penultimo',P.COD_ciudad);
+					  readKey();
+
+					//P.COD_ciudad:= ax[1];
 					P.Cantidades[2]:= 0;
 					P.Cantidades[3]:= 0;
 					P.Cantidades[4]:= 0;
 					seek(Py,filesize(Py));
 					write(Py,P);
+
+					writeln('La ciudad todavia es ultimo ',P.COD_ciudad);
+					readKey();
 
 					repeat
 						ClrScr;
@@ -761,7 +796,13 @@ Var
 						textcolor(lightblue); 
 						option:=readKey();
 					until ((option='1') or (option='0'));
-					if option='0' then op:=1
+					if option='1' then
+					  begin
+					  	MuestraProyectos1();
+					    op:=0;
+					    readKey();
+					  end
+					 else op:=1;
 				until op=1;
 			end;
 
