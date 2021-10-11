@@ -113,9 +113,9 @@ Var
 
 			{reset(ArchivoProducto);
 		 	seek(ArchivoProducto,1);
-		 	CargaProducto.COD_Proyecto:= 'COSO4';
-		 	CargaProducto.COD_Producto:= 'SkXD';
-		 	CargaProducto.Precio:= '2302';
+		 	CargaProducto.COD_Proyecto:= 'PROY0';
+		 	CargaProducto.COD_Producto:= '1';
+		 	CargaProducto.Precio:= '3500';
 		 	CargaProducto.Estado:= 'N';
 		 	CargaProducto.Detalle:= 'Casa de 3 pisos, con pileta';
 		 	write(ArchivoProducto,CargaProducto);}
@@ -123,9 +123,9 @@ Var
 
 			{reset(Py);
 		 	seek(Py,filesize(Py));
-		 	Pys.COD_PROY:= 'COSO4';
-		 	Pys.COD_EMP:= 'KLK';
-		 	Pys.COD_ciudad:= 'CBA';
+		 	Pys.COD_PROY:= 'PROY0';
+		 	Pys.COD_EMP:= 'EMP0';
+		 	Pys.COD_ciudad:= 'ROS';
 		 	Pys.Etapa:= 'P';
 		 	Pys.Tipo:= 'C';
 		 	Pys.Cantidades[1]:= 5;
@@ -136,16 +136,16 @@ Var
 
 			{reset(ArchivoCiudad);
 		 	seek(ArchivoCiudad,filesize(ArchivoCiudad));
-		 	CargaCiudad.COD_ciudad:= 'NVI';
-		 	CargaCiudad.NombreCiudad:= 'NiNoVimo';
+		 	CargaCiudad.COD_ciudad:= 'ROS';
+		 	CargaCiudad.NombreCiudad:= 'Rosario';
 		 	CargaCiudad.Contador:= 10;
 		 	write(ArchivoCiudad,CargaCiudad);}
 
 			{reset(C);
 		 	seek(C,0);
-		 	Cl.DNI:= '44035156';
-		 	Cl.nombre:= 'Schlotahuer Tomás';
-		 	Cl.mail:= 'tomss@hola.com';
+		 	Cl.DNI:= '46495343';
+		 	Cl.nombre:= 'Juan Perez';
+		 	Cl.mail:= 'JuanPerez@gmail.com';
 		 	write(C,Cl);}
 
 		end;
@@ -343,7 +343,7 @@ Var
 			  h:=h+1;
 			  delay(250);
 			  end;
-			until h=filesize(ArchivoCiudad)-1;
+			until h=filesize(ArchivoCiudad);
 			readKey();
 		end;
 
