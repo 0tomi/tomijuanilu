@@ -417,23 +417,6 @@ Var
 
 //-----------------------------------EMPRESAS--------------------------------------------------------//
 
-	{Procedure MostrarEmpresas();                  -------> Desarrollo
-		var 
-			h:integer;
-		begin
-			clrscr;
-			h:=0;
-				 reset(E);
-					for i:= 0 to filesize(E) -1 do 
-					 begin
-					  Read (E, Emp);
-					  writeln('Puesto nr: ',h);
-					  writeln('Codigo Ciudad: ',Emp.CODCIU);
-					  writeln('Codigo Empresa: ',Emp.CODEMP);
-					  h:=h+1;
-					 end;
-		end;}
-
 	Procedure AltaEmpresa();
 		var
 			M: Empresa;
@@ -446,7 +429,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el c', #243,'digo de la ciudad');					
 				readln(ax[1]);
 				ax[2]:='1';
@@ -463,7 +446,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el c', #243,'digo de la empresa.');
 				readln(ax[1]);
 				ax[2]:='2';
@@ -480,7 +463,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el nombre de la empresa.');
 				readln(ax[1]);
 				ax[2]:='3';
@@ -497,7 +480,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  		writeln('');
 				writeln('Ingrese la direcci', #243,'n de la empresa.');
 				readln(ax[1]);
 				ax[2]:='4';
@@ -514,7 +497,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el mail de la empresa.');
 				readln(ax[1]);
 				ax[2]:='5';
@@ -531,7 +514,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			 	writeln('');
 				writeln('Ingrese el tel', #233,'fono de la empresa.');
 				readln(ax[1]);
 				ax[2]:='6';
@@ -555,7 +538,7 @@ Var
 				writeln('<1>SI - <0>NO');
 				option:=readKey();
 			until ((option='1') or (option='0'));
-		if option='0' then MENU:='0';
+			if option='0' then MENU:='0';
 		until MENU='0';
 		option:='7';
 		end;
@@ -575,25 +558,6 @@ Var
 		end;
 
 //-----------------------------------PROYECTOS--------------------------------------------------------//
-
-	{Procedure MuestraProyectos1();     ---> Desarrollo
-		var 
-		h:integer;
-		begin
-		clrscr;
-		h:=0;
-	     reset(Py);
-		for i:= 0 to filesize(Py) -1 do 
-		 begin
-		  Read (Py, Pys);
-		  writeln('Puesto nr: ',h);
-		  writeln('Codigo PROYECTO: ',Pys.COD_PROY);
-		  writeln('Codigo Empresa: ',Pys.COD_EMP);
-		  writeln('Codigo Ciudad: ',Pys.COD_ciudad);
-		  writeln('Etapa: ',Pys.Etapa);
-		  h:=h+1;
-		 end;
-		end;}
 
 	Procedure AltaProyecto();
 			var
@@ -1302,8 +1266,6 @@ Var
 	Begin
 		ABRIR();
 	 	acceso:=0;
-		//for x := 0 to 3 do 
-			//contador[x]:=0;
 		x:=0;
 		y:=0;
 		repeat
@@ -1314,35 +1276,35 @@ Var
 		  		ClrScr;
 		  		gotoxy(i+3, 1);
 	          	writeln('Menu: ');
-	         		gotoxy(i, 2);
-							writeln('1. Empresas ');
-							gotoxy(i, 3);
-		        	writeln('2. Clientes ');
-		        	gotoxy(i, 4);
-		        	writeln('0. Salir ');
-		        	gotoxy(i, 5);
-		          delay (1);
-		          i:=i-1;
-	          until (i=2) or (KeyPressed);							//ANIMACION DEL INICIO
+         		gotoxy(i, 2);
+				writeln('1. Empresas ');
+				gotoxy(i, 3);
+	        	writeln('2. Clientes ');
+	        	gotoxy(i, 4);
+	        	writeln('0. Salir ');
+	        	gotoxy(i, 5);
+	          	delay (1);
+	          	i:=i-1;
+          	until (i=2) or (KeyPressed);							//ANIMACION DEL INICIO
 			ClrScr;
-		  gotoxy(5, 1);
-    	writeln('Menu: ');
-   		gotoxy(2, 2);
+		  	gotoxy(5, 1);
+    		writeln('Menu: ');
+   			gotoxy(2, 2);
 			writeln('1. Empresas ');
 			gotoxy(2, 3);
-    	writeln('2. Clientes ');
-    	gotoxy(2, 4);
-    	writeln('0. Salir ');
-	    repeat
+    		writeln('2. Clientes ');
+    		gotoxy(2, 4);
+    		writeln('0. Salir ');
+	   		repeat
 	          option := readKey();
 			until ((option = '1') or (option = '2') or (option = '0'));
 			if (option <> '0') then
 			begin
-					login(option);
-			       case acceso of
-			            1: MODEmp();       
-			            2: MODCli();  
-			       end;
+				login(option);
+			    case acceso of
+			         1: MODEmp();       
+			         2: MODCli();  
+			    end;
 			end;
 		until (option = '0');
 		CERRAR();
