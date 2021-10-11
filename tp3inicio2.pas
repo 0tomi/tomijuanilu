@@ -3,8 +3,8 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.3.1 (DEFINITIVA) EDITADO ULTIMO POR: tomi
-										//Fecha: 11/10 16:46
+		//ARCHIVO MAIN V.3.1 (DEFINITIVA) 				EDITADO ULTIMO POR: tomi
+																							//Fecha: 11/10 16:46
 
 Type
 	   //CLIENTES
@@ -513,7 +513,7 @@ Var
 				if ValidarE(ax)=0 then op1:=0
 				else begin
 				textcolor(red); 
-				writeln ('El código ingresado esta repetido');
+				writeln ('El codigo ingresado esta repetido');
 				readKey();
 				textcolor(lightblue); 
 				end;
@@ -725,7 +725,7 @@ Var
 					ClrScr;
 					writeln('[Alta de PROYECTOS]');
 		 			writeln('');
-					writeln('Cantidad máxima de productos que pueden entrar en el proyecto:');
+					writeln('Cantidad maxima de productos que pueden entrar en el proyecto:');
 					readln(P.Cantidades[1]);
 					op1:=1;
 
@@ -1079,7 +1079,7 @@ Var
 			      	textcolor(red);
 			      	ClrScr();
 			      	writeln ('');
-			      	writeln ('El DNI ingresado no está registrado en la base de datos');
+			      	writeln ('El DNI ingresado no esta registrado en la base de datos');
 			      	writeln ('<1> Para registrar un DNI');
 			      	writeln ('<2> Para volver a ingresar un DNI nuevamente');
 			      	textcolor(lightblue);
@@ -1137,7 +1137,7 @@ Var
 	  reset(ArchivoProducto);
 	  writeln('[Compra de PRODUCTOS]');
 	  writeln('');
-	  Writeln('Ingrese el código de producto: ');
+	  Writeln('Ingrese el codigo de producto: ');
 	  Readln(ax[1]);
 	  Seek(ArchivoProducto,0);
 	  repeat
@@ -1155,7 +1155,7 @@ Var
 	                  until (SN='S') or (SN='N');
 	                  if SN='S' then
 		                  begin
-		                    Writeln('La venta le llegará al mail ',Cl.mail);
+		                    Writeln('La venta le llegara al mail ',Cl.mail);
 		                    CargaProducto.Estado:='S';
 		                    seek(ArchivoProducto,Filepos(ArchivoProducto)-1);
 		                    Write(ArchivoProducto, CargaProducto);
@@ -1183,7 +1183,7 @@ Var
 	      	repeat
 	      		ClrScr;
 	      		textcolor(red);
-	          Writeln('El código de producto ingresado es erroneo.');
+	          Writeln('El codigo de producto ingresado es erroneo.');
 	          writeln('¿Desea consultar la lista de proyectos disponibles?');
 	          writeln('<1> Ir al menu de consultas');
 	          writeln('<0> Volver a ingresar el código');
