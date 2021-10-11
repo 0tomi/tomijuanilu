@@ -335,12 +335,14 @@ Var
 			h:=0;
 			reset(ArchivoCiudad);
 			repeat
+				begin
 			  Read (ArchivoCiudad, CargaCiudad);
 			  writeln('Puesto nr: ',h);
 			  writeln('Codigo ciudad: ',CargaCiudad.COD_ciudad);
 			  writeln('Nombre ciudad: ',CargaCiudad.NombreCiudad);
 			  h:=h+1;
 			  delay(250);
+			  end;
 			until h=filesize(ArchivoCiudad)-1;
 			readKey();
 		end;
@@ -419,7 +421,7 @@ Var
     	   writeln('<1> Cargar otro codigo');
 	  		 option:=readKey();
 				until ((option='1') or (option='0'));
-				if option='1' then op1:=0
+				if option='0' then op1:=0
 		  until op1=0;
 		end;
 
