@@ -76,7 +76,7 @@ Var
 	MENU: String[3];
 	op: integer;
 	//contador: array [0..3] of integer;
-	option, mez:char;
+	cli, option, mez:char;
 	optao: string;
 	x, y, acceso,i,op1:integer;
 
@@ -495,12 +495,14 @@ Var
 			clrscr;
 			h:=0;
 				 reset(E);
-					for i:= 0 to filesize(E) -1 do 
+					for i:= 0 to filesize(E) -1 do
+					begin
 					  Read (E, Emp);
 					  writeln('Puesto nr: ',h);
 					  writeln('Codigo Ciudad: ',Emp.CODCIU);
 					  writeln('Codigo Empresa: ',Emp.CODEMP);
 					  h:=h+1;
+					end;
 		end;
 
 	Procedure AltaEmpresa();
@@ -948,9 +950,14 @@ Var
 				  gotoxy(30, x);
 				  writeln(Emp.Nombre);
 	        //ciudad del proyecto
-	        ax[1]:=Pys.COD_ciudad;
+	        {ax[1]:=Pys.COD_ciudad;
 				  ax[2]:='1';
-				  ValidarE(ax);
+				  ValidarE(ax);}
+				  reset(ArchivoCiudad);
+				  repeat
+				  	read(ArchivoCiudad,CargaCiudad);
+				  until (eof(ArchivoCiudad)) or (Pys.COD_ciudad=CargaCiudad.COD_ciudad);
+
 				  gotoxy(60, x);
 				  writeln(CargaCiudad.NombreCiudad);
 				  /////////¿POQRUE?
@@ -1047,8 +1054,8 @@ Var
 			    until eof(ArchivoProducto);
 			 repeat
 			 		writeln('');
+			 		writeln('');
 			    writeln('<0> Para salir');
-			    writeln('<1> Para consultar otro proyecto');
 			    option:=readKey();
 			 until (option='0') or (option='1');
 			 if option='0' then op1:=0;
@@ -1173,6 +1180,7 @@ Var
 	                  if SN='S' then
 		                  begin
 		                    Writeln('La venta le llegará al mail ',Cl.mail);
+		                    readKey();
 		                    CargaProducto.Estado:='S';
 		                    seek(ArchivoProducto,Filepos(ArchivoProducto)-1);
 		                    Write(ArchivoProducto, CargaProducto);
@@ -1295,14 +1303,14 @@ Var
 				    Writeln('2- Comprar Producto');
 				    gotoxy(1, 5);
 				    writeln('0. Volver al Menu');
-				    option:=readKey();
-			    until ((option='1') or (option='2') or (option='0'));
-			    case option of
+				    cli:=readKey();
+			    until ((cli='1') or (cli='2') or (cli='0'));
+			    case cli of
 			        '1': MODA();
 			        '2': MODB();
 			    end;
-	  	until option='0';
-	  	option:='3';
+	  	until cli='0';
+	  	cli:='3';
 		end;
 
 //----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// 
