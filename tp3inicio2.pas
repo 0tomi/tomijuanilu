@@ -437,7 +437,7 @@ Var
 	     	writeln ('NOMBRE CIUDAD');                                                             
 		     readln (CargaCiudad.NombreCiudad); 
 		     writeln('CODIGO EMPRESA');     
-		     readln(emp.CODCIU);            
+		     readln(emp.CODEMP);            
 		     writeln('CODIGO PROYECTO');    
 		     readln(Pys.COD_PROY);  
 		     writeln('CODIGO PRODUCTO');
@@ -496,11 +496,13 @@ Var
 			h:=0;
 				 reset(E);
 					for i:= 0 to filesize(E) -1 do 
+					 begin
 					  Read (E, Emp);
 					  writeln('Puesto nr: ',h);
 					  writeln('Codigo Ciudad: ',Emp.CODCIU);
 					  writeln('Codigo Empresa: ',Emp.CODEMP);
 					  h:=h+1;
+					 end;
 		end;
 
 	Procedure AltaEmpresa();
@@ -676,7 +678,7 @@ Var
 						else begin
 						textcolor(red); 
 						writeln ('El codigo ingresado esta repetido');
-						textcolor(blue);
+						textcolor(lightblue);
 						readKey(); 
 						end;         													
 					until op1=0; 
