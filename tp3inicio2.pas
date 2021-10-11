@@ -3,8 +3,8 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.3 (DEFINITIVA) EDITADO ULTIMO POR: tomi
-										//Fecha: 10/10 23:39 
+//ARCHIVO MAIN V.3.1 (DEFINITIVA) EDITADO ULTIMO POR: tomi
+										//Fecha: 11/10 0:37
 
 Type
 	   //CLIENTES
@@ -113,14 +113,14 @@ Var
 
 			{reset(Py);
 		 	seek(Py,filesize(Py));
-		 	Pys.COD_PROY:= 'NVI';
+		 	Pys.COD_PROY:= 'COSO4';
 		 	Pys.COD_EMP:= 'KLK';
-		 	Pys.COD_ciudad:= 'BSA';
+		 	Pys.COD_ciudad:= 'CBA';
 		 	Pys.Etapa:= 'P';
 		 	Pys.Tipo:= 'C';
 		 	Pys.Cantidades[1]:= 5;
 		 	Pys.Cantidades[2]:= 10;
-		 	Pys.Cantidades[3]:= 10;
+		 	Pys.Cantidades[3]:= 15;
 		 	Pys.Cantidades[4]:= 15;
 		 	write(Py,Pys);}
 
@@ -188,9 +188,42 @@ Var
 			writeln('|');
 			gotoxy(90,4);
 			writeln('|');
-			///////////////////////////////////////////////////////////////////////////
-			
+			//////////////////////////MOSTRAR PROYECTOS//////////////////////////////////
+			reset(Py);
 			i:=4;
+			repeat
+				read(Py,Pys);
+				if Pys.Cantidades[4]=Pys.Cantidades[3] then begin
+					textcolor(white);
+					gotoxy(60, i);
+					writeln(Pys.COD_PROY);
+					textcolor(lightblue);
+					gotoxy(38,i);
+					writeln('|');
+					gotoxy(90,i);
+					writeln('|');
+					gotoxy(38, i+1);
+					writeln('|---------------------------------------------------|');
+					i:=i+2;
+					end
+			until eof(Py);
+			///////////////////MOSTRAR EMP>10/////////////////////////////////////
+			i:=4;
+			reset(E);
+			repeat
+				read(E,Emp);
+				if Emp.Contador>10 then begin
+						textcolor(white);
+						gotoxy(12,i);
+						writeln(Emp.Nombre);
+						textcolor(lightblue);
+						gotoxy(0, i+1);
+						writeln('-------------------------------------|');
+						gotoxy(38,i);
+						writeln('|');
+						i:=i+2;
+				end
+			until eof(E);
 			readKey();
 		end;
 
@@ -372,7 +405,7 @@ Var
 		     until op1=0;
 		end;
 
-	procedure CargarNormal();             //Para cargar cualquier dato con Archivos vacios!!!!!
+	procedure CargarNormal(); //Por primera vez(opcion 1, dsps lo quitamos)
 		begin
 		 	Reset(E);
 	    		reset(Py);
@@ -444,13 +477,11 @@ Var
 			h:=0;
 				 reset(E);
 					for i:= 0 to filesize(E) -1 do 
-						begin
 					  Read (E, Emp);
 					  writeln('Puesto nr: ',h);
 					  writeln('Codigo Ciudad: ',Emp.CODCIU);
 					  writeln('Codigo Empresa: ',Emp.CODEMP);
 					  h:=h+1;
-					  end;
 		end;
 
 	Procedure AltaEmpresa();
@@ -577,7 +608,10 @@ Var
 			  readKey();
 			   end
 			else op1:=0;
-					 
+					  begin
+					   op1:=0;
+					   readKey();
+					  end;
 			repeat
 				ClrScr;
 				writeln('¿Desea ingresar nuevamente una Empresa?');
