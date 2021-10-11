@@ -111,8 +111,19 @@ Var
 			If ioresult=2 then rewrite(C);
 			{$I+}
 
+			{reset(E);
+			seek(E,filesize(E));
+			Emp.CODEMP:= 'EMP0';
+			Emp.CODCIU:= 'ROS';
+			Emp.Nombre:= 'EMPRESA0';
+			Emp.Direccion:= 'San Juan';
+			Emp.Mail:= 'EMPRESA0@GMAIL.COM';
+			Emp.Telefono:= '347156495';
+			Emp.Contador:= 10;
+			write(E,Emp);}
+
 			{reset(ArchivoProducto);
-		 	seek(ArchivoProducto,1);
+		 	seek(ArchivoProducto,filesize(ArchivoProducto));
 		 	CargaProducto.COD_Proyecto:= 'PROY0';
 		 	CargaProducto.COD_Producto:= '1';
 		 	CargaProducto.Precio:= '3500';
@@ -431,13 +442,13 @@ Var
 	  Begin
 		   repeat
 		    ClrScr();
-		    writeln('MENU Ciudades:'+#13+#10+'1. Cargar (por primera vez) '+#13+#10+'2. Alta Ciudades controlado '+#13+#10+'0. Volver'+#13+#10+'3. Mostrar ');
+		    writeln('MENU Ciudades:'+#13+#10+'1. Alta Ciudades controlado '+#13+#10+'2. Mostrar '+#13+#10+'0. Volver');
 		    repeat
 			op1 := readKey();
 		    until ((op1 = '1') or (op1 = '2')  or (op1 = '0') or (op1='3'));
 	  	    case op1 of
-		    	 '2': CargarCiudades();
-		    	 '3': MuestraCiudades();       
+		    	 '1': CargarCiudades();
+		    	 '2': MuestraCiudades();       
 		    end; 
 		   until (op1='0');
 	  end;
