@@ -112,11 +112,24 @@ Var
 			{$I+}
 
 			{reset(Py);
-		 	seek(Py,0);
-		 	Pys.COD_PROY:= '44035156';
-		 	Cl.nombre:= 'Schlotahuer Tomás';
-		 	Cl.mail:= 'tomss@hola.com';
-		 	write(C,Cl);}
+		 	seek(Py,filesize(Py));
+		 	Pys.COD_PROY:= 'NVI';
+		 	Pys.COD_EMP:= 'KLK';
+		 	Pys.COD_ciudad:= 'BSA';
+		 	Pys.Etapa:= 'P';
+		 	Pys.Tipo:= 'C';
+		 	Pys.Cantidades[1]:= 5;
+		 	Pys.Cantidades[2]:= 10;
+		 	Pys.Cantidades[3]:= 10;
+		 	Pys.Cantidades[4]:= 15;
+		 	write(Py,Pys);}
+
+			{reset(ArchivoCiudad);
+		 	seek(ArchivoCiudad,filesize(ArchivoCiudad));
+		 	CargaCiudad.COD_ciudad:= 'NVI';
+		 	CargaCiudad.NombreCiudad:= 'NiNoVimo';
+		 	CargaCiudad.Contador:= 10;
+		 	write(ArchivoCiudad,CargaCiudad);}
 
 			{reset(C);
 		 	seek(C,0);
@@ -128,6 +141,58 @@ Var
 		end;
 
 //------------------------------------ESTADISTICAS--------------------------------------------------//
+
+	procedure ESTADISTICAS();
+		var CC,CA:Ciudades;
+		begin
+			ClrScr();
+			writeln('#####################################################################################################################');
+			gotoxy(3,2);
+			writeln('Empresas con mas de 10 consultas');
+			gotoxy(44, 2);
+			writeln('Proyectos con todos los productos vendidos');
+			gotoxy(93, 2);
+			writeln('Ciudad mas consultada');
+			writeln('#####################################################################################################################');
+			gotoxy(38,2);
+			writeln('|');
+			gotoxy(90,2);
+			writeln('|');
+			gotoxy(117,2);
+			writeln('|');
+
+			{gotoxy(117,4);
+			writeln('|');
+			gotoxy(91,5);
+			writeln('###########################')
+			gotoxy(93,4);
+			writeln('holi');}
+
+			////////////////// ENCONTRAR CIUDAD CON + CONSULTAS ///////////////////////
+			reset(ArchivoCiudad);
+			read(ArchivoCiudad,CC);
+			repeat
+				read(ArchivoCiudad,CA);
+				if CA.Contador>CC.Contador then begin
+					seek (ArchivoCiudad,filePos(ArchivoCiudad)-1);
+					read(ArchivoCiudad,CC);
+					end
+			until eof(ArchivoCiudad);
+			textcolor(white);
+			gotoxy(93,4);
+			write(CC.NombreCiudad);
+			textcolor(lightblue);
+			gotoxy(91,5);
+			writeln('###########################');
+			gotoxy(117,4);
+			writeln('|');
+			gotoxy(90,4);
+			writeln('|');
+			///////////////////////////////////////////////////////////////////////////
+			
+			i:=4;
+			readKey();
+		end;
 
 //------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------//
 
@@ -145,14 +210,10 @@ Var
 							medio:=(inf+sup) div 2;
 							seek (ArchivoCiudad, medio);
 							read (ArchivoCiudad,CargaCiudad);
-							writeln('Está acá: ', CargaCiudad.COD_ciudad);
-							delay(100);
 							if ax[1]=CargaCiudad.COD_ciudad then ValidarE:=1
 							else if ax[1]<CargaCiudad.COD_ciudad then sup:=medio-1
 							else inf:=medio+1;
 						end;
-						writeln('Termino acá: ', CargaCiudad.COD_ciudad);
-						readkey();
 					 end;
 				'2': begin 															//Si ax[2]=2, compara secuencialmente si el archivo se encuentra en Emp.CODEMP
 					  Reset(E);
@@ -785,7 +846,7 @@ Var
 		writeln('EMPRESA');
 		gotoxy(60, 2);
 		writeln('CIUDAD');
-		gotoxy(90, 2);
+		gotoxy(87, 2);
 		writeln('CODIGO DE PROYECTO');
 		writeln('################################################################################################################');
 		gotoxy(20,2);
@@ -796,24 +857,25 @@ Var
 		writeln('|');
 		gotoxy(112,2);
 		writeln('|');
-		i:=4;
+		x:=4;
 	      repeat
 	          Read(Py,Pys);
 	          if Pys.Tipo=ax[1] then 
 	          begin
-	              gotoxy(90, i);
+	          		textcolor(white);
+	              gotoxy(90, x);
 	              Writeln (Pys.COD_PROY);
 	              case Pys.Etapa of
 	                  'P': begin
-	                  			gotoxy(9, i); 
+	                  			gotoxy(8, x); 
 	                  			Writeln('Preventa.');
 	                  		 end;
 	                  'O': begin 
-	                  			gotoxy(9, i); 
+	                  			gotoxy(8, x); 
 	                  			Writeln('Obra.');
 	                  		 end;
 	                  'T': begin
-	                  			gotoxy(9, i); 
+	                  			gotoxy(8, x); 
 	                  			Writeln('Terminado.');
 	                  		 end;
 	         		 end;
@@ -821,17 +883,27 @@ Var
 				  ax[1]:=Pys.COD_EMP;
 				  ax[2]:='2';
 				  ValidarE(ax);
-				  gotoxy(30, i);
+				  gotoxy(30, x);
 				  writeln(Emp.Nombre);
-	          //ciudad del proyecto
-	          	  ax[1]:=Pys.COD_ciudad;
+	        //ciudad del proyecto
+	        ax[1]:=Pys.COD_ciudad;
 				  ax[2]:='1';
 				  ValidarE(ax);
-				  gotoxy(60, i);
+				  gotoxy(60, x);
 				  writeln(CargaCiudad.NombreCiudad);
-				  gotoxy(1, i+1);
+				  /////////¿POQRUE?
+				  textcolor(lightblue);
+				  gotoxy(20,x);
+					writeln('|');
+					gotoxy(50,x);
+					writeln('|');
+					gotoxy(80,x);
+					writeln('|');
+					gotoxy(112,x);
+					writeln('|');
+				  gotoxy(1,x+1);
 				  writeln('----------------------------------------------------------------------------------------------------------------');
-				  i:=i+2;
+				  x:=x+2;
 	          end;
 	      until eof(Py);
 	 end;
@@ -891,18 +963,22 @@ Var
 			        begin
 			            if CargaProducto.Estado='N' then
 			              begin
+			              	textcolor(white);
 			              	gotoxy(4, i);
-				          Writeln(CargaProducto.COD_Producto);
-				          gotoxy(25,i);
-						writeln('|');
-						gotoxy(33, i);
-			               Writeln(CargaProducto.Precio);
-			               gotoxy(45,i);
-						writeln('|');
-						gotoxy(47, i);
-				          Writeln(CargaProducto.Detalle);
-						gotoxy(112,i);
-						writeln('|');	              
+				          		Writeln(CargaProducto.COD_Producto);
+											gotoxy(33, i);
+			               	Writeln(CargaProducto.Precio);
+											gotoxy(47, i);
+				          		Writeln(CargaProducto.Detalle);
+				          		textcolor(lightblue);
+				          		gotoxy(25,i);
+											writeln('|');
+											gotoxy(45,i);
+											writeln('|');
+											gotoxy(112,i);
+											writeln('|');
+											gotoxy(1,i+1);
+				  						writeln('----------------------------------------------------------------------------------------------------------------');	              
 			              end;
 			        end;
 			    until eof(ArchivoProducto);
@@ -925,17 +1001,17 @@ Var
 					op:=0;
 					letras:=0; 
 					ClrScr;
-				     Writeln('Ingrese DNI: ');
-				     Readln(optao);
-				     for i:=1 to length(optao) do
+				  Writeln('Ingrese DNI: ');
+				  Readln(optao);
+				  for i:=1 to length(optao) do
 					 	if ((optao[i]>='0') and (optao[i]<='9')) then letras:=letras+1
 					 	else letras:=letras-1;
-					 if letras=length(optao) then op:=1
-					 else 
-					 begin 
-						writeln('Debe introducir unicamente numeros en el DNI');
-						readKey();
-					 end;
+				 if letras=length(optao) then op:=1
+				 else 
+				 begin 
+					writeln('Debe introducir unicamente numeros en el DNI');
+					readKey();
+				 end;
 			  until op=1;
 			  Reset(C);
 			  Seek(C,0);
@@ -944,6 +1020,7 @@ Var
 		    until (eof(C) or (optao=Cl.DNI));
 		    if optao=Cl.DNI then begin
 		            Writeln('Bienvenido ', Cl.Nombre);
+		            MENU:='SI'; 
 		            readKey();
 		        end
 		   	else
@@ -955,6 +1032,7 @@ Var
 			      	writeln ('El DNI ingresado no está registrado en la base de datos');
 			      	writeln ('<1> Para registrar un DNI');
 			      	writeln ('<2> Para volver a ingresar un DNI nuevamente');
+			      	textcolor(lightblue);
 			      	option:=readKey();
 			      until (option='1') or (option='2');
 		      	if option='1' then
@@ -1078,15 +1156,17 @@ Var
 	        CLRSCR;
 	        gotoxy(i+1, 1);
 	        writeln('[Menu de EMPRESAS] ');
-	        gotoxy(i, 2);
-	        writeln('1. Alta de Ciudades ');
 	        gotoxy(i, 3);
-	        writeln('2. Alta de Empresas ');
+	        writeln('1. Alta de Ciudades ');
 	        gotoxy(i, 4);
-	        writeln('3. Alta de Proyectos ');
+	        writeln('2. Alta de Empresas ');
 	        gotoxy(i, 5);
-	        writeln('4. Alta de Productos ');
+	        writeln('3. Alta de Proyectos ');
 	        gotoxy(i, 6);
+	        writeln('4. Alta de Productos ');
+	        gotoxy(i, 7);
+	        writeln('5. Estadisticas');
+	        gotoxy(i, 8);
 	        writeln('0. Volver al Menu');
 	        delay (1);
 	        i:=i-1;
@@ -1104,15 +1184,18 @@ Var
 	        gotoxy(1, 6);
 	        writeln('4. Alta de Productos ');
 	        gotoxy(1, 7);
+	        writeln('5. Estadisticas');
+	        gotoxy(1, 8);
 	        writeln('0. Volver al Menu');
     			repeat
 			    	op1 := readKey();
-			    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '0'));
+			    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '5') or (op1 = '0'));
 			    case op1 of
 			    	'1': AltaCiudad();
 			    	'2': AltaEmpresa();       
 			    	'3': AltaProyecto();
 			    	'4': AltaProducto();
+			    	'5': ESTADISTICAS();
 
 			    end; 
 			until(op1 = '0');

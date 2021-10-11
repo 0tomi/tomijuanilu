@@ -4,62 +4,44 @@ uses crt;
 var
 	srt: string[30];
 	i: Integer;
-
-
-				'2': begin                       //Si ax[1] es mayor, ValidarP = 1;
-							Reset(Py);
-						  repeat
-						 		read(Py,Pys);
-						  Until (eof(Py)) or (ax[1] = Pys.Cantidades[1]);
-						  if (ax[1]>Pys.Cantidades[1]) then ValidarP:=1
-						  else ValidarP:=0;
+	Numero:String;
 
 begin
-	writeln('################################################################################################################');
-	gotoxy(3, 2);
-	writeln('CODIGO DE PRODUCTO');
-	gotoxy(32, 2);
-	writeln('PRECIO');
-	gotoxy(70, 2);
-	writeln('DETALLE');
-	writeln('################################################################################################################');
-	gotoxy(25,2);
+	writeln('#####################################################################################################################');
+	gotoxy(3,2);
+	writeln('Empresas con mas de 10 consultas');
+	gotoxy(44, 2);
+	writeln('Proyectos con todos los productos vendidos');
+	gotoxy(93, 2);
+	writeln('Ciudad mas consultada');
+	writeln('#####################################################################################################################');
+	gotoxy(80,5);
+	writeln('######################################');
+	gotoxy(38,2);
 	writeln('|');
-	gotoxy(45,2);
+	gotoxy(90,2);
 	writeln('|');
-	gotoxy(112,2);
+	gotoxy(117,2);
 	writeln('|');
+	gotoxy(117,4);
+	writeln('|');
+	gotoxy(93,4);
+	writeln('holi');
 	i:=4;
 	repeat 
-		gotoxy(4, i);
+		gotoxy(3, i);
 		writeln('holi');
-		gotoxy(33, i);
-		writeln('holi');
-		gotoxy(47, i);
+		gotoxy(44, i);
 		writeln('pinga');
-		gotoxy(1, i+1);
-		writeln('----------------------------------------------------------------------------------------------------------------');
-		gotoxy(25,i);
+		gotoxy(0, i+1);
+		writeln('------------------------------------------------------------------------------------------');
+																										   
+		gotoxy(38,i);
 		writeln('|');
-		gotoxy(45,i);
-		writeln('|');
-		gotoxy(112,i);
+		gotoxy(90,i);
 		writeln('|');
 
 		i:=i+2;
 	until i=20;
 	readkey();
-	{repeat
-		repeat
-			readln(srt)
-		until ((srt>'1') and (srt<'9'));
-		for i:=1 to length(srt) do
-			if ((srt[i]>='a') and (srt[i]<='z') or (srt[i]>='A') and (srt[i]<='Z')) then 
-			begin
-				writeln ('caracteres detectados: ', srt[i]);
-			end
-			else begin writeln('nope');
-			end;
-		readKey();
-	until i=10329210;}
 end.
