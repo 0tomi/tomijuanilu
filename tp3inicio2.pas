@@ -111,6 +111,16 @@ Var
 			If ioresult=2 then rewrite(C);
 			{$I+}
 
+			{reset(ArchivoProducto);
+		 	seek(ArchivoProducto,1);
+		 	CargaProducto.COD_Proyecto:= 'COSO4';
+		 	CargaProducto.COD_Producto:= 'SkXD';
+		 	CargaProducto.Precio:= '2302';
+		 	CargaProducto.Estado:= 'N';
+		 	CargaProducto.Detalle:= 'Casa de 3 pisos, con pileta';
+		 	write(ArchivoProducto,CargaProducto);}
+
+
 			{reset(Py);
 		 	seek(Py,filesize(Py));
 		 	Pys.COD_PROY:= 'COSO4';
@@ -217,7 +227,7 @@ Var
 						gotoxy(12,i);
 						writeln(Emp.Nombre);
 						textcolor(lightblue);
-						gotoxy(0, i+1);
+						gotoxy(1, i+1);
 						writeln('-------------------------------------|');
 						gotoxy(38,i);
 						writeln('|');
@@ -291,7 +301,8 @@ Var
 			end;
 		end;
 
-	function ValidarP(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
+	function ValidarP(ax:aux): Integer;	
+	var letras: integer;										//Si es igual vale 1, sino vale 0.
 		begin
 			ValidarP:=0;
 			case ax[2] of
@@ -302,7 +313,15 @@ Var
 						  Until eof(Py) or (ax[1] = Pys.COD_PROY);
 						  if (ax[1]=Pys.COD_PROY) then ValidarP:=1
 						  else ValidarP:=0;  
-					 end; 							
+					 end;
+				'2': begin 				
+								letras:=0; 
+							  for i:=1 to length(optao) do
+								 	if (optao[i]>='0') and (optao[i]<='9') then letras:=letras+1
+								 	else letras:=letras-1;
+							 if letras=length(optao) then ValidarP:=1
+							 else ValidarP:=0;
+						 end;						
 			end;
 		end;
 
@@ -502,10 +521,10 @@ Var
 				ax[2]:='1';
 				if ValidarE(ax)=0 then begin
 					ACIU();
+					op1:=1;
 					end
 				else begin 
 				op1:=0;
-				readKey();
 				end;
 			until op1=0;
 			op1:=1;
@@ -627,7 +646,7 @@ Var
 				textcolor(red); 
 				writeln('');
 				writeln('El codigo de empresa ingresado no existe');
-				writeln('Presione <1> para registrar una nueva ciudad');
+				writeln('Presione <1> para registrar una nueva empresa');
 				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
 				mez:=readkey();
 				textcolor(lightblue); 
@@ -672,9 +691,12 @@ Var
 						readln(ax[1]);
 						ax[2]:='1';
 						if ValidarE(ax)=1 then op1:=0
-						else ACIU();
+						else begin 
+						ACIU();
+						op1:=1;
+						end;
 					until op1=0;
-
+					op1:=1;
 					repeat   																	//Código de empresa
 						ClrScr;
 						writeln('[Alta de PROYECTOS]');
@@ -683,10 +705,14 @@ Var
 						readln(ax[1]);
 						ax[2]:='2';
 						if ValidarE(ax)=1 then op1:=0
-						else AEMP();
+						else begin 
+							AEMP();
+							op1:=1;
+						end;
 					until op1=0;
-					P.COD_EMP:= ax[1];
 
+					P.COD_EMP:= ax[1];
+					op1:=1;
 					repeat 																		//Etapa
 						ClrScr;
 						writeln('[Alta de PROYECTOS]');
@@ -727,13 +753,13 @@ Var
 
 					repeat
 						ClrScr;
-						writeln('¿Desea ingresar nuevamente un proyecto?');
+						writeln(' ¿Desea ingresar nuevamente un proyecto? ');
 						textcolor(red); 
 						writeln('<1> SI / <0> NO');
 						textcolor(lightblue); 
-						readln(MENU);
-					until ((MENU='1') or (MENU='0'));
-					if MENU='0' then op:=1
+						option:=readKey();
+					until ((option='1') or (option='0'));
+					if option='0' then op:=1
 				until op=1;
 			end;
 
@@ -743,7 +769,7 @@ Var
 				textcolor(red); 
 				writeln('');
 				writeln('El codigo de proyecto ingresado no existe');
-				writeln('Presione <1> para registrar una nueva ciudad');
+				writeln('Presione <1> para registrar un nuevo proyecto');
 				writeln('Presione <0> para volver a ingresar un codigo nuevamente');
 				textcolor(lightblue); 
 				mez:=readkey();
@@ -760,6 +786,7 @@ Var
 			textcolor(red);
 			writeln('Cantidad de productos maxima de productos en el proyecto alcanzado');
 			textcolor(lightblue);
+			readKey();
 			end
 			else x:=1; 
 		end;
@@ -812,24 +839,26 @@ Var
 						ax[2]:='1';
 						if ValidarP(ax)=1 then begin 
 							op1:=0;
-							Pys.Cantidades[4]:=Pys.Cantidades[4]+1;
-							ProductoCantidad();				                       //Si ax[1] es mayor, ValidarP = 1;
+							ProductoCantidad();				                       
 						end
-						else APROY();         													
+						else begin
+						APROY();
+						op1:=1;
+						end;         													
 				  until op1=0;
 			  end;  
 			  ///////////////////REGISTRAR PRODUCTO/////////////// 
 			  if x=1 then begin 
 			  (PROD.COD_Proyecto):= ax[1];
+			  repeat
+			  	 ClrScr;
 		       writeln('Ingrese el precio del producto');
-			  repeat
-			    readln(PROD.Precio);
-			    ClrScr;
-			  until (PROD.Precio>='0') and (PROD.Precio<='9');
-			  writeln('Ingrese el estado del producto [S/N]');
-			  repeat
-			 	readln(PROD.Estado);
-			  until (PROD.Estado='S') or (PROD.Estado='N');
+			     readln(optao);
+			     ax[2]:='2';
+			  until ValidarP(ax)=1;
+			  PROD.Precio:=optao;
+			  PROD.Precio:= PROD.Precio + '$';
+			 	PROD.Estado:= 'N';
 			  writeln('Ingrese el detalle del producto'); 
 			  readln(PROD.Detalle);
 			  seek(Py,filePos(Py)-1);
@@ -943,8 +972,9 @@ Var
 
 	PROCEDURE MOSTRARPRODCUTOS();
 		begin
+			op1:=0;
 			repeat 
-			    Writeln('Ingrese código del proyecto: ');
+			    Writeln('Ingrese codigo del proyecto: ');
 			    Readln(ax[1]);
 			    ////////SUMAR 1 PUNTO PROYECTO ////////////
 			    ax[2]:='1';
@@ -1016,10 +1046,12 @@ Var
 			        end;
 			    until eof(ArchivoProducto);
 			 repeat
+			 		writeln('');
 			    writeln('<0> Para salir');
 			    writeln('<1> Para consultar otro proyecto');
-			    readln(op1);
-			 until (op1=0) or (op1=1);
+			    option:=readKey();
+			 until (option='0') or (option='1');
+			 if option='0' then op1:=0;
 			until op1=0;
 			end;
 
@@ -1029,6 +1061,7 @@ Var
 			letras: integer;
 
 		begin
+			MENU:='jk'; 
 			repeat
 				repeat
 					op:=0;
@@ -1052,6 +1085,7 @@ Var
 		        read(C,Cl);
 		    until (eof(C) or (optao=Cl.DNI));
 		    if optao=Cl.DNI then begin
+		    				ClrScr;
 		            Writeln('Bienvenido ', Cl.Nombre);
 		            MENU:='SI'; 
 		            readKey();
@@ -1089,7 +1123,6 @@ Var
 			              	end;
 			          until x=2;
 			              Writeln('Ingrese su nombre: ');
-			              MENU:='SI'; 
 			              Readln(CC.nombre);
 			              Seek(C,filesize(C));
 			              Write(C,CC);     
@@ -1117,7 +1150,7 @@ Var
 	Procedure MODB();
 	 var SN:char;
 	 begin
-	  SN:='K';
+	 	ClrScr;
 	  reset(ArchivoProducto);
 	  writeln('[Compra de PRODUCTOS]');
 	  writeln('');
@@ -1135,7 +1168,7 @@ Var
 	                  Writeln('El precio del producto es: ',CargaProducto.Precio);
 	                  Writeln('Desea continuar? <S/N>');
 	                  repeat
-	                      Readln(SN);
+	                      SN:=readKey();
 	                  until (SN='S') or (SN='N');
 	                  if SN='S' then
 		                  begin
@@ -1235,40 +1268,41 @@ Var
 		end;				
 
 	Procedure MODCli();
-		begin
-			repeat 
-				LCLIENTE();
+		begin 
+			LCLIENTE();
+			repeat
 				i:=100;
-	    repeat
-	        CLRSCR;
-	        gotoxy(i+1, 1);
-	   		  Writeln('[Menu de CLIENTES]');
-	        gotoxy(i, 3);
-	        Writeln('1- Consultar Proyectos.');
-	        gotoxy(i, 4);
-	        Writeln('2- Comprar Producto');
-	        gotoxy(i, 5);
-	        writeln('0. Volver al Menu');
-	        delay (1);
-	        i:=i-1;
-	    until (i=1) or (KeyPressed);
 		    repeat
-			    ClrScr;
-			    gotoxy(2, 1);
-			    Writeln('[Menu de CLIENTES]');
-					gotoxy(1, 3);
-			    Writeln('1- Consultar Proyectos.');
-			    gotoxy(1, 4); 
-			    Writeln('2- Comprar Producto');
-			    gotoxy(1, 5);
-			    writeln('0. Volver al Menu');
-			    option:=readKey();
-		    until ((option='1') or (option='2') or (option='3'));
-		    case option of
-		        '1': MODA();
-		        '2': MODB();
-		    end;
+		        CLRSCR;
+		        gotoxy(i+1, 1);
+		   		  Writeln('[Menu de CLIENTES]');
+		        gotoxy(i, 3);
+		        Writeln('1- Consultar Proyectos.');
+		        gotoxy(i, 4);
+		        Writeln('2- Comprar Producto');
+		        gotoxy(i, 5);
+		        writeln('0. Volver al Menu');
+		        delay (1);
+		        i:=i-1;
+		    until (i=1) or (KeyPressed);
+			    repeat
+				    ClrScr;
+				    gotoxy(2, 1);
+				    Writeln('[Menu de CLIENTES]');
+						gotoxy(1, 3);
+				    Writeln('1- Consultar Proyectos.');
+				    gotoxy(1, 4); 
+				    Writeln('2- Comprar Producto');
+				    gotoxy(1, 5);
+				    writeln('0. Volver al Menu');
+				    option:=readKey();
+			    until ((option='1') or (option='2') or (option='0'));
+			    case option of
+			        '1': MODA();
+			        '2': MODB();
+			    end;
 	  	until option='0';
+	  	option:='3';
 		end;
 
 //----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// 
