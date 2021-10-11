@@ -126,16 +126,16 @@ Var
 
 			{reset(ArchivoCiudad);
 		 	seek(ArchivoCiudad,filesize(ArchivoCiudad));
-		 	CargaCiudad.COD_ciudad:= 'NVI';
-		 	CargaCiudad.NombreCiudad:= 'NiNoVimo';
+		 	CargaCiudad.COD_ciudad:= 'ROS';
+		 	CargaCiudad.NombreCiudad:= 'Rosario';
 		 	CargaCiudad.Contador:= 10;
 		 	write(ArchivoCiudad,CargaCiudad);}
 
 			{reset(C);
 		 	seek(C,0);
-		 	Cl.DNI:= '44035156';
-		 	Cl.nombre:= 'Schlotahuer Tomás';
-		 	Cl.mail:= 'tomss@hola.com';
+		 	Cl.DNI:= '46495434';
+		 	Cl.nombre:= '\Croci Juan Ignacio';
+		 	Cl.mail:= 'Juanicroci.jc@gmail.com';
 		 	write(C,Cl);}
 
 		end;
@@ -724,7 +724,7 @@ Var
 			Pys.Cantidades[4]:= Pys.Cantidades[4]+1;
 			If Pys.Cantidades[4]>Pys.Cantidades[1] then begin
 			textcolor(red);
-			writeln('Cantidad de productos maxima de productos en el proyecto alcanzado');
+			writeln('Cantidad maxima de productos en el proyecto alcanzada');
 			textcolor(lightblue);
 			end
 			else x:=1; 
@@ -778,8 +778,9 @@ Var
 						ax[2]:='1';
 						if ValidarP(ax)=1 then begin 
 							op1:=0;
-							Pys.Cantidades[4]:=Pys.Cantidades[4]+1;
-							ProductoCantidad();				                       //Si ax[1] es mayor, ValidarP = 1;
+							//Pys.Cantidades[4]:=Pys.Cantidades[4]+1;
+							ProductoCantidad();		
+							readKey();		                       //Si ax[1] es mayor, ValidarP = 1;
 						end
 						else APROY();         													
 				  until op1=0;
