@@ -3,9 +3,6 @@
 Program tp3inicio;
 uses crt;
 
-//ARCHIVO MAIN V.3.1 (DEFINITIVA) EDITADO ULTIMO POR: tomi
-										//Fecha: 11/10 0:37
-
 Type
 	   //CLIENTES
 	   Clientes=record
@@ -75,7 +72,6 @@ Var
 
 	MENU: String[3];
 	op: integer;
-	//contador: array [0..3] of integer;
 	option, mez:char;
 	optao: string;
 	x, y, acceso,i,op1:integer;
@@ -86,7 +82,7 @@ Var
 		  close(ArchivoCiudad);
 		  close(E);
 		  close(ArchivoProducto);
-	       close(Py);
+	      close(Py);
 		  close(C);
 		end;
 
@@ -109,48 +105,10 @@ Var
 			If ioresult=2 then rewrite(Py);
 			reset(C);
 			If ioresult=2 then rewrite(C);
-			{$I+}
+			{$I+}	
+		end; 
 
-			{reset(ArchivoProducto);
-		 	seek(ArchivoProducto,1);
-		 	CargaProducto.COD_Proyecto:= 'COSO4';
-		 	CargaProducto.COD_Producto:= 'SkXD';
-		 	CargaProducto.Precio:= '2302';
-		 	CargaProducto.Estado:= 'N';
-		 	CargaProducto.Detalle:= 'Casa de 3 pisos, con pileta';
-		 	write(ArchivoProducto,CargaProducto);}
-
-
-			{reset(Py);
-		 	seek(Py,filesize(Py));
-		 	Pys.COD_PROY:= 'PROY3';
-		 	Pys.COD_EMP:= 'EMP3';
-		 	Pys.COD_ciudad:= 'CBA';
-		 	Pys.Etapa:= 'P';
-		 	Pys.Tipo:= 'C';
-		 	Pys.Cantidades[1]:= 5;
-		 	Pys.Cantidades[2]:= 10;
-		 	Pys.Cantidades[3]:= 15;
-		 	Pys.Cantidades[4]:= 15;
-		 	write(Py,Pys);}
-
-			{reset(ArchivoCiudad);
-		 	seek(ArchivoCiudad,filesize(ArchivoCiudad));
-		 	CargaCiudad.COD_ciudad:= 'NVI';
-		 	CargaCiudad.NombreCiudad:= 'NiNoVimo';
-		 	CargaCiudad.Contador:= 10;
-		 	write(ArchivoCiudad,CargaCiudad);}
-
-			{reset(C);
-		 	seek(C,0);
-		 	Cl.DNI:= '46495434';
-		 	Cl.nombre:= 'Croci Juan Ignacio';
-		 	Cl.mail:= 'Juanicroci.jc@gmail.com';
-		 	write(C,Cl);}
-
-		end;
-
-//------------------------------------ESTADISTICAS--------------------------------------------------//
+//------------------------------------ESTADISTICAS--------------------------------------------------// 
 
 	procedure ESTADISTICAS();
 		var CC,CA:Ciudades;
@@ -170,13 +128,6 @@ Var
 			writeln('|');
 			gotoxy(117,2);
 			writeln('|');
-
-			{gotoxy(117,4);
-			writeln('|');
-			gotoxy(91,5);
-			writeln('###########################')
-			gotoxy(93,4);
-			writeln('holi');}
 
 			////////////////// ENCONTRAR CIUDAD CON + CONSULTAS ///////////////////////
 			reset(ArchivoCiudad);
@@ -237,7 +188,7 @@ Var
 			readKey();
 		end;
 
-//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------//
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------// 
 
 	function ValidarE(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 		var
@@ -245,7 +196,7 @@ Var
 		begin
 			ValidarE:=0;
 			case ax[2] of
-				'1': begin reset (ArchivoCiudad);									// Si ax[2]=1, compara dicotómicamente el array ax[1] con el codigo de ciudad de Ciudades.
+				'1': begin reset (ArchivoCiudad);					// Si ax[2]=1, compara dicotómicamente el array ax[1] con el codigo de ciudad de Ciudades.
 						inf:= 0;
 						sup:= fileSize(ArchivoCiudad)-1;
 						while (inf<=sup) and (ValidarE=0) do
@@ -306,26 +257,26 @@ Var
 		begin
 			ValidarP:=0;
 			case ax[2] of
-				'1':begin 														//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
-						  Reset(Py);
-						  repeat
-						 		read(Py,Pys);
-						  Until eof(Py) or (ax[1] = Pys.COD_PROY);
+				'1':begin 												//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
+					  Reset(Py);
+					  repeat
+					 		read(Py,Pys);
+					  Until eof(Py) or (ax[1] = Pys.COD_PROY);
 						  if (ax[1]=Pys.COD_PROY) then ValidarP:=1
-						  else ValidarP:=0;  
+					  else ValidarP:=0;  
 					 end;
 				'2': begin 				
-								letras:=0; 
-							  for i:=1 to length(optao) do
-								 	if (optao[i]>='0') and (optao[i]<='9') then letras:=letras+1
-								 	else letras:=letras-1;
-							 if letras=length(optao) then ValidarP:=1
-							 else ValidarP:=0;
-						 end;						
+					  letras:=0; 
+					  for i:=1 to length(optao) do
+						if (optao[i]>='0') and (optao[i]<='9') then letras:=letras+1
+						else letras:=letras-1;
+					  if letras=length(optao) then ValidarP:=1
+					  else ValidarP:=0;
+					 end;						
 			end;
 		end;
 
-//-----------------------------------CIUDADES-------------------------------------------------------//
+//-----------------------------------CIUDADES-------------------------------------------------------// 
 
 	Procedure MuestraCiudades();
 		var 
@@ -334,13 +285,17 @@ Var
 			clrscr;
 			h:=0;
 			reset(ArchivoCiudad);
+			writeln('[Ciudades Ingresadas: ] ');
 			repeat
+				begin
 			  Read (ArchivoCiudad, CargaCiudad);
 			  writeln('Puesto nr: ',h);
 			  writeln('Codigo ciudad: ',CargaCiudad.COD_ciudad);
 			  writeln('Nombre ciudad: ',CargaCiudad.NombreCiudad);
+			  writeln();
 			  h:=h+1;
 			  delay(250);
+			  end;
 			until h=filesize(ArchivoCiudad);
 			readKey();
 		end;
@@ -365,7 +320,7 @@ Var
 					 		Write (ArchivoCiudad,B);
 					 		seek (ArchivoCiudad,j);
 					 		write (ArchivoCiudad,A);
-		  				 end;
+		  				 end
 		  			end;
 	  		end;
 		end; 
@@ -415,58 +370,18 @@ Var
 		    		OrdenarCiudades();
 		    repeat
     	   ClrScr;
-    	   writeln('<0> Salir'); 
+    	   writeln('<0> Mostrar y salir'); 
     	   writeln('<1> Cargar otro codigo');
 	  		 option:=readKey();
 				until ((option='1') or (option='0'));
-				if option='0' then op1:=0
+				if option='0' then
+					begin
+					 MuestraCiudades();
+				 	 op1:=0
+				 	end;
 		  until op1=0;
 		end;
 
-	procedure CargarNormal(); //Por primera vez(opcion 1, dsps lo quitamos)
-		begin
-		 	Reset(E);
-	    		reset(Py);
-	    		Reset(ArchivoProducto);
-	      	seek(E,filesize(E));
-	          seek(ArchivoCiudad,filesize(ArchivoCiudad));
-	          seek(Py,filesize(Py));
-	          seek(ArchivoProducto,filesize(ArchivoProducto));
-	          writeln ('CODIGO CIUDAD');
-	     	readln (CargaCiudad.COD_ciudad);                   
-	     	writeln ('NOMBRE CIUDAD');                                                             
-		     readln (CargaCiudad.NombreCiudad); 
-		     writeln('CODIGO EMPRESA');     
-		     readln(emp.CODEMP);            
-		     writeln('CODIGO PROYECTO');    
-		     readln(Pys.COD_PROY);  
-		     writeln('CODIGO PRODUCTO');
-		     readln(CargaProducto.COD_Producto);
-		     Write(ArchivoCiudad,CargaCiudad);
-		     write(Py,Pys); 
-		     write(ArchivoProducto,CargaProducto); 
-		     write(E,Emp);
-		     writeln(); 
-	          readKey();
-		end;
-
-	Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
-	  var
-		op1:char;
-	  Begin
-		   repeat
-		    ClrScr();
-		    writeln('MENU Ciudades:'+#13+#10+'1. Cargar (por primera vez) '+#13+#10+'2. Alta Ciudades controlado '+#13+#10+'3. Mostrar '+#13+#10+'0. Volver');
-		    repeat
-			op1 := readKey();
-		    until ((op1 = '1') or (op1 = '2')  or (op1 = '0') or (op1='3'));
-	  	    case op1 of
-		    	 '1': CargarNormal();
-		    	 '2': CargarCiudades();
-		    	 '3': MuestraCiudades();       
-		    end; 
-		   until (op1='0');
-	  end;
 
 	procedure ACIU();
 		begin
@@ -488,23 +403,6 @@ Var
 
 //-----------------------------------EMPRESAS--------------------------------------------------------//
 
-	Procedure MostrarEmpresas();
-		var 
-			h:integer;
-		begin
-			clrscr;
-			h:=0;
-				 reset(E);
-					for i:= 0 to filesize(E) -1 do 
-					begin
-					  Read (E, Emp);
-					  writeln('Puesto nr: ',h);
-					  writeln('Codigo Ciudad: ',Emp.CODCIU);
-					  writeln('Codigo Empresa: ',Emp.CODEMP);
-					  h:=h+1;
-					end;
-		end;
-
 	Procedure AltaEmpresa();
 		var
 			M: Empresa;
@@ -517,7 +415,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el c', #243,'digo de la ciudad');					
 				readln(ax[1]);
 				ax[2]:='1';
@@ -534,14 +432,14 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el c', #243,'digo de la empresa.');
 				readln(ax[1]);
 				ax[2]:='2';
 				if ValidarE(ax)=0 then op1:=0
 				else begin
 				textcolor(red); 
-				writeln ('El código ingresado esta repetido');
+				writeln ('El codigo ingresado esta repetido');
 				readKey();
 				textcolor(lightblue); 
 				end;
@@ -551,7 +449,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el nombre de la empresa.');
 				readln(ax[1]);
 				ax[2]:='3';
@@ -568,7 +466,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  		writeln('');
 				writeln('Ingrese la direcci', #243,'n de la empresa.');
 				readln(ax[1]);
 				ax[2]:='4';
@@ -585,7 +483,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			  	writeln('');
 				writeln('Ingrese el mail de la empresa.');
 				readln(ax[1]);
 				ax[2]:='5';
@@ -602,7 +500,7 @@ Var
 			repeat
 				ClrScr;
 				writeln('[Alta de EMPRESAS]');
-			  writeln('');
+			 	writeln('');
 				writeln('Ingrese el tel', #233,'fono de la empresa.');
 				readln(ax[1]);
 				ax[2]:='6';
@@ -620,26 +518,15 @@ Var
 			seek(E,filesize(E));
 			write(E,M);
 
-			writeln('¿Desea ver las Empresas Ingresadas? <1>SI - <0>NO ');
-			repeat
-				readln(op1);
-			until (op1=0) or (op1=1);
-			if op1=1 then
-			 begin MostrarEmpresas();
-			  readKey();
-			   end
-			else op1:=0;
-					  begin
-					   op1:=0;
-					   readKey();
-					  end;
 			repeat
 				ClrScr;
 				writeln('¿Desea ingresar nuevamente una Empresa?');
 				writeln('<1>SI - <0>NO');
-				readln(MENU);
-			until ((MENU='1') or (MENU='0'));
+				option:=readKey();
+			until ((option='1') or (option='0'));
+			if option='0' then MENU:='0';
 		until MENU='0';
+		option:='7';
 		end;
 
 	Procedure AEMP();
@@ -656,26 +543,7 @@ Var
 			if mez='1' then AltaEmpresa(); 
 		end;
 
-//-----------------------------------PROYECTOS--------------------------------------------------------//
-
-	Procedure MostrarProyectos1();
-		var 
-			h:integer;
-		begin
-			clrscr;
-			h:=0;
-				 reset(Py);
-					for i:= 0 to filesize(Py) -1 do 
-					begin
-					  Read (Py, Pys);
-					  writeln('Puesto nr: ',h);
-					  writeln('Codigo Proyecto: ',Pys.COD_PROY);  
-					  writeln('Codigo Empresa: ',Pys.COD_EMP);
-					  writeln('Codigo Ciudad: ',Pys.COD_ciudad);
-					  h:=h+1;
-					end;
-		end;
-
+//-----------------------------------PROYECTOS--------------------------------------------------------//  
 
 	Procedure AltaProyecto();
 			var
@@ -697,7 +565,7 @@ Var
 						else begin
 						textcolor(red); 
 						writeln ('El codigo ingresado esta repetido');
-						textcolor(blue);
+						textcolor(lightblue);
 						readKey(); 
 						end;         													
 					until op1=0; 
@@ -717,8 +585,10 @@ Var
 						op1:=1;
 						end;
 					until op1=0;
-					P.COD_ciudad:=ax[1];
+
+					P.COD_ciudad:= ax[1];
 					op1:=1;
+
 					repeat   																	//Código de empresa
 						ClrScr;
 						writeln('[Alta de PROYECTOS]');
@@ -762,30 +632,16 @@ Var
 					ClrScr;
 					writeln('[Alta de PROYECTOS]');
 		 			writeln('');
-					writeln('Cantidad máxima de productos que pueden entrar en el proyecto:');
+					writeln('Cantidad maxima de productos que pueden entrar en el proyecto:');
 					readln(P.Cantidades[1]);
 					op1:=1;
 
-					P.COD_ciudad:= ax[1];
+					//P.COD_ciudad:= ax[1];
 					P.Cantidades[2]:= 0;
 					P.Cantidades[3]:= 0;
 					P.Cantidades[4]:= 0;
 					seek(Py,filesize(Py));
 					write(Py,P);
-
-					writeln('¿Desea ver los Proyectos Ingresadas? <1>SI - <0>NO ');
-			repeat
-				readln(op1);
-			until (op1=0) or (op1=1);
-			if op1=1 then
-			 begin MostrarProyectos1();
-			  readKey();
-			   end
-			else op1:=0;
-					  begin
-					   op1:=0;
-					   readKey();
-					  end;
 
 					repeat
 						ClrScr;
@@ -797,6 +653,7 @@ Var
 					until ((option='1') or (option='0'));
 					if option='0' then op:=1
 				until op=1;
+				option:='7';
 			end;
 
 	procedure APROY();
@@ -813,7 +670,7 @@ Var
 			if mez='1' then AltaProyecto(); 
 		end;
 
-//-----------------------------------PRODUCTOS------------------------------------------------------//
+//-----------------------------------PRODUCTOS------------------------------------------------------// 
 
 	Procedure ProductoCantidad();
 		begin                      
@@ -825,26 +682,6 @@ Var
 			readKey();
 			end
 			else x:=1; 
-		end;
-
-	Procedure MuestraProductos();
-		var 
-		h:integer;
-		begin
-		clrscr;
-		h:=0;
-	     reset(ArchivoProducto);
-		for i:= 0 to filesize(ArchivoProducto) -1 do 
-		 begin
-		  Read (ArchivoProducto, CargaProducto);
-		  writeln('Puesto nr: ',h);
-		  writeln('Codigo PRODUCTO: ',CargaProducto.COD_Producto);
-		  writeln('Codigo PROYECTO: ',CargaProducto.COD_Proyecto);
-		  writeln('Precio: ',CargaProducto.Precio);
-		  writeln('Estado: ',CargaProducto.Estado);
-		  writeln('Detalle: ',CargaProducto.Detalle);
-		  h:=h+1;
-		 end;
 		end;
 
 	Procedure VerificarProductos();
@@ -919,19 +756,16 @@ Var
 				until op1=0;
 				repeat
 					ClrScr;
-					writeln('Ingrese un <0> para salir, o un <1> para mostrar datos y luego salir');
-					readln(op);
-				until ((op = 0) or (op = 1));
-				if op=1 then begin
-					   MuestraProductos();
-					   op:=0;
-					   readKey();
-					  end 
-				else op:=0;
+					writeln('<0> Salir');
+					writeln('<1> Volver a cargar un producto');
+					option:=readKey();
+				until ((option='1') or (option='0'));
+				if option='0' then op:=0; 
 			until op = 0;
+			option:='7';
 		end;
 		  
-//-----------------------------------CLIENTES-------------------------------------------------------//
+//-----------------------------------CLIENTES-------------------------------------------------------// 
 
 	Procedure MOSTRARPROYECTOS();
 	 begin
@@ -958,16 +792,16 @@ Var
 		x:=4;
 	      repeat
 	          Read(Py,Pys);
-	          if Pys.Tipo=ax[1] then 
+	          if Pys.Tipo=ax[3] then 
 	          begin
-	          		textcolor(white);
+	          	  ax[1]:=ax[3];
+	          	  textcolor(white);
 	              gotoxy(90, x);
 	              Writeln (Pys.COD_PROY);
 	              case Pys.Etapa of
 	                  'P': begin
 	                  			gotoxy(8, x); 
 	                  			Writeln('Preventa.');
-	                  			//writeln(Pys.COD_ciudad);
 	                  		 end;
 	                  'O': begin 
 	                  			gotoxy(8, x); 
@@ -979,33 +813,26 @@ Var
 	                  		 end;
 	         		 end;
 			//buscar y mostrar nombre empresa
-				
 				  ax[1]:=Pys.COD_EMP;
 				  ax[2]:='2';
 				  ValidarE(ax);
 				  gotoxy(30, x);
 				  writeln(Emp.Nombre);
 	        //ciudad del proyecto
-	        {ax[1]:=Pys.COD_ciudad;
+	        	  ax[1]:=Pys.COD_ciudad;
 				  ax[2]:='1';
-				  ValidarE(ax);}
-				  reset(ArchivoCiudad);
-		        repeat
-		          read(ArchivoCiudad,CargaCiudad);
-		        until (eof(ArchivoCiudad)) or (Pys.COD_ciudad=CargaCiudad.COD_ciudad);
-	
+				  ValidarE(ax);
 				  gotoxy(60, x);
 				  writeln(CargaCiudad.NombreCiudad);
-				  /////////¿POQRUE?
 				  textcolor(lightblue);
 				  gotoxy(20,x);
-					writeln('|');
-					gotoxy(50,x);
-					writeln('|');
-					gotoxy(80,x);
-					writeln('|');
-					gotoxy(112,x);
-					writeln('|');
+				  writeln('|');
+				  gotoxy(50,x);
+				  writeln('|');
+				  gotoxy(80,x);
+				  writeln('|');
+				  gotoxy(112,x);
+				  writeln('|');
 				  gotoxy(1,x+1);
 				  writeln('----------------------------------------------------------------------------------------------------------------');
 				  x:=x+2;
@@ -1016,7 +843,9 @@ Var
 	PROCEDURE MOSTRARPRODCUTOS();
 		begin
 			op1:=0;
-			repeat 
+			repeat
+				writeln('');
+				writeln('');
 			    Writeln('Ingrese codigo del proyecto: ');
 			    Readln(ax[1]);
 			    ////////SUMAR 1 PUNTO PROYECTO ////////////
@@ -1071,31 +900,31 @@ Var
 			              begin
 			              	textcolor(white);
 			              	gotoxy(4, i);
-				          		Writeln(CargaProducto.COD_Producto);
-											gotoxy(33, i);
+			          		Writeln(CargaProducto.COD_Producto);
+							gotoxy(33, i);
 			               	Writeln(CargaProducto.Precio);
-											gotoxy(47, i);
-				          		Writeln(CargaProducto.Detalle);
-				          		textcolor(lightblue);
-				          		gotoxy(25,i);
-											writeln('|');
-											gotoxy(45,i);
-											writeln('|');
-											gotoxy(112,i);
-											writeln('|');
-											gotoxy(1,i+1);
-				  						writeln('----------------------------------------------------------------------------------------------------------------');	              
+							gotoxy(47, i);
+			          		Writeln(CargaProducto.Detalle);
+			          		textcolor(lightblue);
+			          		gotoxy(25,i);
+							writeln('|');
+							gotoxy(45,i);
+							writeln('|');
+							gotoxy(112,i);
+							writeln('|');
+							gotoxy(1,i+1);
+	  						writeln('----------------------------------------------------------------------------------------------------------------');	              
 			              end;
 			        end;
 			    until eof(ArchivoProducto);
 			 repeat
-			 		writeln('');
+			 	gotoxy(1,i+2);
 			    writeln('<0> Para salir');
-			    writeln('<1> Para consultar otro proyecto');
 			    option:=readKey();
-			 until (option='0') or (option='1');
+			 until (option='0');
 			 if option='0' then op1:=0;
 			until op1=0;
+			option:='7';
 			end;
 
 	Procedure LCLIENTE();
@@ -1139,7 +968,7 @@ Var
 			      	textcolor(red);
 			      	ClrScr();
 			      	writeln ('');
-			      	writeln ('El DNI ingresado no está registrado en la base de datos');
+			      	writeln ('El DNI ingresado no esta registrado en la base de datos');
 			      	writeln ('<1> Para registrar un DNI');
 			      	writeln ('<2> Para volver a ingresar un DNI nuevamente');
 			      	textcolor(lightblue);
@@ -1174,7 +1003,7 @@ Var
 	    until MENU='SI';
 	  end;      
 
-	Procedure MODA();
+	Procedure MODA();																			
 		begin
 		    repeat
 		      ClrScr;
@@ -1184,8 +1013,8 @@ Var
 		      Writeln('D- Departamento.');
 		      Writeln('O- Oficina.');
 		      Writeln('L- Lotes.');
-		      Readln(ax[1]);
-		    until (ax[1]='C') or (ax[1]='D') or (ax[1]='O') or (ax[1]='L');
+		      Readln(ax[3]);
+		    until (ax[3]='C') or (ax[3]='D') or (ax[3]='O') or (ax[3]='L');
 		    	MOSTRARPROYECTOS();
 		    	MOSTRARPRODCUTOS();
 		 end;
@@ -1197,7 +1026,7 @@ Var
 	  reset(ArchivoProducto);
 	  writeln('[Compra de PRODUCTOS]');
 	  writeln('');
-	  Writeln('Ingrese el código de producto: ');
+	  Writeln('Ingrese el codigo de producto: ');
 	  Readln(ax[1]);
 	  Seek(ArchivoProducto,0);
 	  repeat
@@ -1215,8 +1044,7 @@ Var
 	                  until (SN='S') or (SN='N');
 	                  if SN='S' then
 		                  begin
-		                    Writeln('La venta le llegará al mail ',Cl.mail);
-		                    readKey();
+		                    Writeln('La venta le llegara al mail ',Cl.mail);
 		                    CargaProducto.Estado:='S';
 		                    seek(ArchivoProducto,Filepos(ArchivoProducto)-1);
 		                    Write(ArchivoProducto, CargaProducto);
@@ -1242,9 +1070,9 @@ Var
 	  else
 	      begin
 	      	repeat
-	      		ClrScr;
-	      		textcolor(red);
-	          Writeln('El código de producto ingresado es erroneo.');
+	      	  ClrScr;
+	      	  textcolor(red);
+	          Writeln('El codigo de producto ingresado es erroneo.');
 	          writeln('¿Desea consultar la lista de proyectos disponibles?');
 	          writeln('<1> Ir al menu de consultas');
 	          writeln('<0> Volver a ingresar el código');
@@ -1261,7 +1089,7 @@ Var
 			var
 			op1: char;
 		begin
-			i:=100;
+			i:=50;
 	    repeat
 	        CLRSCR;
 	        gotoxy(i+1, 1);
@@ -1301,7 +1129,7 @@ Var
 			    	op1 := readKey();
 			    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '5') or (op1 = '0'));
 			    case op1 of
-			    	'1': AltaCiudad();
+			    	'1': CargarCiudades();
 			    	'2': AltaEmpresa();       
 			    	'3': AltaProyecto();
 			    	'4': AltaProducto();
@@ -1315,7 +1143,7 @@ Var
 		begin 
 			LCLIENTE();
 			repeat
-				i:=100;
+				i:=50;
 		    repeat
 		        CLRSCR;
 		        gotoxy(i+1, 1);
@@ -1349,7 +1177,7 @@ Var
 	  	option:='3';
 		end;
 
-//----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// 
+//----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// //copiamos el login
 
 	Procedure login(tipo: char);
 		var
@@ -1427,47 +1255,45 @@ Var
 	Begin
 		ABRIR();
 	 	acceso:=0;
-		//for x := 0 to 3 do 
-			//contador[x]:=0;
 		x:=0;
 		y:=0;
 		repeat
 			ClrScr();
 			textcolor(lightblue);
-			i:=100;
+			i:=50;
 			repeat
 		  		ClrScr;
 		  		gotoxy(i+3, 1);
 	          	writeln('Menu: ');
-	         		gotoxy(i, 2);
-							writeln('1. Empresas ');
-							gotoxy(i, 3);
-		        	writeln('2. Clientes ');
-		        	gotoxy(i, 4);
-		        	writeln('0. Salir ');
-		        	gotoxy(i, 5);
-		          delay (1);
-		          i:=i-1;
-	          until (i=2) or (KeyPressed);							//ANIMACION DEL INICIO
+         		gotoxy(i, 2);
+				writeln('1. Empresas ');
+				gotoxy(i, 3);
+	        	writeln('2. Clientes ');
+	        	gotoxy(i, 4);
+	        	writeln('0. Salir ');
+	        	gotoxy(i, 5);
+	          	delay (1);
+	          	i:=i-1;
+          	until (i=2) or (KeyPressed);							//ANIMACION DEL INICIO
 			ClrScr;
-		  gotoxy(5, 1);
-    	writeln('Menu: ');
-   		gotoxy(2, 2);
+		  	gotoxy(5, 1);
+    		writeln('Menu: ');
+   			gotoxy(2, 2);
 			writeln('1. Empresas ');
 			gotoxy(2, 3);
-    	writeln('2. Clientes ');
-    	gotoxy(2, 4);
-    	writeln('0. Salir ');
-	    repeat
+    		writeln('2. Clientes ');
+    		gotoxy(2, 4);
+    		writeln('0. Salir ');
+	   		repeat
 	          option := readKey();
 			until ((option = '1') or (option = '2') or (option = '0'));
 			if (option <> '0') then
 			begin
-					login(option);
-			       case acceso of
-			            1: MODEmp();       
-			            2: MODCli();  
-			       end;
+				login(option);
+			    case acceso of
+			         1: MODEmp();       
+			         2: MODCli();  
+			    end;
 			end;
 		until (option = '0');
 		CERRAR();
