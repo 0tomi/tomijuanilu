@@ -77,7 +77,7 @@ Var
 	op: integer;
 	//contador: array [0..3] of integer;
 	option, mez:char;
-	optao,proyectito: string;
+	optao: string;
 	x, y, acceso,i,op1:integer;
 
 //----------------------------------CERRAR/ABRIR ARCHIVOS------------------------------------------//
@@ -806,9 +806,9 @@ Var
 		x:=4;
 	      repeat
 	          Read(Py,Pys);
-	          if Pys.Tipo=proyectito then 
+	          if Pys.Tipo=ax[3] then 
 	          begin
-	          	  ax[1]:=proyectito;
+	          	  ax[1]:=ax[3];
 	          	  textcolor(white);
 	              gotoxy(90, x);
 	              Writeln (Pys.COD_PROY);
@@ -857,7 +857,9 @@ Var
 	PROCEDURE MOSTRARPRODCUTOS();
 		begin
 			op1:=0;
-			repeat 
+			repeat
+				writeln('');
+				writeln('');
 			    Writeln('Ingrese codigo del proyecto: ');
 			    Readln(ax[1]);
 			    ////////SUMAR 1 PUNTO PROYECTO ////////////
@@ -930,7 +932,7 @@ Var
 			        end;
 			    until eof(ArchivoProducto);
 			 repeat
-			 	writeln('');
+			 	gotoxy(1,i+2);
 			    writeln('<0> Para salir');
 			    option:=readKey();
 			 until (option='0');
@@ -1025,8 +1027,8 @@ Var
 		      Writeln('D- Departamento.');
 		      Writeln('O- Oficina.');
 		      Writeln('L- Lotes.');
-		      Readln(proyectito);
-		    until (proyectito='C') or (proyectito='D') or (proyectito='O') or (proyectito='L');
+		      Readln(ax[3]);
+		    until (ax[3]='C') or (ax[3]='D') or (ax[3]='O') or (ax[3]='L');
 		    	MOSTRARPROYECTOS();
 		    	MOSTRARPRODCUTOS();
 		 end;
