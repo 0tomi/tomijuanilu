@@ -77,7 +77,7 @@ Var
 	op: integer;
 	//contador: array [0..3] of integer;
 	option, mez:char;
-	optao: string;
+	optao,proyectito: string;
 	x, y, acceso,i,op1:integer;
 
 //----------------------------------CERRAR/ABRIR ARCHIVOS------------------------------------------//
@@ -86,7 +86,7 @@ Var
 		  close(ArchivoCiudad);
 		  close(E);
 		  close(ArchivoProducto);
-	       close(Py);
+	      close(Py);
 		  close(C);
 		end;
 
@@ -110,9 +110,9 @@ Var
 			reset(C);
 			If ioresult=2 then rewrite(C);
 			{$I+}	
-		end;
+		end; //HACER ENTERO
 
-//------------------------------------ESTADISTICAS--------------------------------------------------//
+//------------------------------------ESTADISTICAS--------------------------------------------------//   //HACER ENTERO SIN LOS WRITE NI GOTXY NI TEXTCOLOR
 
 	procedure ESTADISTICAS();
 		var CC,CA:Ciudades;
@@ -192,7 +192,7 @@ Var
 			readKey();
 		end;
 
-//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------//
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------// //REHACER VALIDARP
 
 	function ValidarE(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 		var
@@ -262,25 +262,25 @@ Var
 			ValidarP:=0;
 			case ax[2] of
 				'1':begin 														//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
-						  Reset(Py);
-						  repeat
-						 		read(Py,Pys);
-						  Until eof(Py) or (ax[1] = Pys.COD_PROY);
+					  Reset(Py);
+					  repeat
+					 		read(Py,Pys);
+					  Until eof(Py) or (ax[1] = Pys.COD_PROY);
 						  if (ax[1]=Pys.COD_PROY) then ValidarP:=1
-						  else ValidarP:=0;  
+					  else ValidarP:=0;  
 					 end;
 				'2': begin 				
-								letras:=0; 
-							  for i:=1 to length(optao) do
-								 	if (optao[i]>='0') and (optao[i]<='9') then letras:=letras+1
-								 	else letras:=letras-1;
-							 if letras=length(optao) then ValidarP:=1
-							 else ValidarP:=0;
-						 end;						
+					  letras:=0; 
+					  for i:=1 to length(optao) do
+						if (optao[i]>='0') and (optao[i]<='9') then letras:=letras+1
+						else letras:=letras-1;
+					  if letras=length(optao) then ValidarP:=1
+					  else ValidarP:=0;
+					 end;						
 			end;
 		end;
 
-//-----------------------------------CIUDADES-------------------------------------------------------//
+//-----------------------------------CIUDADES-------------------------------------------------------// 
 
 	Procedure MuestraCiudades();
 		var 
@@ -557,7 +557,7 @@ Var
 			if mez='1' then AltaEmpresa(); 
 		end;
 
-//-----------------------------------PROYECTOS--------------------------------------------------------//
+//-----------------------------------PROYECTOS--------------------------------------------------------//  
 
 	Procedure AltaProyecto();
 			var
@@ -684,7 +684,7 @@ Var
 			if mez='1' then AltaProyecto(); 
 		end;
 
-//-----------------------------------PRODUCTOS------------------------------------------------------//
+//-----------------------------------PRODUCTOS------------------------------------------------------// //HACER VERIFICAR PRODUCTO
 
 	Procedure ProductoCantidad();
 		begin                      
@@ -779,7 +779,7 @@ Var
 			option:='7';
 		end;
 		  
-//-----------------------------------CLIENTES-------------------------------------------------------//
+//-----------------------------------CLIENTES-------------------------------------------------------// HACER TODO
 
 	Procedure MOSTRARPROYECTOS();
 	 begin
@@ -806,9 +806,10 @@ Var
 		x:=4;
 	      repeat
 	          Read(Py,Pys);
-	          if Pys.Tipo=ax[1] then 
+	          if Pys.Tipo=proyectito then 
 	          begin
-	          		textcolor(white);
+	          	  ax[1]:=proyectito;
+	          	  textcolor(white);
 	              gotoxy(90, x);
 	              Writeln (Pys.COD_PROY);
 	              case Pys.Etapa of
@@ -832,20 +833,20 @@ Var
 				  gotoxy(30, x);
 				  writeln(Emp.Nombre);
 	        //ciudad del proyecto
-	        ax[1]:=Pys.COD_ciudad;
+	        	  ax[1]:=Pys.COD_ciudad;
 				  ax[2]:='1';
 				  ValidarE(ax);
 				  gotoxy(60, x);
 				  writeln(CargaCiudad.NombreCiudad);
 				  textcolor(lightblue);
 				  gotoxy(20,x);
-					writeln('|');
-					gotoxy(50,x);
-					writeln('|');
-					gotoxy(80,x);
-					writeln('|');
-					gotoxy(112,x);
-					writeln('|');
+				  writeln('|');
+				  gotoxy(50,x);
+				  writeln('|');
+				  gotoxy(80,x);
+				  writeln('|');
+				  gotoxy(112,x);
+				  writeln('|');
 				  gotoxy(1,x+1);
 				  writeln('----------------------------------------------------------------------------------------------------------------');
 				  x:=x+2;
@@ -911,25 +912,25 @@ Var
 			              begin
 			              	textcolor(white);
 			              	gotoxy(4, i);
-				          		Writeln(CargaProducto.COD_Producto);
-											gotoxy(33, i);
+			          		Writeln(CargaProducto.COD_Producto);
+							gotoxy(33, i);
 			               	Writeln(CargaProducto.Precio);
-											gotoxy(47, i);
-				          		Writeln(CargaProducto.Detalle);
-				          		textcolor(lightblue);
-				          		gotoxy(25,i);
-											writeln('|');
-											gotoxy(45,i);
-											writeln('|');
-											gotoxy(112,i);
-											writeln('|');
-											gotoxy(1,i+1);
-				  						writeln('----------------------------------------------------------------------------------------------------------------');	              
+							gotoxy(47, i);
+			          		Writeln(CargaProducto.Detalle);
+			          		textcolor(lightblue);
+			          		gotoxy(25,i);
+							writeln('|');
+							gotoxy(45,i);
+							writeln('|');
+							gotoxy(112,i);
+							writeln('|');
+							gotoxy(1,i+1);
+	  						writeln('----------------------------------------------------------------------------------------------------------------');	              
 			              end;
 			        end;
 			    until eof(ArchivoProducto);
 			 repeat
-			 		writeln('');
+			 	writeln('');
 			    writeln('<0> Para salir');
 			    option:=readKey();
 			 until (option='0');
@@ -1014,7 +1015,7 @@ Var
 	    until MENU='SI';
 	  end;      
 
-	Procedure MODA();
+	Procedure MODA();																			
 		begin
 		    repeat
 		      ClrScr;
@@ -1024,8 +1025,8 @@ Var
 		      Writeln('D- Departamento.');
 		      Writeln('O- Oficina.');
 		      Writeln('L- Lotes.');
-		      Readln(ax[1]);
-		    until (ax[1]='C') or (ax[1]='D') or (ax[1]='O') or (ax[1]='L');
+		      Readln(proyectito);
+		    until (proyectito='C') or (proyectito='D') or (proyectito='O') or (proyectito='L');
 		    	MOSTRARPROYECTOS();
 		    	MOSTRARPRODCUTOS();
 		 end;
@@ -1081,8 +1082,8 @@ Var
 	  else
 	      begin
 	      	repeat
-	      		ClrScr;
-	      		textcolor(red);
+	      	  ClrScr;
+	      	  textcolor(red);
 	          Writeln('El codigo de producto ingresado es erroneo.');
 	          writeln('¿Desea consultar la lista de proyectos disponibles?');
 	          writeln('<1> Ir al menu de consultas');
@@ -1188,7 +1189,7 @@ Var
 	  	option:='3';
 		end;
 
-//----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// 
+//----------------------------CONTRASEÑA Y MAIN-----------------------------------------------------// //copiamos el login
 
 	Procedure login(tipo: char);
 		var
