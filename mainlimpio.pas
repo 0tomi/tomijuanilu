@@ -3,9 +3,6 @@
 Program tp3inicio;
 uses crt;
 
-		//ARCHIVO MAIN V.3.1 (DEFINITIVA) 				EDITADO ULTIMO POR: tomi
-																							//Fecha: 11/10 16:46
-
 Type
 	   //CLIENTES
 	   Clientes=record
@@ -75,7 +72,6 @@ Var
 
 	MENU: String[3];
 	op: integer;
-	//contador: array [0..3] of integer;
 	option, mez:char;
 	optao: string;
 	x, y, acceso,i,op1:integer;
@@ -110,9 +106,9 @@ Var
 			reset(C);
 			If ioresult=2 then rewrite(C);
 			{$I+}	
-		end; //HACER ENTERO
+		end; 
 
-//------------------------------------ESTADISTICAS--------------------------------------------------//   //HACER ENTERO SIN LOS WRITE NI GOTXY NI TEXTCOLOR
+//------------------------------------ESTADISTICAS--------------------------------------------------// 
 
 	procedure ESTADISTICAS();
 		var CC,CA:Ciudades;
@@ -192,7 +188,7 @@ Var
 			readKey();
 		end;
 
-//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------// //REHACER VALIDARP
+//------------------------- FUNCION VALIDAR EMPRESAS Y PROYECTOS -----------------------------------// 
 
 	function ValidarE(ax:aux): Integer;											//Si es igual vale 1, sino vale 0.
 		var
@@ -200,7 +196,7 @@ Var
 		begin
 			ValidarE:=0;
 			case ax[2] of
-				'1': begin reset (ArchivoCiudad);									// Si ax[2]=1, compara dicotómicamente el array ax[1] con el codigo de ciudad de Ciudades.
+				'1': begin reset (ArchivoCiudad);					// Si ax[2]=1, compara dicotómicamente el array ax[1] con el codigo de ciudad de Ciudades.
 						inf:= 0;
 						sup:= fileSize(ArchivoCiudad)-1;
 						while (inf<=sup) and (ValidarE=0) do
@@ -261,7 +257,7 @@ Var
 		begin
 			ValidarP:=0;
 			case ax[2] of
-				'1':begin 														//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
+				'1':begin 												//Si ax[2] es '1' compara Pys.COD_PROY con el array ax[1]
 					  Reset(Py);
 					  repeat
 					 		read(Py,Pys);
@@ -289,12 +285,14 @@ Var
 			clrscr;
 			h:=0;
 			reset(ArchivoCiudad);
+			writeln('[Ciudades Ingresadas: ] ');
 			repeat
 				begin
 			  Read (ArchivoCiudad, CargaCiudad);
 			  writeln('Puesto nr: ',h);
 			  writeln('Codigo ciudad: ',CargaCiudad.COD_ciudad);
 			  writeln('Nombre ciudad: ',CargaCiudad.NombreCiudad);
+			  writeln();
 			  h:=h+1;
 			  delay(250);
 			  end;
@@ -372,30 +370,18 @@ Var
 		    		OrdenarCiudades();
 		    repeat
     	   ClrScr;
-    	   writeln('<0> Salir'); 
+    	   writeln('<0> Mostrar y salir'); 
     	   writeln('<1> Cargar otro codigo');
 	  		 option:=readKey();
 				until ((option='1') or (option='0'));
-				if option='0' then op1:=0
+				if option='0' then
+					begin
+					 MuestraCiudades();
+				 	 op1:=0
+				 	end;
 		  until op1=0;
 		end;
 
-	Procedure AltaCiudad();  // MENU para control(dsps lo quitamos)
-	  var
-		op1:char;
-	  Begin
-		   repeat
-		    ClrScr();
-		    writeln('MENU Ciudades:'+#13+#10+'1. Alta Ciudades controlado '+#13+#10+'2. Mostrar '+#13+#10+'0. Volver');
-		    repeat
-			op1 := readKey();
-		    until ((op1 = '1') or (op1 = '2')  or (op1 = '0') or (op1='3'));
-	  	    case op1 of
-		    	 '1': CargarCiudades();
-		    	 '2': MuestraCiudades();       
-		    end; 
-		   until (op1='0');
-	  end;
 
 	procedure ACIU();
 		begin
@@ -684,7 +670,7 @@ Var
 			if mez='1' then AltaProyecto(); 
 		end;
 
-//-----------------------------------PRODUCTOS------------------------------------------------------// //HACER VERIFICAR PRODUCTO
+//-----------------------------------PRODUCTOS------------------------------------------------------// 
 
 	Procedure ProductoCantidad();
 		begin                      
@@ -779,7 +765,7 @@ Var
 			option:='7';
 		end;
 		  
-//-----------------------------------CLIENTES-------------------------------------------------------// HACER TODO
+//-----------------------------------CLIENTES-------------------------------------------------------// 
 
 	Procedure MOSTRARPROYECTOS();
 	 begin
@@ -1143,7 +1129,7 @@ Var
 			    	op1 := readKey();
 			    until ((op1 = '1') or (op1 = '2') or (op1 = '3') or (op1 = '4') or (op1 = '5') or (op1 = '0'));
 			    case op1 of
-			    	'1': AltaCiudad();
+			    	'1': CargarCiudades();
 			    	'2': AltaEmpresa();       
 			    	'3': AltaProyecto();
 			    	'4': AltaProducto();
