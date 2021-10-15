@@ -3,7 +3,7 @@
 Program tp3inicio;
 uses crt;
 
-Type
+Type //nose
 	   //CLIENTES
 	   Clientes=record
 	        DNI:string[15];
